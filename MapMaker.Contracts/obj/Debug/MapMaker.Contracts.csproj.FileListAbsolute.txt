@@ -1,0 +1,16 @@
+C:\Users\Logan\source\repos\MapMakerMVC\MapMaker.Contracts\bin\Debug\MapMaker.Contracts.dll.config
+C:\Users\Logan\source\repos\MapMakerMVC\MapMaker.Contracts\bin\Debug\MapMaker.Contracts.dll
+C:\Users\Logan\source\repos\MapMakerMVC\MapMaker.Contracts\bin\Debug\MapMaker.Contracts.pdb
+C:\Users\Logan\source\repos\MapMakerMVC\MapMaker.Contracts\bin\Debug\EntityFramework.dll
+C:\Users\Logan\source\repos\MapMakerMVC\MapMaker.Contracts\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Logan\source\repos\MapMakerMVC\MapMaker.Contracts\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+C:\Users\Logan\source\repos\MapMakerMVC\MapMaker.Contracts\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\Logan\source\repos\MapMakerMVC\MapMaker.Contracts\bin\Debug\EntityFramework.xml
+C:\Users\Logan\source\repos\MapMakerMVC\MapMaker.Contracts\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Logan\source\repos\MapMakerMVC\MapMaker.Contracts\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+C:\Users\Logan\source\repos\MapMakerMVC\MapMaker.Contracts\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\Logan\source\repos\MapMakerMVC\MapMaker.Contracts\obj\Debug\MapMaker.Contracts.csprojAssemblyReference.cache
+C:\Users\Logan\source\repos\MapMakerMVC\MapMaker.Contracts\obj\Debug\MapMaker.Contracts.csproj.CoreCompileInputs.cache
+C:\Users\Logan\source\repos\MapMakerMVC\MapMaker.Contracts\obj\Debug\MapMaker.Contracts.csproj.CopyComplete
+C:\Users\Logan\source\repos\MapMakerMVC\MapMaker.Contracts\obj\Debug\MapMaker.Contracts.dll
+C:\Users\Logan\source\repos\MapMakerMVC\MapMaker.Contracts\obj\Debug\MapMaker.Contracts.pdb

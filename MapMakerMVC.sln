@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.539
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapMaker", "MapMaker\MapMaker.csproj", "{34A0A47C-CAD9-4059-AD24-6F299C400602}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapMaker.Data", "MapMaker.Data\MapMaker.Data.csproj", "{66DFA480-7A8E-4E06-ABF8-7A57CEE4FDB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapMaker.Models", "MapMaker.Models\MapMaker.Models.csproj", "{B7ED8771-EA3C-4755-BE53-6700D41FCE39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapMaker.Contracts", "MapMaker.Contracts\MapMaker.Contracts.csproj", "{2DD49149-7363-48E6-8439-D0105C4C7FB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapMaker.Services", "MapMaker.Services\MapMaker.Services.csproj", "{12C04D6D-03D7-450E-9587-B53F8220610F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{34A0A47C-CAD9-4059-AD24-6F299C400602}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34A0A47C-CAD9-4059-AD24-6F299C400602}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34A0A47C-CAD9-4059-AD24-6F299C400602}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34A0A47C-CAD9-4059-AD24-6F299C400602}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66DFA480-7A8E-4E06-ABF8-7A57CEE4FDB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66DFA480-7A8E-4E06-ABF8-7A57CEE4FDB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66DFA480-7A8E-4E06-ABF8-7A57CEE4FDB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66DFA480-7A8E-4E06-ABF8-7A57CEE4FDB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7ED8771-EA3C-4755-BE53-6700D41FCE39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7ED8771-EA3C-4755-BE53-6700D41FCE39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7ED8771-EA3C-4755-BE53-6700D41FCE39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7ED8771-EA3C-4755-BE53-6700D41FCE39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DD49149-7363-48E6-8439-D0105C4C7FB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DD49149-7363-48E6-8439-D0105C4C7FB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DD49149-7363-48E6-8439-D0105C4C7FB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DD49149-7363-48E6-8439-D0105C4C7FB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12C04D6D-03D7-450E-9587-B53F8220610F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12C04D6D-03D7-450E-9587-B53F8220610F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12C04D6D-03D7-450E-9587-B53F8220610F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12C04D6D-03D7-450E-9587-B53F8220610F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A85286AC-5B83-4192-A87A-BD70F543FD47}
+	EndGlobalSection
+EndGlobal

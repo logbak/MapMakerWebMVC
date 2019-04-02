@@ -1,0 +1,83 @@
+﻿@model MapMaker.Models.MapCreate
+
+@{
+    ViewBag.Title = "Create";
+}
+<div class="row">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+
+            <div class="form-horizontal">
+                <h4>MapCreate</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SizeX, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.SizeX, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SizeX, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.SizeY, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.SizeY, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.SizeY, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        }
+
+    <div class="col-sm-4">
+        <pre style="font-family: Courier New, Courier, monospace; background-color: #232323; color: #72bb53;">
+In-Game View Example:
+[Name - always visible]
+▄▄▄▄▄▄▄▄▄▄▄═▄▄   Key:
+█X           ║   X = Player
+█     g J    █   Letters = Blocks
+█       G    █
+║            █   This Example:
+█            █   Size:
+█            █   X: 12 | Y: 6
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀   Player at 1X|1Y
+[Description when V is pressed] 
+    </pre>
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<div>
+    <p>Notes:<br />A single "block" is 2:1 (twice as tall as it is wide) so a 12X by 6Y map will look like a square despite the width and height not being equal. The player will still move through the room block-by-block. Map origin point is in the upper left hand corner at 1X|1Y and the lower right corner position is equal to the map size.
+    </p>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
