@@ -1,75 +1,137 @@
-﻿@model MapMaker.Models.MapDetail
+﻿@model MapMaker.Models.MapBlockViewModel
 
 @{
     ViewBag.Title = "Details";
 }
 
-<div>
+<table>
     <h4>Map Details</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.MapID)
+            @Html.DisplayNameFor(model => model.MapDetail.MapID)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.MapID)
+            @Html.DisplayFor(model => model.MapDetail.MapID)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.OwnerName)
+            @Html.DisplayNameFor(model => model.MapDetail.OwnerName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.OwnerName)
+            @Html.DisplayFor(model => model.MapDetail.OwnerName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.MapDetail.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.MapDetail.Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.MapDetail.Description)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.MapDetail.Description)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.SizeX)
+            @Html.DisplayNameFor(model => model.MapDetail.SizeX)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.SizeX)
+            @Html.DisplayFor(model => model.MapDetail.SizeX)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.SizeY)
+            @Html.DisplayNameFor(model => model.MapDetail.SizeY)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.SizeY)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.BlockIDs)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BlockIDs)
+            @Html.DisplayFor(model => model.MapDetail.SizeY)
         </dd>
 
     </dl>
-</div>
-<p>
-    @if (User.Identity.Name == Model.OwnerName)
+    @if (Model.BlockLists.Any())
     {
-        @Html.ActionLink("Edit", "Edit", new { id = Model.MapID }) @:|
+        <h3>Blocks</h3>
+        <hr />
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.BlockLists.First().ID)
+                </th>
+
+                <th>
+                    @Html.DisplayFor(model => model.BlockLists.First().Type)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.BlockLists.First().Name)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.BlockLists.First().Description)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.BlockLists.First().PosX)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.BlockLists.First().PosY)
+                </th>
+
+                <th>
+                    Has Event?
+                </th>
+            </tr>
+            @foreach (var item in Model.BlockLists)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PosX)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PosY)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HasEvent)
+                    </td>
+                </tr>
+            }
+
+        </table>
     }
-    @Html.ActionLink("Back to Archive", "Index") | @Html.ActionLink("Back to My Maps", "MyMaps")
-</p>
+
+
+    <p>
+        @if (User.Identity.Name == Model.MapDetail.OwnerName)
+        {
+            @Html.ActionLink("Edit", "Edit", new { id = Model.MapDetail.MapID }) @:|
+        }
+        @Html.ActionLink("Back to Archive", "Index") | @Html.ActionLink("Back to My Maps", "MyMaps")
+    </p>

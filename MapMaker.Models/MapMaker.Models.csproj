@@ -54,10 +54,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MapCreate.cs" />
-    <Compile Include="MapDetail.cs" />
-    <Compile Include="MapEdit.cs" />
-    <Compile Include="MapListItem.cs" />
+    <Compile Include="01_MapModels\MapCreate.cs" />
+    <Compile Include="01_MapModels\MapDetail.cs" />
+    <Compile Include="01_MapModels\MapEdit.cs" />
+    <Compile Include="01_MapModels\MapListItem.cs" />
+    <Compile Include="02_BlockModels\BlockListItem.cs" />
+    <Compile Include="MapBlockViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -3,6 +3,7 @@ using MapMaker.Services;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -18,6 +19,14 @@ namespace MapMaker.Controllers
             var service = new MapService(userID);
             return service;
         }
+
+        private BlockService CreateBlockService()
+        {
+            var userID = Guid.Parse(User.Identity.GetUserId());
+            var service = new BlockService(userID);
+            return service;
+        }
+
         // GET: Map
         public ActionResult Index()
         {
@@ -37,7 +46,10 @@ namespace MapMaker.Controllers
         public ActionResult Details(int id)
         {
             var svc = CreateMapService();
-            var model = svc.GetMapByID(id);
+            var bsvc = CreateBlockService();
+            MapBlockViewModel model = new MapBlockViewModel();
+            model.MapDetail = svc.GetMapByID(id);
+            model.BlockLists = bsvc.GetBlocksByMapID(id);
             return View(model);
         }
 
