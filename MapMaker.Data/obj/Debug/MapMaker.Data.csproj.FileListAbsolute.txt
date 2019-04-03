@@ -14,3 +14,5 @@ C:\Users\Logan\source\repos\MapMakerMVC\MapMaker.Data\obj\Debug\MapMaker.Data.cs
 C:\Users\Logan\source\repos\MapMakerMVC\MapMaker.Data\obj\Debug\MapMaker.Data.csproj.CopyComplete
 C:\Users\Logan\source\repos\MapMakerMVC\MapMaker.Data\obj\Debug\MapMaker.Data.dll
 C:\Users\Logan\source\repos\MapMakerMVC\MapMaker.Data\obj\Debug\MapMaker.Data.pdb
+C:\Users\Logan\source\repos\MapMakerMVC\MapMaker.Data\obj\Debug\MapMaker.Data.Migrations.InitialCreate.resources
+C:\Users\Logan\source\repos\MapMakerMVC\MapMaker.Data\obj\Debug\MapMaker.Data.csproj.GenerateResource.cache

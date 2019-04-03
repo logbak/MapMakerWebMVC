@@ -11,10 +11,8 @@ namespace MapMaker.Data
 
     public class Block
     {
-        [Key]
-        public int BlockID { get; set; }
+        public int ID { get; set; }
 
-        [Key]
         public int MapID { get; set; }
 
         [Required]

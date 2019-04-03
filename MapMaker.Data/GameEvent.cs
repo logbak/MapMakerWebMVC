@@ -11,12 +11,10 @@ namespace MapMaker.Data
 
     public class GameEvent
     {
-        [Key]
-        public int GameEventID { get; set; }
+        public int ID { get; set; }
 
         public Guid OwnerID { get; set; }
 
-        [Key]
         public int BlockID { get; set; }
 
         [Required]

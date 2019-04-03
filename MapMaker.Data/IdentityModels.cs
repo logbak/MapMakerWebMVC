@@ -33,6 +33,9 @@ namespace MapMaker.Data
         }
         
         public DbSet<Map> Maps { get; set; }
+        public DbSet<Block> Blocks { get; set; }
+        public DbSet<ExitBlock> ExitBlocks { get; set; }
+        public DbSet<GameEvent> GameEvents { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

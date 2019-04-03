@@ -54,11 +54,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationDbContextInitializer.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="ExitBlock.cs" />
     <Compile Include="GameEvent.cs" />
     <Compile Include="IdentityModels.cs" />
     <Compile Include="Map.cs" />
+    <Compile Include="Migrations\201904031425096_InitialCreate.cs" />
+    <Compile Include="Migrations\201904031425096_InitialCreate.Designer.cs">
+      <DependentUpon>201904031425096_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +91,11 @@
     <Content Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201904031425096_InitialCreate.resx">
+      <DependentUpon>201904031425096_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

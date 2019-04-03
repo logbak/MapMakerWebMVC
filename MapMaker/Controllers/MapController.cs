@@ -67,45 +67,61 @@ namespace MapMaker.Controllers
         // GET: Map/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var service = CreateMapService();
+            var detail = service.GetMapByID(id);
+            var model = new MapEdit
+            {
+                MapID = detail.MapID,
+                Name = detail.Name,
+                Description = detail.Description,
+                BlockIDs = detail.BlockIDs
+            };
+            return View(model);
         }
 
         // POST: Map/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, MapEdit model)
         {
-            try
-            {
-                // TODO: Add update logic here
+            if (!ModelState.IsValid) return View(model);
 
-                return RedirectToAction("Index");
-            }
-            catch
+            if (model.MapID != id)
             {
-                return View();
+                ModelState.AddModelError("", "ID Mismatch");
+                return View(model);
             }
+
+            var service = CreateMapService();
+
+            if (service.UpdateMap(model))
+            {
+                TempData["SaveResult"] = "The map was updated succesfully.";
+                return RedirectToAction("MyMaps");
+            }
+
+            ModelState.AddModelError("", "Your map could not be updated.");
+            return View(model);
         }
 
         // GET: Map/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var service = CreateMapService();
+            var model = service.GetMapByID(id);
+            return View(model);
         }
 
         // POST: Map/Delete/5
         [HttpPost]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            var service = CreateMapService();
+            service.DeleteMap(id);
+            TempData["SaveResult"] = "Map was succesfully deleted.";
+            return RedirectToAction("MyMaps");
         }
     }
 }

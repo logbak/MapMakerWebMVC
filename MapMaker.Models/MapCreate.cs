@@ -23,10 +23,5 @@ namespace MapMaker.Models
 
         [Required]
         public int SizeY { get; set; }
-
-        //public override string ToString()
-        //{
-        //    return base.ToString();
-        //}
     }
 }

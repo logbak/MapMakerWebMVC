@@ -41,6 +41,7 @@ namespace MapMaker.Services
             {
                 var query = ctx.Maps.Select(e => new MapListItem
                 {
+                    ID = e.ID,
                     Creator = ctx.Users.FirstOrDefault(u => u.Id == e.OwnerID.ToString()).Email,
                     Name = e.Name,
                     Description = e.Description,
@@ -57,14 +58,15 @@ namespace MapMaker.Services
             using (var ctx = new ApplicationDbContext())
             {
                 var query = ctx.Maps.Where(e => e.OwnerID == _userID).Select( e => new MapListItem
-                                {
-                                    Creator = ctx.Users.FirstOrDefault(u => u.Id == e.OwnerID.ToString()).Email + "(You)",
-                                    Name = e.Name,
-                                    Description = e.Description,
-                                    SizeX = e.SizeX,
-                                    SizeY = e.SizeY
-                                }
-                        );
+                    {
+                        ID = e.ID,
+                        Creator = ctx.Users.FirstOrDefault(u => u.Id == e.OwnerID.ToString()).Email,
+                        Name = e.Name,
+                        Description = e.Description,
+                        SizeX = e.SizeX,
+                        SizeY = e.SizeY
+                     }
+                );
                 return query.ToArray();
             }
         }
@@ -86,6 +88,32 @@ namespace MapMaker.Services
                         SizeY = entity.SizeY,
                         BlockIDs = entity.BlockIDs
                     };
+            }
+        }
+
+        public bool UpdateMap(MapEdit model)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity = ctx.Maps.Single(e => e.ID == model.MapID && e.OwnerID == _userID);
+
+                entity.Name = model.Name;
+                entity.Description = model.Description;
+                //included so blocks can be removed from map BlockID string then deleted(seperate method)
+                entity.BlockIDs = model.BlockIDs;
+
+                return ctx.SaveChanges() == 1;
+            }
+        }
+
+        public bool DeleteMap(int id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity = ctx.Maps.Single(e => e.ID == id && e.OwnerID == _userID);
+                ctx.Maps.Remove(entity);
+
+                return ctx.SaveChanges() == 1;
             }
         }
     }
