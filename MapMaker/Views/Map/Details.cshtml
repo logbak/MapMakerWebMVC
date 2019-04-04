@@ -4,7 +4,7 @@
     ViewBag.Title = "Details";
 }
 
-<table>
+<div>
     <h4>Map Details</h4>
     <hr />
     <dl class="dl-horizontal">
@@ -57,81 +57,86 @@
         </dd>
 
     </dl>
-    @if (Model.BlockLists.Any())
-    {
-        <h3>Blocks</h3>
-        <hr />
-        <table class="table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.BlockLists.First().ID)
-                </th>
+</div>
 
-                <th>
-                    @Html.DisplayFor(model => model.BlockLists.First().Type)
-                </th>
+<br />
+@Html.ActionLink("Add Block", "Create", "Block", new { id = Model.MapDetail.MapID }, null)
+<h3>Blocks</h3>
+<hr />
 
-                <th>
-                    @Html.DisplayNameFor(model => model.BlockLists.First().Name)
-                </th>
+@if (Model.BlockLists.Any())
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BlockLists.First().ID)
+            </th>
 
-                <th>
-                    @Html.DisplayNameFor(model => model.BlockLists.First().Description)
-                </th>
+            <th>
+                @Html.DisplayFor(model => model.BlockLists.First().Type)
+            </th>
 
-                <th>
-                    @Html.DisplayNameFor(model => model.BlockLists.First().PosX)
-                </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BlockLists.First().Name)
+            </th>
 
-                <th>
-                    @Html.DisplayNameFor(model => model.BlockLists.First().PosY)
-                </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BlockLists.First().Description)
+            </th>
 
-                <th>
-                    Has Event?
-                </th>
-            </tr>
-            @foreach (var item in Model.BlockLists)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ID)
-                    </td>
+            <th>
+                @Html.DisplayNameFor(model => model.BlockLists.First().PosX)
+            </th>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Type)
-                    </td>
+            <th>
+                @Html.DisplayNameFor(model => model.BlockLists.First().PosY)
+            </th>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PosX)
-                    </td>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PosY)
-                    </td>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.HasEvent)
-                    </td>
-                </tr>
-            }
-
-        </table>
-    }
-
-
-    <p>
-        @if (User.Identity.Name == Model.MapDetail.OwnerName)
+            <th>
+                Has Event?
+            </th>
+        </tr>
+        @foreach (var item in Model.BlockLists)
         {
-            @Html.ActionLink("Edit", "Edit", new { id = Model.MapDetail.MapID }) @:|
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.PosX)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.PosY)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.HasEvent)
+                </td>
+            </tr>
         }
-        @Html.ActionLink("Back to Archive", "Index") | @Html.ActionLink("Back to My Maps", "MyMaps")
-    </p>
+
+    </table>
+}
+
+
+<p>
+    @if (User.Identity.Name == Model.MapDetail.OwnerName)
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.MapDetail.MapID }) @:|
+    }
+    @Html.ActionLink("Back to Archive", "Index") | @Html.ActionLink("Back to My Maps", "MyMaps")
+</p>

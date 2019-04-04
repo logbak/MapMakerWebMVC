@@ -18,6 +18,32 @@ namespace MapMaker.Services
             _userID = userID;
         }
 
+        public bool CreateBlock(CreateBlockViewModel model)
+        {
+            var entity = new Block
+            {
+                MapID = model.MapModel.MapID,
+                OwnerID = _userID,
+                Name = model.CreateBlockModel.Name,
+                Description = model.CreateBlockModel.Description,
+                TypeOfBlock = GetBlockTypeFromString(model.CreateBlockModel.Type),
+                PosX = model.CreateBlockModel.PosX,
+                PosY = model.CreateBlockModel.PosY,
+            };
+
+            using (var ctx = new ApplicationDbContext())
+            {
+                ctx.Blocks.Add(entity);
+                return ctx.SaveChanges() == 1;
+            }
+        }
+
+        private BlockType GetBlockTypeFromString(string type)
+        {
+            Enum.TryParse(type, out BlockType blockType);
+            return blockType;
+        }
+
         public IEnumerable<BlockListItem> GetBlocksByMapID(int id)
         {
             using (var ctx = new ApplicationDbContext())
@@ -29,7 +55,9 @@ namespace MapMaker.Services
                     Name = e.Name,
                     Description = e.Description,
                     PosX = e.PosX,
-                    PosY = e.PosY
+                    PosY = e.PosY,
+                    HasEvent = ctx.GameEvents.Where(g => g.BlockID == e.ID).Any()
+                    
                 }
                         );
                 return query.ToArray();

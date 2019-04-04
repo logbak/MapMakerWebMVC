@@ -1,4 +1,6 @@
-﻿using MapMaker.Services;
+﻿using MapMaker.Models;
+using MapMaker.Models._02_BlockModels;
+using MapMaker.Services;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -17,32 +19,45 @@ namespace MapMaker.Controllers
             return service;
         }
 
+        private MapService CreateMapService()
+        {
+            var userID = Guid.Parse(User.Identity.GetUserId());
+            var service = new MapService(userID);
+            return service;
+        }
+
         // GET: Block/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var svc = CreateBlockService();
+            var model = svc.GetBlocksByMapID(id);
+            //add multi-model model so event can be viewed alonside the attached event
+            return View(model);
         }
 
         // GET: Block/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
-            return View();
+            var svc = CreateMapService();
+            var model = svc.GetMapByID(id);
+            return View(model);
         }
 
         // POST: Block/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(CreateBlockViewModel model)
         {
-            try
-            {
-                // TODO: Add insert logic here
+            if (!ModelState.IsValid) return View(model);
 
-                return RedirectToAction("Index");
-            }
-            catch
+            var service = CreateBlockService();
+            if (service.CreateBlock(model))
             {
-                return View();
+                TempData["SaveResult"] = "Block succesfully added!";
+                return RedirectToAction("Details", "Map");
             }
+
+            return View(model);
         }
 
         // GET: Block/Edit/5

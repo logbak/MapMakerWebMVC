@@ -60,6 +60,7 @@
     <Compile Include="GameEvent.cs" />
     <Compile Include="IdentityModels.cs" />
     <Compile Include="Map.cs" />
+    <Compile Include="MapBlock.cs" />
     <Compile Include="Migrations\201904031425096_InitialCreate.cs" />
     <Compile Include="Migrations\201904031425096_InitialCreate.Designer.cs">
       <DependentUpon>201904031425096_InitialCreate.cs</DependentUpon>

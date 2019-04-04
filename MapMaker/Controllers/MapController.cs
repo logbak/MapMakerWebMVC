@@ -48,7 +48,7 @@ namespace MapMaker.Controllers
             var svc = CreateMapService();
             var bsvc = CreateBlockService();
             MapBlockViewModel model = new MapBlockViewModel();
-            model.MapDetail = svc.GetMapByID(id);
+            model.MapDetail = svc.GetMapByID(id).MapModel;
             model.BlockLists = bsvc.GetBlocksByMapID(id);
             return View(model);
         }
@@ -83,10 +83,10 @@ namespace MapMaker.Controllers
             var detail = service.GetMapByID(id);
             var model = new MapEdit
             {
-                MapID = detail.MapID,
-                Name = detail.Name,
-                Description = detail.Description,
-                BlockIDs = detail.BlockIDs
+                MapID = detail.MapModel.MapID,
+                Name = detail.MapModel.Name,
+                Description = detail.MapModel.Description,
+                BlockIDs = detail.MapModel.BlockIDs
             };
             return View(model);
         }

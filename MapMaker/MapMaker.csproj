@@ -256,10 +256,10 @@
     <Content Include="Views\Map\Details.cshtml" />
     <Content Include="Views\Map\Edit.cshtml" />
     <Content Include="Views\Map\Delete.cshtml" />
+    <Content Include="Views\Block\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Block\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,5 +1,6 @@
 ﻿using MapMaker.Data;
 using MapMaker.Models;
+using MapMaker.Models._02_BlockModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,23 +72,27 @@ namespace MapMaker.Services
             }
         }
 
-        public MapDetail GetMapByID(int mapID)
+        public CreateBlockViewModel GetMapByID(int mapID)
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var entity = ctx.Maps.Single(e => e.ID == mapID);
                 var userEntity = ctx.Users.FirstOrDefault(e => e.Id == entity.OwnerID.ToString());
-
-                return new MapDetail
-                    {
-                        MapID = entity.ID,
-                        OwnerName = userEntity.Email,
-                        Name = entity.Name,
-                        Description = entity.Description,
-                        SizeX = entity.SizeX,
-                        SizeY = entity.SizeY,
-                        BlockIDs = entity.BlockIDs
-                    };
+                var mapModel = new MapDetail
+                {
+                    MapID = entity.ID,
+                    OwnerName = userEntity.Email,
+                    Name = entity.Name,
+                    Description = entity.Description,
+                    SizeX = entity.SizeX,
+                    SizeY = entity.SizeY,
+                    BlockIDs = entity.BlockIDs
+                };
+                
+                return new CreateBlockViewModel
+                {
+                        MapModel = mapModel,
+                };
             }
         }
 
