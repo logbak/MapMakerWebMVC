@@ -14,8 +14,6 @@
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
 
-        @Html.HiddenFor(model => model.CreateBlockModel.MapID)
-
         @Html.LabelFor(model => model.CreateBlockModel.Type, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @{
@@ -47,6 +45,8 @@
 
         </div>
     </div>
+
+    @*add conditional dropdown menu that only shows if "Exit" is selected for exit direction and exit to ID (restrict to existing map ids)*@
 
     <div class="form-group">
         @Html.LabelFor(model => model.CreateBlockModel.Name, htmlAttributes: new { @class = "control-label col-md-2" })

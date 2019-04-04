@@ -49,12 +49,11 @@ namespace MapMaker.Controllers
         public ActionResult Create(CreateBlockViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
-
             var service = CreateBlockService();
             if (service.CreateBlock(model))
             {
                 TempData["SaveResult"] = "Block succesfully added!";
-                return RedirectToAction("Details", "Map");
+                return RedirectToAction("Details", "Map", new { id = model.MapModel.MapID});
             }
 
             return View(model);
