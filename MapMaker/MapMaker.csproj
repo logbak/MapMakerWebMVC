@@ -257,6 +257,9 @@
     <Content Include="Views\Map\Edit.cshtml" />
     <Content Include="Views\Map\Delete.cshtml" />
     <Content Include="Views\Block\Create.cshtml" />
+    <Content Include="Views\Block\Details.cshtml" />
+    <Content Include="Views\Block\Delete.cshtml" />
+    <Content Include="Views\Block\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

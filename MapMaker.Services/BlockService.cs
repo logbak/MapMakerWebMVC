@@ -1,5 +1,6 @@
 ﻿using MapMaker.Data;
 using MapMaker.Models;
+using MapMaker.Services;
 using MapMaker.Models._02_BlockModels;
 using System;
 using System.Collections.Generic;
@@ -38,10 +39,46 @@ namespace MapMaker.Services
             }
         }
 
+        public bool UpdateBlockListOnMap(CreateBlockViewModel model)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity = ctx.Maps.Single(e => e.ID == model.MapModel.MapID && e.OwnerID == _userID);
+
+                string BlockIdString = ctx.Maps.Single(m => m.ID == model.CreateBlockModel.MapID).BlockIDs;
+                //new List<string> = BlockIdString.Split(',');
+                //string newBlockID = String.Join(",", ???);
+
+                //entity.BlockIDs = //new block ids string
+
+                return ctx.SaveChanges() == 1;
+            }
+        }
+
         private BlockType GetBlockTypeFromString(string type)
         {
             Enum.TryParse(type, out BlockType blockType);
             return blockType;
+        }
+
+        public BlockDetail GetBlockByID(int id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity = ctx.Blocks.Single(e => e.ID == id);
+                var userEntity = ctx.Users.FirstOrDefault(e => e.Id == entity.OwnerID.ToString());
+                return new BlockDetail
+                {
+                    ID = entity.ID,
+                    MapID = entity.MapID,
+                    Creator = userEntity.Email,
+                    TypeOfBlock = entity.TypeOfBlock.ToString(),
+                    Name = entity.Name,
+                    Description = entity.Description,
+                    PosX = entity.PosX,
+                    PosY = entity.PosY
+                };
+            }
         }
 
         public IEnumerable<BlockListItem> GetBlocksByMapID(int id)
@@ -51,6 +88,7 @@ namespace MapMaker.Services
                 var query = ctx.Blocks.Where(e => e.MapID == id).Select(e => new BlockListItem
                 {
                     ID = e.ID,
+                    MapID = e.MapID,
                     Type = e.TypeOfBlock.ToString(),
                     Name = e.Name,
                     Description = e.Description,
@@ -61,6 +99,34 @@ namespace MapMaker.Services
                 }
                         );
                 return query.ToArray();
+            }
+        }
+
+        public bool UpdateBlock(BlockEdit model)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                // exception here!
+                var entity = ctx.Blocks.Single(e => e.MapID == model.MapID && e.OwnerID == _userID);
+
+                entity.TypeOfBlock = GetBlockTypeFromString(model.TypeOfBlock);
+                entity.Name = model.Name;
+                entity.Description = model.Description;
+                entity.PosX = model.PosX;
+                entity.PosY = model.PosY;
+
+                return ctx.SaveChanges() == 1;
+            }
+        }
+
+        public bool DeleteBlock(int id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity = ctx.Blocks.Single(e => e.ID == id && e.OwnerID == _userID);
+                ctx.Blocks.Remove(entity);
+
+                return ctx.SaveChanges() == 1;
             }
         }
     }

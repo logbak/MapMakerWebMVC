@@ -30,7 +30,7 @@ namespace MapMaker.Controllers
         public ActionResult Details(int id)
         {
             var svc = CreateBlockService();
-            var model = svc.GetBlocksByMapID(id);
+            var model = svc.GetBlockByID(id);
             //add multi-model model so event can be viewed alonside the attached event
             return View(model);
         }
@@ -59,48 +59,78 @@ namespace MapMaker.Controllers
             return View(model);
         }
 
+        //public bool AddBlockToMap(CreateBlockViewModel model)
+        //{
+        //    var service = CreateMapService();
+        //    var detail = service.GetMapByID(model.MapModel.MapID);
+        //    var mapEdit = new MapEdit
+        //    {
+        //        BlockIDs = detail.MapModel.BlockIDs
+        //    };
+        //}
+
         // GET: Block/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var service = CreateBlockService();
+            var detail = service.GetBlockByID(id);
+            var model = new BlockEdit
+            {
+                ID = detail.ID,
+                MapID = detail.MapID,
+                Creator = detail.Creator,
+                TypeOfBlock = detail.TypeOfBlock,
+                Name = detail.Name,
+                Description = detail.Description,
+                PosX = detail.PosX,
+                PosY = detail.PosY
+            };
+            return View(model);
         }
 
         // POST: Block/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, BlockEdit model)
         {
-            try
-            {
-                // TODO: Add update logic here
+            if (!ModelState.IsValid) return View(model);
 
-                return RedirectToAction("Index");
-            }
-            catch
+            if (model.ID != id)
             {
-                return View();
+                ModelState.AddModelError("", "ID Mismatch");
+                return View(model);
             }
+
+            var service = CreateBlockService();
+
+            if (service.UpdateBlock(model))
+            {
+                TempData["SaveResult"] = "The block was updated succesfully.";
+                return RedirectToAction("Details", "Map", new { id = model.MapID });
+            }
+
+            ModelState.AddModelError("", "Your block could not be updated.");
+            return View(model);
         }
 
         // GET: Block/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var service = CreateBlockService();
+            var model = service.GetBlockByID(id);
+            return View(model);
         }
 
         // POST: Block/Delete/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            var service = CreateBlockService();
+            var model = service.GetBlockByID(id);
+            service.DeleteBlock(id);
+            TempData["SaveResult"] = "Block was succesfully deleted.";
+            return RedirectToAction("Details", "Map", new { id = model.MapID } );
         }
     }
 }

@@ -59,6 +59,8 @@
     <Compile Include="01_MapModels\MapEdit.cs" />
     <Compile Include="01_MapModels\MapListItem.cs" />
     <Compile Include="02_BlockModels\BlockCreate.cs" />
+    <Compile Include="02_BlockModels\BlockEdit.cs" />
+    <Compile Include="02_BlockModels\BlockDetail.cs" />
     <Compile Include="02_BlockModels\BlockListItem.cs" />
     <Compile Include="02_BlockModels\CreateBlockViewModel.cs" />
     <Compile Include="MapBlockViewModel.cs" />

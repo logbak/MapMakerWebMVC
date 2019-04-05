@@ -60,6 +60,16 @@
 </div>
 
 <br />
+<p style="text-align:right;">
+    @if (User.Identity.Name == Model.MapDetail.OwnerName)
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.MapDetail.MapID }) @:|
+    }
+    @Html.ActionLink("Back to Archive", "Index") | @Html.ActionLink("Back to My Maps", "MyMaps")
+</p>
+
+<hr />
+<br />
 @if (TempData.ContainsKey("SaveResult"))
 {
     <div class="alert alert-success fade in" role="alert" style="background-color: #72bb53; border-color: #6aaf4d; color: #305e30; width: 25%;">
@@ -69,83 +79,99 @@
         @TempData["SaveResult"]
     </div>
 }
-@Html.ActionLink("Add Block", "Create", "Block", new { id = Model.MapDetail.MapID }, null)
-<h3>Blocks</h3>
-<hr />
 
-@if (Model.BlockLists.Any())
+@if (User.Identity.Name == Model.MapDetail.OwnerName)
 {
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.BlockLists.First().ID)
-            </th>
-
-            <th>
-                @Html.DisplayFor(model => model.BlockLists.First().Type)
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model.BlockLists.First().Name)
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model.BlockLists.First().Description)
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model.BlockLists.First().PosX)
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model.BlockLists.First().PosY)
-            </th>
-
-            <th>
-                Has Event?
-            </th>
-        </tr>
-        @foreach (var item in Model.BlockLists)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ID)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.PosX)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.PosY)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.HasEvent)
-                </td>
-            </tr>
-        }
-
-    </table>
+    <h3>Blocks <span style="float:right;">@Html.ActionLink("Add Block", "Create", "Block", new { id = Model.MapDetail.MapID }, null)</span></h3>
+}
+else
+{
+    <h3>Blocks</h3>
 }
 
+        @if (Model.BlockLists.Any(b => b.MapID == Model.MapDetail.MapID))
+        {
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BlockLists.First().ID)
+                    </th>
 
-<p>
-    @if (User.Identity.Name == Model.MapDetail.OwnerName)
-    {
-        @Html.ActionLink("Edit", "Edit", new { id = Model.MapDetail.MapID }) @:|
-    }
-    @Html.ActionLink("Back to Archive", "Index") | @Html.ActionLink("Back to My Maps", "MyMaps")
-</p>
+                    <th>
+                        @Html.DisplayFor(model => model.BlockLists.First().Type)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.BlockLists.First().Name)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.BlockLists.First().Description)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.BlockLists.First().PosX)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.BlockLists.First().PosY)
+                    </th>
+
+                    <th>
+                        Has Event?
+                    </th>
+
+                    <th></th>
+                </tr>
+                @foreach (var item in Model.BlockLists)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ID)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PosX)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PosY)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.HasEvent)
+                        </td>
+                        <td>
+                            @if (User.Identity.Name == Model.MapDetail.OwnerName)
+                            {
+                                if (!item.HasEvent)
+                                {
+                                    @Html.ActionLink("Add Event", "Create", "Event", new { id = item.ID }, null) @:|
+                                }
+                                @Html.ActionLink("Details", "Details", "Block", new { id = item.ID }, null) @:|
+                                @Html.ActionLink("Edit", "Edit", "Block", new { id = item.ID }, null) @:|
+                                @Html.ActionLink("Delete", "Delete", "Block", new { id = item.ID }, null)
+                            }
+                            @if (User.Identity.Name != Model.MapDetail.OwnerName)
+                            {
+                                @Html.ActionLink("Details", "Details", "Block", new { id = item.ID }, null)
+                            }
+
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        }
