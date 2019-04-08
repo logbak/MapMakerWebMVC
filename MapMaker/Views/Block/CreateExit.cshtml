@@ -1,50 +1,26 @@
 ﻿@model MapMaker.Models._02_BlockModels.CreateBlockViewModel
 
 @{
-    ViewBag.Title = "New Block";
+    ViewBag.Title = "CreateExit";
 }
 
-@using (Html.BeginForm()) 
+<h2>Create Exit</h2>
+
+
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
 <div class="form-horizontal">
-    <h4>BlockCreate</h4>
+    <h4>Exit Creation</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
 
-        @Html.LabelFor(model => model.CreateBlockModel.Type, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @{
-                List<SelectListItem> listItems = new List<SelectListItem>();
-                listItems.Add(new SelectListItem
-                {
-                    Text = "Object",
-                    Value = "Object",
-                    Selected = true
-                });
-                listItems.Add(new SelectListItem
-                {
-                    Text = "NPC",
-                    Value = "NPC",
-                });
-                listItems.Add(new SelectListItem
-                {
-                    Text = "Wall",
-                    Value = "Wall"
-                });
-                listItems.Add(new SelectListItem
-                {
-                    Text = "Exit",
-                    Value = "Exit"
-                });
-            }
-            @Html.DropDownListFor(model => model.CreateBlockModel.Type, listItems, "-- Select Status --", new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.CreateBlockModel.Type, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.MapModel.MapID)
+    @Html.HiddenFor(model => model.MapModel.SizeX)
+    @Html.HiddenFor(model => model.MapModel.SizeY)
 
-        </div>
-    </div>
+    @Html.HiddenFor(model => model.CreateBlockModel.MapID)
 
     <div class="form-group">
         @Html.LabelFor(model => model.CreateBlockModel.Name, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -77,8 +53,47 @@
             @Html.ValidationMessageFor(model => model.CreateBlockModel.PosY, "", new { @class = "text-danger" })
         </div>
     </div>
-    
-    @Html.HiddenFor(model => model.MapModel.MapID)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CreateBlockModel.ExitDirection, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @{
+                List<SelectListItem> directionList = new List<SelectListItem>();
+                directionList.Add(new SelectListItem
+                {
+                    Text = "North",
+                    Value = "North",
+                    Selected = true
+                });
+                directionList.Add(new SelectListItem
+                {
+                    Text = "South",
+                    Value = "South",
+                });
+                directionList.Add(new SelectListItem
+                {
+                    Text = "East",
+                    Value = "East"
+                });
+                directionList.Add(new SelectListItem
+                {
+                    Text = "West",
+                    Value = "West"
+                });
+            }
+            @Html.DropDownListFor(model => model.CreateBlockModel.ExitDirection, directionList, "-- Select Status --", new { htmlAttributes = new { @class = "form-control", required = "required" } })
+            @Html.ValidationMessageFor(model => model.CreateBlockModel.ExitDirection, "", new { @class = "text-danger" })
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CreateBlockModel.ExitToID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.CreateBlockModel.ExitToID, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+            @Html.ValidationMessageFor(model => model.CreateBlockModel.ExitToID, "", new { @class = "text-danger" })
+        </div>
+    </div>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">

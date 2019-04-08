@@ -18,8 +18,7 @@ namespace MapMaker.Models._02_BlockModels
         [MinLength(2, ErrorMessage = "Please enter at least 2 characters.")]
         [MaxLength(20, ErrorMessage = "Map name cannot exceed 20 characters.")]
         public string Name { get; set; }
-
-        [Required]
+        
         [MaxLength(250, ErrorMessage = "Descriptons cannot exceed 250 characters.")]
         public string Description { get; set; }
 
@@ -28,6 +27,10 @@ namespace MapMaker.Models._02_BlockModels
 
         [Required]
         public int PosY { get; set; }
+
+        public string ExitDirection { get; set; }
+
+        public int ExitToID { get; set; }
 
     }
 

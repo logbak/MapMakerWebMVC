@@ -59,15 +59,63 @@ namespace MapMaker.Controllers
             return View(model);
         }
 
-        //public bool AddBlockToMap(CreateBlockViewModel model)
-        //{
-        //    var service = CreateMapService();
-        //    var detail = service.GetMapByID(model.MapModel.MapID);
-        //    var mapEdit = new MapEdit
-        //    {
-        //        BlockIDs = detail.MapModel.BlockIDs
-        //    };
-        //}
+        public ActionResult CreateExit(int id)
+        {
+            var svc = CreateMapService();
+            var model = svc.GetMapByID(id);
+            return View(model);
+        }
+
+        // POST: Block/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateExit(CreateBlockViewModel model)
+        {
+            model.CreateBlockModel.Type = "Exit";
+            model.CreateBlockModel.MapID = model.MapModel.MapID;
+            if (!ModelState.IsValid)
+                return View(model);
+            var service = CreateBlockService();
+            if (!ExitValidation(model.CreateBlockModel)) return View(model);
+
+            //if (!service.CheckIfExitLocationIsValid(model.CreateBlockModel))
+            //{
+            //    ModelState.AddModelError("", "Exit blocks must be positioned at the edge of the map.");
+            //    return View(model);
+            //}
+
+            //if (!service.CheckIfExitIdIsValid(model.CreateBlockModel.ExitToID, model.MapModel.MapID))
+            //{
+            //    ModelState.AddModelError("", "Please enter an ExitToID that matches an existing map other than the current one.");
+            //    return View(model);
+            //}
+
+            if (service.CreateExitBlock(model))
+            {
+                TempData["SaveResult"] = "Block succesfully added!";
+                return RedirectToAction("Details", "Map", new { id = model.MapModel.MapID });
+            }
+
+            return View(model);
+        }
+
+        public bool ExitValidation(BlockCreate model)
+        {
+            var service = CreateBlockService();
+            bool idValid = true;
+            bool locationValid = true;
+            if (!service.CheckIfExitLocationIsValid(model))
+            {
+                ModelState.AddModelError("", "Exit blocks must be positioned at the edge of the map.");
+                idValid = false;
+            }
+            if (!service.CheckIfExitIdIsValid(model.ExitToID, model.MapID))
+            {
+                ModelState.AddModelError("", "Please enter an ExitToID that matches an existing map other than the current one.");
+                locationValid = false;
+            }
+            return (idValid && locationValid);
+        }
 
         // GET: Block/Edit/5
         public ActionResult Edit(int id)
@@ -103,6 +151,17 @@ namespace MapMaker.Controllers
 
             var service = CreateBlockService();
 
+            if (model.TypeOfBlock == "Exit")
+            {
+                if (!service.CheckIfExitLocationIsValid(model))
+                {
+                    ModelState.AddModelError("", "Exit blocks must be positioned at the edge of the map.");
+                    return View(model);
+                }
+                TempData["model"] = model;
+                return RedirectToAction("ExitEdit", "Block", new { id = model.ID });
+            }
+
             if (service.UpdateBlock(model))
             {
                 TempData["SaveResult"] = "The block was updated succesfully.";
@@ -110,6 +169,48 @@ namespace MapMaker.Controllers
             }
 
             ModelState.AddModelError("", "Your block could not be updated.");
+            return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult ExitEdit (int id, BlockEdit currentModel)
+        {
+            currentModel = (BlockEdit)TempData["model"];
+            var model = new BlockEdit
+            {
+                ID = currentModel.ID,
+                MapID = currentModel.MapID,
+                Creator = currentModel.Creator,
+                TypeOfBlock = currentModel.TypeOfBlock,
+                Name = currentModel.Name,
+                Description = currentModel.Description,
+                PosX = currentModel.PosX,
+                PosY = currentModel.PosY
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ExitEdit(BlockEdit model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            var service = CreateBlockService();
+
+            if (!service.CheckIfExitIdIsValid(model.ExitToID, model.MapID))
+            {
+                TempData["SaveResult"] = "Please enter an ExitToID that matches an existing map other than the current one.";
+                return View(model);
+            }
+
+            if (service.UpdateBlock(model))
+            {
+                TempData["SaveResult"] = "The block was updated succesfully.";
+                return RedirectToAction("Details", "Map", new { id = model.MapID });
+            }
+
+            TempData["SaveResult"] = "Your block could not be updated.";
             return View(model);
         }
 

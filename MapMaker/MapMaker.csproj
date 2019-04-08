@@ -260,6 +260,8 @@
     <Content Include="Views\Block\Details.cshtml" />
     <Content Include="Views\Block\Delete.cshtml" />
     <Content Include="Views\Block\Edit.cshtml" />
+    <Content Include="Views\Block\ExitEdit.cshtml" />
+    <Content Include="Views\Block\CreateExit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
