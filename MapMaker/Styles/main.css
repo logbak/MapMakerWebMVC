@@ -1,6 +1,14 @@
 ﻿body {
 }
 
+hr {
+    border-top-color: #72bb53 !important;
+}
+
+a {
+    color: #72bb53 !important;
+}
+
 input[type=text] {
     background-color: #424242;
     color: #72bb53;
@@ -16,6 +24,17 @@ input[type=number] {
     color: #72bb53;
 }
     input[type=number]:focus {
+        border-color: #72bb53;
+        outline: 0;
+    }
+
+input[type=password] {
+    background-color: #424242;
+    color: #72bb53;
+    font-family: 'Inconsolata', Courier, monospace;
+}
+
+    input[type=password]:focus {
         border-color: #72bb53;
         outline: 0;
     }

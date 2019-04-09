@@ -29,5 +29,8 @@
                                                                       </p>
          </pre>
 
-    <p style="text-align:center;">Click here to continue.</p>
-</div>
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <p style="text-align:center;">@Html.ActionLink("Click here to continue.", "Register", "Account")</p>
+    }
+    </div>
