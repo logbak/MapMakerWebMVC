@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - MapMaker</title>
     <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet">
+    <link href="@Url.Content("~/Styles/main.css")" rel="stylesheet" type="text/css" />
+    @RenderSection("Styles", false)
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -27,7 +29,7 @@
                         <li>@Html.ActionLink("New Map", "Create", "Map")</li>
                         <li>@Html.ActionLink("View Maps", "Index", "Map")</li>
                         <li>@Html.ActionLink("My Maps", "MyMaps", "Map")</li>
-                        <li>@Html.ActionLink("Events", "Index", "Events")</li>
+                        <li>@Html.ActionLink("Events", "Index", "GameEvent")</li>
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")

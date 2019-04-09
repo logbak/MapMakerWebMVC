@@ -15,7 +15,7 @@ namespace MapMaker.Models
         public string Name { get; set; }
 
         [Required]
-        [MaxLength(250, ErrorMessage = "Descriptons cannot exceed 250 characters.")]
+        [MaxLength(250, ErrorMessage = "Descriptions cannot exceed 250 characters.")]
         public string Description { get; set; }
 
         [Required]

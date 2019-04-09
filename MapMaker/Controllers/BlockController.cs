@@ -31,7 +31,6 @@ namespace MapMaker.Controllers
         {
             var svc = CreateBlockService();
             var model = svc.GetBlockByID(id);
-            //add multi-model model so event can be viewed alonside the attached event
             return View(model);
         }
 
@@ -108,7 +107,7 @@ namespace MapMaker.Controllers
         public ActionResult Edit(int id)
         {
             var service = CreateBlockService();
-            var detail = service.GetBlockByID(id);
+            var detail = service.GetBlockByID(id).BlockDetail;
             var model = new BlockEdit
             {
                 ID = detail.ID,
@@ -218,7 +217,7 @@ namespace MapMaker.Controllers
             var model = service.GetBlockByID(id);
             service.DeleteBlock(id);
             TempData["SaveResult"] = "Block was succesfully deleted.";
-            return RedirectToAction("Details", "Map", new { id = model.MapID } );
+            return RedirectToAction("Details", "Map", new { id = model.BlockDetail.MapID } );
         }
     }
 }

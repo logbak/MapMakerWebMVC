@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MapMaker.Models._03_GameEventModels;
 
 namespace MapMaker.Services
 {
@@ -17,6 +18,18 @@ namespace MapMaker.Services
         public BlockService(Guid userID)
         {
             _userID = userID;
+        }
+
+        private BlockType GetBlockTypeFromString(string type)
+        {
+            Enum.TryParse(type, out BlockType blockType);
+            return blockType;
+        }
+
+        private Direction GetExitDirectionFromString(string type)
+        {
+            Enum.TryParse(type, out Direction direction);
+            return direction;
         }
 
         public bool CreateBlock(CreateBlockViewModel model)
@@ -61,13 +74,8 @@ namespace MapMaker.Services
             }
         }
 
-        private BlockType GetBlockTypeFromString(string type)
-        {
-            Enum.TryParse(type, out BlockType blockType);
-            return blockType;
-        }
 
-        public BlockDetail GetBlockByID(int id)
+        public BlockDetailsWithEvent GetBlockByID(int id)
         {
             using (var ctx = new ApplicationDbContext())
             {
@@ -83,7 +91,8 @@ namespace MapMaker.Services
                     Name = entity.Name,
                     Description = entity.Description,
                     PosX = entity.PosX,
-                    PosY = entity.PosY
+                    PosY = entity.PosY,
+                    HasEvent = ctx.GameEvents.Any(ge => ge.BlockID == entity.ID)
                 };
 
                 if (entity.TypeOfBlock.ToString() == "Exit")
@@ -93,8 +102,21 @@ namespace MapMaker.Services
                     blockDetail.ExitToID = exitEntity.ExitToID;
                 }
 
-                return blockDetail;
+                var eventDetail = new GameEventDetail();
+                if (blockDetail.HasEvent)
+                {
+                    eventDetail = GetGameEvent(entity.ID);
+                }
+
+                return new BlockDetailsWithEvent { BlockDetail = blockDetail, GameEventDetail = eventDetail };
             }
+        }
+
+        private GameEventDetail GetGameEvent(int id)
+        {
+            var svc = new GameEventService(_userID);
+            var detail = svc.GetGameEventByID(id);
+            return detail;
         }
 
         public IEnumerable<BlockListItem> GetBlocksByMapID(int id)
@@ -230,11 +252,6 @@ namespace MapMaker.Services
             return false;
         }
 
-        private Direction GetExitDirectionFromString(string type)
-        {
-            Enum.TryParse(type, out Direction direction);
-            return direction;
-        }
 
         public bool DeleteBlock(int id)
         {

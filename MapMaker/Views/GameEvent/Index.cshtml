@@ -1,0 +1,52 @@
+﻿@model IEnumerable<MapMaker.Models._03_GameEventModels.GameEventListItem>
+
+@{
+    ViewBag.Title = "Events";
+}
+
+<h2>Events</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Creator)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BlockID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TypeOfEvent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Creator)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BlockID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeOfEvent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Details", new { id = item.BlockID })
+            @if (item.Creator == User.Identity.Name)
+            {
+                @:|
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) @:|
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            }
+        </td>
+    </tr>
+}
+
+</table>

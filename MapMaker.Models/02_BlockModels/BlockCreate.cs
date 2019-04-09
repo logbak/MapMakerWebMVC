@@ -19,7 +19,7 @@ namespace MapMaker.Models._02_BlockModels
         [MaxLength(20, ErrorMessage = "Map name cannot exceed 20 characters.")]
         public string Name { get; set; }
         
-        [MaxLength(250, ErrorMessage = "Descriptons cannot exceed 250 characters.")]
+        [MaxLength(250, ErrorMessage = "Descriptions cannot exceed 250 characters.")]
         public string Description { get; set; }
 
         [Required]

@@ -175,6 +175,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BlockController.cs" />
+    <Compile Include="Controllers\GameEventController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MapController.cs" />
@@ -216,6 +217,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Styles\main.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -262,6 +264,11 @@
     <Content Include="Views\Block\Edit.cshtml" />
     <Content Include="Views\Block\ExitEdit.cshtml" />
     <Content Include="Views\Block\CreateExit.cshtml" />
+    <Content Include="Views\GameEvent\Index.cshtml" />
+    <Content Include="Views\GameEvent\Details.cshtml" />
+    <Content Include="Views\GameEvent\Create.cshtml" />
+    <Content Include="Views\GameEvent\Edit.cshtml" />
+    <Content Include="Views\GameEvent\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

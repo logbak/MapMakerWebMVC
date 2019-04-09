@@ -1,4 +1,4 @@
-﻿@model MapMaker.Models._02_BlockModels.BlockDetail
+﻿@model MapMaker.Models._02_BlockModels.BlockDetailsWithEvent
 
 @{
     ViewBag.Title = "Block Details";
@@ -8,95 +8,143 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.ID)
+            @Html.DisplayNameFor(model => model.BlockDetail.ID)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ID)
+            @Html.DisplayFor(model => model.BlockDetail.ID)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.MapID)
+            @Html.DisplayNameFor(model => model.BlockDetail.MapID)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.MapID)
+            @Html.DisplayFor(model => model.BlockDetail.MapID)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Creator)
+            @Html.DisplayNameFor(model => model.BlockDetail.Creator)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Creator)
+            @Html.DisplayFor(model => model.BlockDetail.Creator)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TypeOfBlock)
+            @Html.DisplayNameFor(model => model.BlockDetail.TypeOfBlock)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.TypeOfBlock)
+            @Html.DisplayFor(model => model.BlockDetail.TypeOfBlock)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.BlockDetail.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.BlockDetail.Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.BlockDetail.Description)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.BlockDetail.Description)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PosX)
+            @Html.DisplayNameFor(model => model.BlockDetail.PosX)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PosX)
+            @Html.DisplayFor(model => model.BlockDetail.PosX)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PosY)
+            @Html.DisplayNameFor(model => model.BlockDetail.PosY)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PosY)
+            @Html.DisplayFor(model => model.BlockDetail.PosY)
         </dd>
-        @if (Model.TypeOfBlock == "Exit")
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BlockDetail.HasEvent)
+        </dt>
+
+        <dd>
+            @(Model.BlockDetail.HasEvent ? "Yes" : "No")
+        </dd>
+        @if (Model.BlockDetail.TypeOfBlock == "Exit")
         {
             <dt>
-                @Html.DisplayNameFor(model => model.ExitDirection)
+                @Html.DisplayNameFor(model => model.BlockDetail.ExitDirection)
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.ExitDirection)
+                @Html.DisplayFor(model => model.BlockDetail.ExitDirection)
             </dd>
             <dt>
-                @Html.DisplayNameFor(model => model.ExitToID)
+                @Html.DisplayNameFor(model => model.BlockDetail.ExitToID)
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.ExitToID)
+                @Html.DisplayFor(model => model.BlockDetail.ExitToID)
             </dd>
         }
     </dl>
 </div>
 
-@*Add event list here use temp data?*@
+@if (Model.BlockDetail.HasEvent)
+{
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.GameEventDetail.TypeOfEvent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GameEventDetail.TypeOfEvent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GameEventDetail.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GameEventDetail.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GameEventDetail.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GameEventDetail.Description)
+        </dd>
+
+    </dl>
+</div>
+}
 
 <p>
-    @if (User.Identity.Name == Model.Creator)
+    @if (User.Identity.Name == Model.BlockDetail.Creator)
     {
-        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) @:|
-        @Html.ActionLink("Delete", "Delete", new { id = Model.ID }) @:|
+        @Html.ActionLink("Edit", "Edit", new { id = Model.BlockDetail.ID }) @:|
+        @Html.ActionLink("Delete", "Delete", new { id = Model.BlockDetail.ID }) @:|
     }
-    @Html.ActionLink("Back to Map", "Details", "Map", new { id = Model.MapID }, null)
+    @Html.ActionLink("Back to Map", "Details", "Map", new { id = Model.BlockDetail.MapID }, null)
+    @if (!Model.BlockDetail.HasEvent && User.Identity.Name == Model.BlockDetail.Creator)
+    {
+        @: |
+        @Html.ActionLink("Add Event", "Create", "GameEvent", new { id = Model.BlockDetail.ID }, null)
+    }
+    @if (Model.BlockDetail.HasEvent)
+    {
+        @: |
+        @Html.ActionLink("Event Detail", "Details", "GameEvent", new { id = Model.GameEventDetail.BlockID }, null)
+    }
 </p>

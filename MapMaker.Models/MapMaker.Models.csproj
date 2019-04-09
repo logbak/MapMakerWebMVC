@@ -59,10 +59,16 @@
     <Compile Include="01_MapModels\MapEdit.cs" />
     <Compile Include="01_MapModels\MapListItem.cs" />
     <Compile Include="02_BlockModels\BlockCreate.cs" />
+    <Compile Include="02_BlockModels\BlockDetailsWithEvent.cs" />
     <Compile Include="02_BlockModels\BlockEdit.cs" />
     <Compile Include="02_BlockModels\BlockDetail.cs" />
     <Compile Include="02_BlockModels\BlockListItem.cs" />
     <Compile Include="02_BlockModels\CreateBlockViewModel.cs" />
+    <Compile Include="03_GameEventModels\GameEventCreate.cs" />
+    <Compile Include="03_GameEventModels\GameEventDetail.cs" />
+    <Compile Include="03_GameEventModels\GameEventEdit.cs" />
+    <Compile Include="03_GameEventModels\GameEventListItem.cs" />
+    <Compile Include="BlockEventViewModel.cs" />
     <Compile Include="MapBlockViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

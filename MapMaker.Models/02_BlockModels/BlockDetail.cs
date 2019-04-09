@@ -24,6 +24,8 @@ namespace MapMaker.Models._02_BlockModels
         
         public int PosY { get; set; }
 
+        public bool HasEvent { get; set; }
+
         public string ExitDirection { get; set; }
 
         public int ExitToID { get; set; }

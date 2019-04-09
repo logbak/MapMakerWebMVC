@@ -88,7 +88,7 @@ else
 {
     <h3>Blocks</h3>
 }
-
+    
 @if (Model.BlockLists.Any(b => b.MapID == Model.MapDetail.MapID))
 {
     <table class="table">
@@ -155,14 +155,14 @@ else
                 </td>
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.HasEvent)
+                    @(item.HasEvent ? "Yes" : "No")
                 </td>
                 <td>
                     @if (User.Identity.Name == Model.MapDetail.OwnerName)
                     {
                         if (!item.HasEvent)
                         {
-                            @Html.ActionLink("Add Event", "Create", "Event", new { id = item.ID }, null) @:|
+                            @Html.ActionLink("Add Event", "Create", "GameEvent", new { id = item.ID }, null) @:|
                         }
                         @Html.ActionLink("Details", "Details", "Block", new { id = item.ID }, null) @:|
                         @Html.ActionLink("Edit", "Edit", "Block", new { id = item.ID }, null) @:|

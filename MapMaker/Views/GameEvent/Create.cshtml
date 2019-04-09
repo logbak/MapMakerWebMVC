@@ -1,0 +1,145 @@
+﻿@model MapMaker.Models.BlockEventViewModel
+
+@{
+    ViewBag.Title = "Create Event";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        <h4>BlockDetail</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.DetailOfBlock.ID)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DetailOfBlock.ID)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DetailOfBlock.MapID)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DetailOfBlock.MapID)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DetailOfBlock.Creator)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DetailOfBlock.Creator)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DetailOfBlock.TypeOfBlock)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DetailOfBlock.TypeOfBlock)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DetailOfBlock.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DetailOfBlock.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DetailOfBlock.Description)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DetailOfBlock.Description)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DetailOfBlock.PosX)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DetailOfBlock.PosX)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DetailOfBlock.PosY)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DetailOfBlock.PosY)
+            </dd>
+    </div>
+
+    <div class="form-horizontal">
+        <h4>Game Event Creation</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(model => model.DetailOfBlock.ID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CreateEvent.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @{
+                    List<SelectListItem> listItems = new List<SelectListItem>();
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Dialog",
+                        Value = "Dialog",
+                        Selected = true
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Minigame",
+                        Value = "Minigame",
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Other",
+                        Value = "Other"
+                    });
+                }
+                @Html.DropDownListFor(model => model.CreateEvent.Type, listItems, "-- Select Status --", new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CreateEvent.Type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CreateEvent.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CreateEvent.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CreateEvent.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CreateEvent.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CreateEvent.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CreateEvent.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to Event List", "Index") |
+    @Html.ActionLink("Back to Block Detail", "Detail", "Block", new { id = Model.DetailOfBlock.ID }, null)
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
