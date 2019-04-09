@@ -88,10 +88,10 @@ namespace MapMaker.Services
                     SizeY = entity.SizeY,
                     BlockIDs = entity.BlockIDs
                 };
-                
+
                 return new CreateBlockViewModel
                 {
-                        MapModel = mapModel,
+                    MapModel = mapModel
                 };
             }
         }
@@ -104,8 +104,6 @@ namespace MapMaker.Services
 
                 entity.Name = model.Name;
                 entity.Description = model.Description;
-                //included so blocks can be removed from map BlockID string then deleted(seperate method)
-                entity.BlockIDs = model.BlockIDs;
 
                 return ctx.SaveChanges() == 1;
             }

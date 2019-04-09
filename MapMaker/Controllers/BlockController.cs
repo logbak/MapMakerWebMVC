@@ -63,6 +63,7 @@ namespace MapMaker.Controllers
         {
             var svc = CreateMapService();
             var model = svc.GetMapByID(id);
+            model.CreateBlockModel.MapID = id;
             return View(model);
         }
 
@@ -71,24 +72,10 @@ namespace MapMaker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateExit(CreateBlockViewModel model)
         {
-            model.CreateBlockModel.Type = "Exit";
-            model.CreateBlockModel.MapID = model.MapModel.MapID;
             if (!ModelState.IsValid)
                 return View(model);
             var service = CreateBlockService();
             if (!ExitValidation(model.CreateBlockModel)) return View(model);
-
-            //if (!service.CheckIfExitLocationIsValid(model.CreateBlockModel))
-            //{
-            //    ModelState.AddModelError("", "Exit blocks must be positioned at the edge of the map.");
-            //    return View(model);
-            //}
-
-            //if (!service.CheckIfExitIdIsValid(model.CreateBlockModel.ExitToID, model.MapModel.MapID))
-            //{
-            //    ModelState.AddModelError("", "Please enter an ExitToID that matches an existing map other than the current one.");
-            //    return View(model);
-            //}
 
             if (service.CreateExitBlock(model))
             {

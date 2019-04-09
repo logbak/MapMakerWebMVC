@@ -10,5 +10,10 @@ namespace MapMaker.Models._02_BlockModels
     {
         public MapDetail MapModel { get; set; }
         public BlockCreate CreateBlockModel { get; set; }
+
+        public CreateBlockViewModel()
+        {
+            CreateBlockModel = new BlockCreate();
+        }
     }
 }

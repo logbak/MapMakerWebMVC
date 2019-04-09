@@ -61,7 +61,23 @@
         <dd>
             @Html.DisplayFor(model => model.PosY)
         </dd>
+        @if (Model.TypeOfBlock == "Exit")
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.ExitDirection)
+            </dt>
 
+            <dd>
+                @Html.DisplayFor(model => model.ExitDirection)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ExitToID)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ExitToID)
+            </dd>
+        }
     </dl>
 
     @using (Html.BeginForm()) {

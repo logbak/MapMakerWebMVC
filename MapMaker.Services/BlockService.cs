@@ -73,7 +73,8 @@ namespace MapMaker.Services
             {
                 var entity = ctx.Blocks.Single(e => e.ID == id);
                 var userEntity = ctx.Users.FirstOrDefault(e => e.Id == entity.OwnerID.ToString());
-                return new BlockDetail
+
+                var blockDetail = new BlockDetail
                 {
                     ID = entity.ID,
                     MapID = entity.MapID,
@@ -84,6 +85,15 @@ namespace MapMaker.Services
                     PosX = entity.PosX,
                     PosY = entity.PosY
                 };
+
+                if (entity.TypeOfBlock.ToString() == "Exit")
+                {
+                    var exitEntity = ctx.ExitBlocks.Single(e => e.ID == id);
+                    blockDetail.ExitDirection = exitEntity.ExitDirection.ToString();
+                    blockDetail.ExitToID = exitEntity.ExitToID;
+                }
+
+                return blockDetail;
             }
         }
 
@@ -91,7 +101,7 @@ namespace MapMaker.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var query = ctx.Blocks.Where(e => e.MapID == id).Select(e => new BlockListItem
+                var blockQuery = ctx.Blocks.Where(e => e.MapID == id && e.TypeOfBlock != BlockType.Exit).Select(e => new BlockListItem
                 {
                     ID = e.ID,
                     MapID = e.MapID,
@@ -101,10 +111,24 @@ namespace MapMaker.Services
                     PosX = e.PosX,
                     PosY = e.PosY,
                     HasEvent = ctx.GameEvents.Where(g => g.BlockID == e.ID).Any()
-                    
                 }
-                        );
-                return query.ToArray();
+                );
+                var exitQuery = ctx.ExitBlocks.Where(e => e.MapID == id && e.TypeOfBlock == BlockType.Exit).Select(e => new BlockListItem
+                {
+                    ID = e.ID,
+                    MapID = e.MapID,
+                    Type = e.TypeOfBlock.ToString(),
+                    Name = e.Name,
+                    Description = e.Description,
+                    PosX = e.PosX,
+                    PosY = e.PosY,
+                    HasEvent = ctx.GameEvents.Where(g => g.BlockID == e.ID).Any(),
+                    ExitDirection = e.ExitDirection.ToString(),
+                    ExitToID = e.ExitToID,
+                }
+                );
+                var queriesArray = blockQuery.ToArray().Concat(exitQuery.ToArray());
+                return queriesArray;
             }
         }
 
