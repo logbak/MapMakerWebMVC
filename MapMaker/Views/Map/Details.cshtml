@@ -4,69 +4,95 @@
     ViewBag.Title = "Details";
 }
 
-<div>
-    <h4>Map Details</h4>
+    <br />
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.MapDetail.MapID)
-        </dt>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Map Details</h2>
+            <hr />
+            <br />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.MapDetail.MapID)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.MapDetail.MapID)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.MapDetail.MapID)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.MapDetail.OwnerName)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.MapDetail.OwnerName)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.MapDetail.OwnerName)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.MapDetail.OwnerName)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.MapDetail.Name)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.MapDetail.Name)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.MapDetail.Name)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.MapDetail.Name)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.MapDetail.Description)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.MapDetail.Description)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.MapDetail.Description)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.MapDetail.Description)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.MapDetail.SizeX)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.MapDetail.SizeX)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.MapDetail.SizeX)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.MapDetail.SizeX)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.MapDetail.SizeY)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.MapDetail.SizeY)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.MapDetail.SizeY)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.MapDetail.SizeY)
+                </dd>
 
-    </dl>
-</div>
+            </dl>
 
-<br />
-<p style="text-align:right;">
-    @if (User.Identity.Name == Model.MapDetail.OwnerName)
-    {
-        @Html.ActionLink("Edit", "Edit", new { id = Model.MapDetail.MapID }) @:|
-    }
-    @Html.ActionLink("Back to Archive", "Index") | @Html.ActionLink("Back to My Maps", "MyMaps")
-</p>
+            <br />
+            <br />
+            <p>
+                @if (User.Identity.Name == Model.MapDetail.OwnerName)
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.MapDetail.MapID }) @:|
+                }
+                @Html.ActionLink("Back to Archive", "Index") | @Html.ActionLink("Back to My Maps", "MyMaps")
+            </p>
+        </div>
+
+
+
+        <div class="col-md-6">
+            <h3 style="text-align:center;">Preview Placeholder</h3>
+            <pre id="ascii" style="font-family: Courier New, Courier, monospace; background-color: #232323; color: #72bb53;">
+In-Game View Example:
+[Name - always visible]
+▄▄▄▄▄▄▄▄▄▄▄═▄▄   Key:
+█X           ║   X = Player
+█     g J    █   Letters = Blocks
+█       G    █
+║            █   This Example:
+█            █   Size:
+█            █   X: 12 | Y: 6
+▀▀▀▀▀▀▀▀▀▀▀▀▀▀   Player at 1X|1Y
+[Description when V is pressed] 
+    </pre>
+            <p>*The above map is just a placeholder and does not respresent the map on this page.</p>
+        </div>
+    </div>
 
 <hr />
 <br />

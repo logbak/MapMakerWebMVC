@@ -3,14 +3,16 @@
 @{
     ViewBag.Title = "Create";
 }
+<br />
 <div class="row">
+    <div class="col-sm-8">
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
 
 
             <div class="form-horizontal">
-                <h4>MapCreate</h4>
+                <h4>Map Creation</h4>
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
@@ -52,9 +54,11 @@
                 </div>
             </div>
         }
-
+    </div>
     <div class="col-sm-4">
-        <pre style="font-family: Courier New, Courier, monospace; background-color: #232323; color: #72bb53;">
+        <h4>Demo</h4>
+        <hr />
+        <pre id="ascii" style="font-family: Courier New, Courier, monospace; background-color: #232323; color: #72bb53;">
 In-Game View Example:
 [Name - always visible]
 ▄▄▄▄▄▄▄▄▄▄▄═▄▄   Key:
@@ -68,16 +72,17 @@ In-Game View Example:
 [Description when V is pressed] 
     </pre>
     </div>
-</div>
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    </div>
+    <div>
+        <p style="text-align:left;">
+            Notes:<br />A single "block" is 2:1 (twice as tall as it is wide) so a 12X by 6Y map will look like a square despite the width and height not being equal. The player will still move through the room block-by-block. Map origin point is in the upper left hand corner at 1X|1Y and the lower right corner position is equal to the map size.
+        </p>
+    </div>
+<hr />
+<p>
+    @Html.ActionLink("Back to Archive", "Index") | @Html.ActionLink("Back to My Maps", "MyMaps")
+</p>
 
-<div>
-    <p>Notes:<br />A single "block" is 2:1 (twice as tall as it is wide) so a 12X by 6Y map will look like a square despite the width and height not being equal. The player will still move through the room block-by-block. Map origin point is in the upper left hand corner at 1X|1Y and the lower right corner position is equal to the map size.
-    </p>
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

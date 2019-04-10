@@ -1,18 +1,42 @@
 ﻿body {
 }
 
+#ascii {
+    line-height: 110%;
+}
+
 hr {
     border-top-color: #72bb53 !important;
 }
 
 a {
     color: #72bb53 !important;
+    text-decoration: underline !important;
+}
+    a:hover {
+        color: #94f36d;
+    }
+
+.navbar a {
+    text-decoration: none !important;
+}
+
+dl {
+    align-content: center;
+    font-size: larger;
+}
+
+h2, h3 {
+    text-align: center !important;
+}
+
+body p {
+    text-align: center;
 }
 
 input[type=text] {
     background-color: #424242;
     color: #72bb53;
-    font-family: 'Inconsolata', Courier, monospace;
 }
     input[type=text]:focus {
         border-color: #72bb53;
@@ -31,7 +55,6 @@ input[type=number] {
 input[type=password] {
     background-color: #424242;
     color: #72bb53;
-    font-family: 'Inconsolata', Courier, monospace;
 }
 
     input[type=password]:focus {
@@ -63,8 +86,7 @@ select {
     background-size: 5px 5px, 5px 5px, 1px 1.5em;
     background-repeat: no-repeat;
 }
-
-        select.:focus {
+        select:focus {
             background-image: linear-gradient(45deg, green 50%, transparent 50%), linear-gradient(135deg, transparent 50%, green 50%), linear-gradient(to right, #ccc, #ccc);
             background-position: calc(100% - 15px) 1em, calc(100% - 20px) 1em, calc(100% - 2.5em) 0.5em;
             background-size: 5px 5px, 5px 5px, 1px 1.5em;
