@@ -228,11 +228,34 @@ namespace MapMaker.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
+                bool locationValid = false;
+                bool directionValid = false;
+
                 var entity = ctx.Maps.Single(m => m.ID == model.MapID);
+
                 if (entity.SizeX == model.PosX || model.PosX == 1 || entity.SizeY == model.PosY || model.PosY == 1)
                 {
-                    return true;
+                    locationValid = true;
                 }
+
+                switch (model.ExitDirection)
+                {
+                    case "North":
+                        if (model.PosY == 1) directionValid = true;
+                        break;
+                    case "South":
+                        if (model.PosY == entity.SizeY) directionValid = true;
+                        break;
+                    case "East":
+                        if (model.PosX == entity.SizeX) directionValid = true;
+                        break;
+                    case "West":
+                        if (model.PosX == 1) directionValid = true;
+                        break;
+                };
+
+                if (locationValid && directionValid) return true;
+
             }
             return false;
         }
@@ -242,11 +265,33 @@ namespace MapMaker.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
+                bool locationValid = false;
+                bool directionValid = false;
+
                 var entity = ctx.Maps.Single(m => m.ID == model.MapID);
+
                 if (entity.SizeX == model.PosX || model.PosX == 1 || entity.SizeY == model.PosY || model.PosY == 1)
                 {
-                    return true;
+                    locationValid = true;
                 }
+
+                switch (model.ExitDirection)
+                {
+                    case "North":
+                        if (model.PosY == 1) directionValid = true;
+                        break;
+                    case "South":
+                        if (model.PosY == entity.SizeY) directionValid = true;
+                        break;
+                    case "East":
+                        if (model.PosX == entity.SizeX) directionValid = true;
+                        break;
+                    case "West":
+                        if (model.PosX == 1) directionValid = true;
+                        break;
+                };
+
+                if (locationValid && directionValid) return true;
             }
             return false;
         }

@@ -63,6 +63,7 @@ namespace MapMaker.Controllers
             var svc = CreateMapService();
             var model = svc.GetMapByID(id);
             model.CreateBlockModel.MapID = id;
+            model.CreateBlockModel.Type = "Exit";
             return View(model);
         }
 
@@ -72,7 +73,10 @@ namespace MapMaker.Controllers
         public ActionResult CreateExit(CreateBlockViewModel model)
         {
             if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Something went wrong | Error: ModelState is not valid.");
                 return View(model);
+            }
             var service = CreateBlockService();
             if (!ExitValidation(model.CreateBlockModel)) return View(model);
 
@@ -92,12 +96,14 @@ namespace MapMaker.Controllers
             bool locationValid = true;
             if (!service.CheckIfExitLocationIsValid(model))
             {
-                ModelState.AddModelError("", "Exit blocks must be positioned at the edge of the map.");
+                ModelState.AddModelError("", "Exit blocks must be positioned at the edge of the map and face a wall.");
                 idValid = false;
             }
             if (!service.CheckIfExitIdIsValid(model.ExitToID, model.MapID))
             {
+                var mapSvc = CreateMapService();
                 ModelState.AddModelError("", "Please enter an ExitToID that matches an existing map other than the current one.");
+                ModelState.AddModelError("", $"Available Map IDs to exit to: | {mapSvc.GetExitMapIDAvailabilityExcludingCurrentID(model.MapID)}");
                 locationValid = false;
             }
             return (idValid && locationValid);
@@ -204,7 +210,7 @@ namespace MapMaker.Controllers
         public ActionResult Delete(int id)
         {
             var service = CreateBlockService();
-            var model = service.GetBlockByID(id);
+            var model = service.GetBlockByID(id).BlockDetail;
             return View(model);
         }
 

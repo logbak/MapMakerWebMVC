@@ -79,6 +79,7 @@ namespace MapMaker.Services
                     blck.PosX, 
                     blck.PosY
                 );
+            if (blck.TypeOfBlock == BlockType.Wall) output.Icon = '\u2588';
             return output;
         }
 

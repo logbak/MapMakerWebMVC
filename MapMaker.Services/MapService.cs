@@ -54,6 +54,23 @@ namespace MapMaker.Services
             }
         }
 
+        public string GetExitMapIDAvailabilityExcludingCurrentID(int id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                StringBuilder sb = new StringBuilder(); 
+
+                var query = ctx.Maps.Where(e => e.ID != id).Select(e => new MapListItem { ID = e.ID });
+                
+                foreach (MapListItem mapList in query)
+                {
+                    sb.Append(mapList.ID.ToString() + " | ");
+                }
+
+                return sb.ToString();
+            }
+        }
+
         public IEnumerable<MapListItem> GetMapsByCurrentUser()
         {
             using (var ctx = new ApplicationDbContext())
