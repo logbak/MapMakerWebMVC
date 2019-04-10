@@ -1,7 +1,15 @@
 ﻿body {
 }
 
-#ascii {
+#asciiLarge {
+    line-height: 114%;
+}
+
+#asciiMedium {
+    line-height: 120%;
+}
+
+#asciiSmall {
     line-height: 110%;
 }
 
