@@ -68,6 +68,10 @@
     <Compile Include="03_GameEventModels\GameEventDetail.cs" />
     <Compile Include="03_GameEventModels\GameEventEdit.cs" />
     <Compile Include="03_GameEventModels\GameEventListItem.cs" />
+    <Compile Include="04_MapPreviewModels\PreviewBlock.cs" />
+    <Compile Include="04_MapPreviewModels\Exit.cs" />
+    <Compile Include="04_MapPreviewModels\Room.cs" />
+    <Compile Include="04_MapPreviewModels\WallBlock.cs" />
     <Compile Include="BlockEventViewModel.cs" />
     <Compile Include="MapBlockViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

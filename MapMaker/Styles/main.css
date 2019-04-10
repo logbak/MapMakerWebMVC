@@ -1,6 +1,4 @@
-﻿body {
-}
-
+﻿
 #asciiLarge {
     line-height: 114%;
 }
@@ -11,6 +9,14 @@
 
 #asciiSmall {
     line-height: 110%;
+}
+
+#mapPreview {
+    line-height: 110%;
+    font-family: Courier New, Courier, monospace;
+    background-color: #232323;
+    color: #72bb53;
+    max-height: 400px !important;
 }
 
 hr {

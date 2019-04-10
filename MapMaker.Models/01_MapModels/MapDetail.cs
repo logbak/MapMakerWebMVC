@@ -21,5 +21,7 @@ namespace MapMaker.Models
         public int SizeY { get; set; }
 
         public string BlockIDs { get; set; }
+
+        public string MapPreview { get; set; }
     }
 }

@@ -74,10 +74,19 @@ namespace MapMaker.Services
 
         public CreateBlockViewModel GetMapByID(int mapID)
         {
+            MapPreviewService previewService = new MapPreviewService();
+
             using (var ctx = new ApplicationDbContext())
             {
                 var entity = ctx.Maps.Single(e => e.ID == mapID);
                 var userEntity = ctx.Users.FirstOrDefault(e => e.Id == entity.OwnerID.ToString());
+
+                string preview =
+                    previewService.PrintCurrentRoom
+                    (
+                        previewService.GenerateInputRoomFromMap(entity)
+                    );
+
                 var mapModel = new MapDetail
                 {
                     MapID = entity.ID,
@@ -86,7 +95,8 @@ namespace MapMaker.Services
                     Description = entity.Description,
                     SizeX = entity.SizeX,
                     SizeY = entity.SizeY,
-                    BlockIDs = entity.BlockIDs
+                    BlockIDs = entity.BlockIDs,
+                    MapPreview = preview
                 };
 
                 return new CreateBlockViewModel

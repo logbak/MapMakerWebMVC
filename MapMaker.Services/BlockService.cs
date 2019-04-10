@@ -81,7 +81,6 @@ namespace MapMaker.Services
             {
                 var entity = ctx.Blocks.Single(e => e.ID == id);
                 var userEntity = ctx.Users.FirstOrDefault(e => e.Id == entity.OwnerID.ToString());
-
                 var blockDetail = new BlockDetail
                 {
                     ID = entity.ID,

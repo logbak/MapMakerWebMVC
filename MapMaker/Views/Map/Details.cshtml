@@ -76,21 +76,10 @@
 
 
         <div class="col-md-6">
-            <h3 style="text-align:center;">Preview Placeholder</h3>
-            <pre id="asciiSmall" style="font-family: Courier New, Courier, monospace; background-color: #232323; color: #72bb53;">
-In-Game View Example:
-[Name - always visible]
-▄▄▄▄▄▄▄▄▄▄▄═▄▄   Key:
-█X           ║   X = Player
-█     g J    █   Letters = Blocks
-█       G    █
-║            █   This Example:
-█            █   Size:
-█            █   X: 12 | Y: 6
-▀▀▀▀▀▀▀▀▀▀▀▀▀▀   Player at 1X|1Y
-[Description when V is pressed] 
-    </pre>
-            <p>*The above map is just a placeholder and does not respresent the map on this page.</p>
+            <h3 style="text-align:center;">Preview</h3>
+                <pre id="mapPreview">
+@Html.DisplayFor(model => model.MapDetail.MapPreview)
+            </pre>
         </div>
     </div>
 
