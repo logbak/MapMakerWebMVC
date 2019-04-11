@@ -154,6 +154,12 @@ namespace MapMaker.Controllers
                 return RedirectToAction("ExitEdit", "Block", new { id = model.ID });
             }
 
+            if (service.CheckIfWallHasEvent(model))
+            {
+                ModelState.AddModelError("", "Game event attached to this block must be removed before turning it into a wall block type.");
+                return View(model);
+            }
+
             if (service.UpdateBlock(model))
             {
                 TempData["SaveResult"] = "The block was updated succesfully.";

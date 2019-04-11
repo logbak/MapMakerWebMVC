@@ -113,7 +113,7 @@
                     @Html.ActionLink("Delete", "Delete", new { id = Model.BlockDetail.ID }) @:|
                 }
                 @Html.ActionLink("Back to Map", "Details", "Map", new { id = Model.BlockDetail.MapID }, null)
-                @if (!Model.BlockDetail.HasEvent && User.Identity.Name == Model.BlockDetail.Creator)
+                @if (!Model.BlockDetail.HasEvent && User.Identity.Name == Model.BlockDetail.Creator && Model.BlockDetail.TypeOfBlock != "Wall")
                 {
                     @: |
                     @Html.ActionLink("Add Event", "Create", "GameEvent", new { id = Model.BlockDetail.ID }, null)

@@ -212,6 +212,18 @@ namespace MapMaker.Services
             }
         }
 
+        public bool CheckIfWallHasEvent (BlockEdit model)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                if (ctx.GameEvents.Any(e => e.BlockID == model.ID) && model.TypeOfBlock == "Wall")
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public bool CheckIfExitIdIsValid(int id, int mapID)
         {
             using (var ctx = new ApplicationDbContext())

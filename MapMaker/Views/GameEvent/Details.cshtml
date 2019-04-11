@@ -64,8 +64,8 @@
         <p>
             @if (Model.Creator == User.Identity.Name)
             {
-                @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) @:|
-                @Html.ActionLink("Delete", "Delete", new { id = Model.ID }) @:|
+                @Html.ActionLink("Edit", "Edit", new { id = Model.BlockID }) @:|
+                @Html.ActionLink("Delete", "Delete", new { id = Model.BlockID }) @:|
             }
             @Html.ActionLink("Back to Event List", "Index") |
             @Html.ActionLink("Back to Block Detail", "Details", "Block", new { id = Model.BlockID }, null)

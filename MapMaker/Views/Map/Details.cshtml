@@ -113,7 +113,7 @@ else
             </th>
 
             <th>
-                @Html.DisplayFor(model => model.BlockLists.First().Type)
+                Type
             </th>
 
             <th>
@@ -175,7 +175,7 @@ else
                 <td>
                     @if (User.Identity.Name == Model.MapDetail.OwnerName)
                     {
-                        if (!item.HasEvent)
+                        if (!item.HasEvent && item.Type != "Wall")
                         {
                             @Html.ActionLink("Add Event", "Create", "GameEvent", new { id = item.ID }, null) @:|
                         }
@@ -213,7 +213,7 @@ else
             </th>
 
             <th>
-                @Html.DisplayFor(model => model.BlockLists.First().Type)
+                Type
             </th>
 
             <th>
