@@ -124,12 +124,15 @@ namespace MapMaker.Services
                     //checks if given position is in a corner
                     if ((x == 1 && y == 1) || (x == map.SizeX && y == 1) || (x == map.SizeX && y == map.SizeY) || (x == 1 && y == map.SizeY))
                     {
-                        //checks the shared corner to see if the remaining exit direction is already in use
-                        return ctx.ExitBlocks.Any(e => e.PosX == x && e.PosY == y && e.MapID == map.ID && 
-
-                        // statment below returns true no matter what... resolve later
-                        e.ExitDirection.ToString() != direction);
-
+                        //checks the shared corner to see if any remaining exit direction is already in use
+                        int numberOfExits = (ctx.ExitBlocks.Count(e => e.PosX == x && e.PosY == y && e.MapID == map.ID));
+                        switch (numberOfExits)
+                        {
+                            case 1:
+                                return (ctx.ExitBlocks.Single(e => e.PosX == x && e.PosY == y && e.MapID == map.ID).ExitDirection.ToString() != direction);
+                            case 2:
+                                return false;
+                        }
                     }
                             
                     //if shared location is not in a corner returns false to prevent two exits 
