@@ -42,8 +42,8 @@
             @if (item.Creator == User.Identity.Name)
             {
                 @:|
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) @:|
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                @Html.ActionLink("Edit", "Edit", new { id = item.BlockID }) @:|
+                @Html.ActionLink("Delete", "Delete", new { id = item.BlockID })
             }
         </td>
     </tr>

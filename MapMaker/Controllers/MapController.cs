@@ -13,6 +13,15 @@ namespace MapMaker.Controllers
     [Authorize]
     public class MapController : Controller
     {
+        private readonly Lazy<BlockService> _bSvc;
+        private readonly Lazy<MapService> _mSvc;
+
+        public MapController()
+        {
+            _bSvc = new Lazy<BlockService>(CreateBlockService);
+            _mSvc = new Lazy<MapService>(CreateMapService);
+        }
+
         private MapService CreateMapService()
         {
             var userID = Guid.Parse(User.Identity.GetUserId());
@@ -30,26 +39,22 @@ namespace MapMaker.Controllers
         // GET: Map
         public ActionResult Index()
         {
-            var service = CreateMapService();
-            var model = service.GetMaps();
+            var model = _mSvc.Value.GetMaps();
             return View(model);
         }
 
         public ActionResult MyMaps()
         {
-            var service = CreateMapService();
-            var model = service.GetMapsByCurrentUser();
+            var model = _mSvc.Value.GetMapsByCurrentUser();
             return View(model);
         }
 
         // GET: Map/Details/5
         public ActionResult Details(int id)
         {
-            var svc = CreateMapService();
-            var bsvc = CreateBlockService();
             MapBlockViewModel model = new MapBlockViewModel();
-            model.MapDetail = svc.GetMapByID(id).MapModel;
-            model.BlockLists = bsvc.GetBlocksByMapID(id);
+            model.MapDetail = _mSvc.Value.GetMapByID(id).MapModel;
+            model.BlockLists = _bSvc.Value.GetBlocksByMapID(id);
             return View(model);
         }
 
@@ -65,9 +70,8 @@ namespace MapMaker.Controllers
         public ActionResult Create(MapCreate model)
         {
             if (!ModelState.IsValid) return View(model);
-                
-            var service = CreateMapService();
-            if (service.CreateMap(model))
+
+            if (_mSvc.Value.CreateMap(model))
             {
                 TempData["SaveResult"] = "Map succesfully created!";
                 return RedirectToAction("Index");
@@ -79,8 +83,7 @@ namespace MapMaker.Controllers
         // GET: Map/Edit/5
         public ActionResult Edit(int id)
         {
-            var service = CreateMapService();
-            var detail = service.GetMapByID(id);
+            var detail = _mSvc.Value.GetMapByID(id);
             var model = new MapEdit
             {
                 MapID = detail.MapModel.MapID,
@@ -104,9 +107,7 @@ namespace MapMaker.Controllers
                 return View(model);
             }
 
-            var service = CreateMapService();
-
-            if (service.UpdateMap(model))
+            if (_mSvc.Value.UpdateMap(model))
             {
                 TempData["SaveResult"] = "The map was updated succesfully.";
                 return RedirectToAction("MyMaps");
@@ -119,8 +120,7 @@ namespace MapMaker.Controllers
         // GET: Map/Delete/5
         public ActionResult Delete(int id)
         {
-            var service = CreateMapService();
-            var model = service.GetMapByID(id);
+            var model = _mSvc.Value.GetMapByID(id);
             return View(model);
         }
 
@@ -130,8 +130,7 @@ namespace MapMaker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            var service = CreateMapService();
-            service.DeleteMap(id);
+            _mSvc.Value.DeleteMap(id);
             TempData["SaveResult"] = "Map was succesfully deleted.";
             return RedirectToAction("MyMaps");
         }

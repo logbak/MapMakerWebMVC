@@ -135,7 +135,6 @@ namespace MapMaker.Services
                 return ctx.SaveChanges() == 1;
             }
         }
-
         public bool DeleteMap(int id)
         {
             using (var ctx = new ApplicationDbContext())

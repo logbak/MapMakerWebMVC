@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockService.cs" />
+    <Compile Include="BlockValidationService.cs" />
     <Compile Include="GameEventService.cs" />
     <Compile Include="MapPreviewService.cs" />
     <Compile Include="MapService.cs" />

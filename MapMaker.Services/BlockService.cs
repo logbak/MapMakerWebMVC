@@ -14,7 +14,6 @@ namespace MapMaker.Services
     public class BlockService
     {
         private readonly Guid _userID;
-
         public BlockService(Guid userID)
         {
             _userID = userID;
@@ -73,7 +72,6 @@ namespace MapMaker.Services
                 return ctx.SaveChanges() == 1;
             }
         }
-
 
         public BlockDetailsWithEvent GetBlockByID(int id)
         {
@@ -162,6 +160,9 @@ namespace MapMaker.Services
                     return UpdateBlockExit(model);
                 }
 
+                if (ctx.ExitBlocks.Any(e => e.MapID == model.MapID && e.OwnerID == _userID && e.ID == model.ID) && model.TypeOfBlock != "Exit")
+                    return UpdateBlockFromExit(model);              
+
                 var entity = ctx.Blocks.Single(e => e.MapID == model.MapID && e.OwnerID == _userID && e.ID == model.ID);
 
                 entity.TypeOfBlock = GetBlockTypeFromString(model.TypeOfBlock);
@@ -169,6 +170,26 @@ namespace MapMaker.Services
                 entity.Description = model.Description;
                 entity.PosX = model.PosX;
                 entity.PosY = model.PosY;
+
+                return ctx.SaveChanges() == 1;
+            }
+        }
+
+        private bool UpdateBlockFromExit(BlockEdit model)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var exitEntity = ctx.ExitBlocks.Single(e => e.MapID == model.MapID && e.OwnerID == _userID && e.ID == model.ID);
+
+                var entity = ctx.Blocks.Single(e => e.MapID == model.MapID && e.OwnerID == _userID && e.ID == model.ID);
+
+                entity.TypeOfBlock = GetBlockTypeFromString(model.TypeOfBlock);
+                entity.Name = model.Name;
+                entity.Description = model.Description;
+                entity.PosX = model.PosX;
+                entity.PosY = model.PosY;
+                exitEntity.ExitDirection = 0;
+                exitEntity.ExitToID = 0;
 
                 return ctx.SaveChanges() == 1;
             }
@@ -211,103 +232,6 @@ namespace MapMaker.Services
                 return ctx.SaveChanges() == 2;
             }
         }
-
-        public bool CheckIfWallHasEvent (BlockEdit model)
-        {
-            using (var ctx = new ApplicationDbContext())
-            {
-                if (ctx.GameEvents.Any(e => e.BlockID == model.ID) && model.TypeOfBlock == "Wall")
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public bool CheckIfExitIdIsValid(int id, int mapID)
-        {
-            using (var ctx = new ApplicationDbContext())
-            {
-                if (ctx.Maps.Any(m => m.ID == id) && id != mapID)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public bool CheckIfExitLocationIsValid(BlockEdit model)
-        {
-            using (var ctx = new ApplicationDbContext())
-            {
-                bool locationValid = false;
-                bool directionValid = false;
-
-                var entity = ctx.Maps.Single(m => m.ID == model.MapID);
-
-                if (entity.SizeX == model.PosX || model.PosX == 1 || entity.SizeY == model.PosY || model.PosY == 1)
-                {
-                    locationValid = true;
-                }
-
-                switch (model.ExitDirection)
-                {
-                    case "North":
-                        if (model.PosY == 1) directionValid = true;
-                        break;
-                    case "South":
-                        if (model.PosY == entity.SizeY) directionValid = true;
-                        break;
-                    case "East":
-                        if (model.PosX == entity.SizeX) directionValid = true;
-                        break;
-                    case "West":
-                        if (model.PosX == 1) directionValid = true;
-                        break;
-                };
-
-                if (locationValid && directionValid) return true;
-
-            }
-            return false;
-        }
-
-        //repeats above with different overload, see if there is a way to combine
-        public bool CheckIfExitLocationIsValid(BlockCreate model)
-        {
-            using (var ctx = new ApplicationDbContext())
-            {
-                bool locationValid = false;
-                bool directionValid = false;
-
-                var entity = ctx.Maps.Single(m => m.ID == model.MapID);
-
-                if (entity.SizeX == model.PosX || model.PosX == 1 || entity.SizeY == model.PosY || model.PosY == 1)
-                {
-                    locationValid = true;
-                }
-
-                switch (model.ExitDirection)
-                {
-                    case "North":
-                        if (model.PosY == 1) directionValid = true;
-                        break;
-                    case "South":
-                        if (model.PosY == entity.SizeY) directionValid = true;
-                        break;
-                    case "East":
-                        if (model.PosX == entity.SizeX) directionValid = true;
-                        break;
-                    case "West":
-                        if (model.PosX == 1) directionValid = true;
-                        break;
-                };
-
-                if (locationValid && directionValid) return true;
-            }
-            return false;
-        }
-
 
         public bool DeleteBlock(int id)
         {

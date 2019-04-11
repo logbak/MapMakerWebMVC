@@ -12,6 +12,17 @@ namespace MapMaker.Controllers
 {
     public class BlockController : Controller
     {
+        private readonly Lazy<BlockService> _bSvc;
+        private readonly Lazy<MapService> _mSvc;
+        private readonly Lazy<BlockValidationService> _bvSvc;
+
+        public BlockController()
+        {
+            _bSvc = new Lazy<BlockService>(CreateBlockService);
+            _mSvc = new Lazy<MapService>(CreateMapService);
+            _bvSvc = new Lazy<BlockValidationService>();
+        }
+
         private BlockService CreateBlockService()
         {
             var userID = Guid.Parse(User.Identity.GetUserId());
@@ -48,8 +59,12 @@ namespace MapMaker.Controllers
         public ActionResult Create(CreateBlockViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
-            var service = CreateBlockService();
-            if (service.CreateBlock(model))
+            if (!_bvSvc.Value.CheckIfBlockPlacementIsValidCreate(model.CreateBlockModel))
+            {
+                ModelState.AddModelError("", "There is already a block in that position.");
+                return View(model);
+            }
+            if (_bSvc.Value.CreateBlock(model))
             {
                 TempData["SaveResult"] = "Block succesfully added!";
                 return RedirectToAction("Details", "Map", new { id = model.MapModel.MapID});
@@ -60,8 +75,7 @@ namespace MapMaker.Controllers
 
         public ActionResult CreateExit(int id)
         {
-            var svc = CreateMapService();
-            var model = svc.GetMapByID(id);
+            var model = _mSvc.Value.GetMapByID(id);
             model.CreateBlockModel.MapID = id;
             model.CreateBlockModel.Type = "Exit";
             return View(model);
@@ -77,10 +91,9 @@ namespace MapMaker.Controllers
                 ModelState.AddModelError("", "Something went wrong | Error: ModelState is not valid.");
                 return View(model);
             }
-            var service = CreateBlockService();
             if (!ExitValidation(model.CreateBlockModel)) return View(model);
 
-            if (service.CreateExitBlock(model))
+            if (_bSvc.Value.CreateExitBlock(model))
             {
                 TempData["SaveResult"] = "Block succesfully added!";
                 return RedirectToAction("Details", "Map", new { id = model.MapModel.MapID });
@@ -89,17 +102,16 @@ namespace MapMaker.Controllers
             return View(model);
         }
 
-        public bool ExitValidation(BlockCreate model)
+        private bool ExitValidation(BlockCreate model)
         {
-            var service = CreateBlockService();
             bool idValid = true;
             bool locationValid = true;
-            if (!service.CheckIfExitLocationIsValid(model))
+            if (!_bvSvc.Value.CheckIfExitLocationIsValid(model))
             {
                 ModelState.AddModelError("", "Exit blocks must be positioned at the edge of the map and face a wall.");
                 idValid = false;
             }
-            if (!service.CheckIfExitIdIsValid(model.ExitToID, model.MapID))
+            if (!_bvSvc.Value.CheckIfExitIdIsValid(model.ExitToID, model.MapID))
             {
                 var mapSvc = CreateMapService();
                 ModelState.AddModelError("", "Please enter an ExitToID that matches an existing map other than the current one.");
@@ -112,8 +124,7 @@ namespace MapMaker.Controllers
         // GET: Block/Edit/5
         public ActionResult Edit(int id)
         {
-            var service = CreateBlockService();
-            var detail = service.GetBlockByID(id).BlockDetail;
+            var detail = _bSvc.Value.GetBlockByID(id).BlockDetail;
             var model = new BlockEdit
             {
                 ID = detail.ID,
@@ -133,34 +144,22 @@ namespace MapMaker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, BlockEdit model)
         {
-            if (!ModelState.IsValid) return View(model);
-
-            if (model.ID != id)
-            {
-                ModelState.AddModelError("", "ID Mismatch");
-                return View(model);
-            }
-
-            var service = CreateBlockService();
+            if (!EditValidation(id, model)) return View(model);
 
             if (model.TypeOfBlock == "Exit")
             {
-                if (!service.CheckIfExitLocationIsValid(model))
-                {
-                    ModelState.AddModelError("", "Exit blocks must be positioned at the edge of the map.");
-                    return View(model);
-                }
+                if (!EditIntoExitValidation(model)) return View(model);
                 TempData["model"] = model;
                 return RedirectToAction("ExitEdit", "Block", new { id = model.ID });
             }
 
-            if (service.CheckIfWallHasEvent(model))
+            if (!_bvSvc.Value.CheckIfBlockPlacementIsValidEdit(model))
             {
-                ModelState.AddModelError("", "Game event attached to this block must be removed before turning it into a wall block type.");
+                ModelState.AddModelError("", "There is already a block in that position.");
                 return View(model);
             }
 
-            if (service.UpdateBlock(model))
+            if (_bSvc.Value.UpdateBlock(model))
             {
                 TempData["SaveResult"] = "The block was updated succesfully.";
                 return RedirectToAction("Details", "Map", new { id = model.MapID });
@@ -168,6 +167,36 @@ namespace MapMaker.Controllers
 
             ModelState.AddModelError("", "Your block could not be updated.");
             return View(model);
+        }
+
+        private bool EditValidation(int id, BlockEdit model)
+        {
+            if (!ModelState.IsValid) return false;
+
+            if (model.ID != id)
+            {
+                ModelState.AddModelError("", "ID Mismatch");
+                return false;
+            }
+
+            if (model.TypeOfBlock == "Wall")
+                if (_bvSvc.Value.CheckIfWallHasEvent(model))
+                {
+                    ModelState.AddModelError("", "Game event attached to this block must be removed before turning it into a wall block type.");
+                    return false;
+                }
+
+            return true;
+        }
+
+        private bool EditIntoExitValidation(BlockEdit model)
+        {
+            if (!_bvSvc.Value.CheckIfExitLocationIsValid(model))
+            {
+                ModelState.AddModelError("", "Exit blocks must be positioned at the edge of the map.");
+                return false;
+            }
+            return true;
         }
 
         [HttpGet]
@@ -194,15 +223,9 @@ namespace MapMaker.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            var service = CreateBlockService();
+            if (!ExitEditValidation(model)) return View(model);
 
-            if (!service.CheckIfExitIdIsValid(model.ExitToID, model.MapID))
-            {
-                TempData["SaveResult"] = "Please enter an ExitToID that matches an existing map other than the current one.";
-                return View(model);
-            }
-
-            if (service.UpdateBlock(model))
+            if (_bSvc.Value.UpdateBlock(model))
             {
                 TempData["SaveResult"] = "The block was updated succesfully.";
                 return RedirectToAction("Details", "Map", new { id = model.MapID });
@@ -212,11 +235,28 @@ namespace MapMaker.Controllers
             return View(model);
         }
 
+        private bool ExitEditValidation(BlockEdit model)
+        {
+            bool idValid = true;
+            bool locationValid = true;
+            if (!_bvSvc.Value.CheckIfExitLocationIsValid(model))
+            {
+                TempData["SaveResult"] = "Exit blocks must face a wall.";
+                idValid = false;
+            }
+            if (!_bvSvc.Value.CheckIfExitIdIsValid(model.ExitToID, model.MapID))
+            {
+                TempData["SaveResult"] = "Please enter an ExitToID that matches an existing map other than the current one.\n"
+                    + $"Available Map IDs to exit to: | {_mSvc.Value.GetExitMapIDAvailabilityExcludingCurrentID(model.MapID)}";
+                locationValid = false;
+            }
+            return (idValid && locationValid);
+        }
+
         // GET: Block/Delete/5
         public ActionResult Delete(int id)
         {
-            var service = CreateBlockService();
-            var model = service.GetBlockByID(id).BlockDetail;
+            var model = _bSvc.Value.GetBlockByID(id).BlockDetail;
             return View(model);
         }
 
@@ -225,9 +265,8 @@ namespace MapMaker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            var service = CreateBlockService();
-            var model = service.GetBlockByID(id);
-            service.DeleteBlock(id);
+            var model = _bSvc.Value.GetBlockByID(id);
+            _bSvc.Value.DeleteBlock(id);
             TempData["SaveResult"] = "Block was succesfully deleted.";
             return RedirectToAction("Details", "Map", new { id = model.BlockDetail.MapID } );
         }
