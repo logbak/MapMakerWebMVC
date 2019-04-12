@@ -1,159 +1,120 @@
 ﻿@model MapMaker.Models._02_BlockModels.BlockEdit
 
 @{
-    ViewBag.Title = "ExitEdit";
+    ViewBag.Title = "Edit Exit";
 }
 
-<h2>Exit Edit</h2>
+<h2>Edit Exit</h2>
 
-<div>
-    <h4>BlockDetail</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ID)
-        </dt>
+<div class="row">
+    <div class="col-md-6">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-        <dd>
-            @Html.DisplayFor(model => model.ID)
-        </dd>
+            <div class="form-horizontal">
+                <h4>Exit Block Edit</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.HiddenFor(model => model.ID)
+                    @Html.HiddenFor(model => model.MapID)
+                    @Html.HiddenFor(model => model.Creator)
+                    @Html.HiddenFor(model => model.TypeOfBlock)
 
-        <dt>
-            @Html.DisplayNameFor(model => model.MapID)
-        </dt>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.MapID)
-        </dd>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Creator)
-        </dt>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PosX, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.PosX, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.PosX, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Creator)
-        </dd>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PosY, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.PosY, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.PosY, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TypeOfBlock)
-        </dt>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ExitDirection, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @{
+                                List<SelectListItem> listItems = new List<SelectListItem>();
+                                listItems.Add(new SelectListItem
+                                {
+                                    Text = "North",
+                                    Value = "North",
+                                    Selected = true
+                                });
+                                listItems.Add(new SelectListItem
+                                {
+                                    Text = "South",
+                                    Value = "South",
+                                });
+                                listItems.Add(new SelectListItem
+                                {
+                                    Text = "East",
+                                    Value = "East"
+                                });
+                                listItems.Add(new SelectListItem
+                                {
+                                    Text = "West",
+                                    Value = "West"
+                                });
+                            }
+                            @Html.DropDownListFor(model => model.ExitDirection, listItems, "-- Select Status --", new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ExitDirection, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.TypeOfBlock)
-        </dd>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ExitToID, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.ExitToID, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ExitToID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PosX)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PosX)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PosY)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PosY)
-        </dd>
-
-    </dl>
-</div>
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    <div class="form-horizontal">
-        <h4>Exit Details Edit</h4>
-        <hr />
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ExitDirection, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @{
-                    List<SelectListItem> directionList = new List<SelectListItem>();
-                    directionList.Add(new SelectListItem
-                    {
-                        Text = "North",
-                        Value = "North",
-                        Selected = true
-                    });
-                    directionList.Add(new SelectListItem
-                    {
-                        Text = "South",
-                        Value = "South",
-                    });
-                    directionList.Add(new SelectListItem
-                    {
-                        Text = "East",
-                        Value = "East"
-                    });
-                    directionList.Add(new SelectListItem
-                    {
-                        Text = "West",
-                        Value = "West"
-                    });
-                }
-                @Html.DropDownListFor(model => model.ExitDirection, directionList, "-- Select Status --", new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ExitDirection, "", new { @class = "text-danger" })
-
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.ExitToID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ExitToID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ExitToID, "", new { @class = "text-danger" })
-            </div>
+        }
 
-            @Html.HiddenFor(model => model.ID)
-            @Html.HiddenFor(model => model.MapID)
-            @Html.HiddenFor(model => model.Creator)
-            @Html.HiddenFor(model => model.Name)
-            @Html.HiddenFor(model => model.Description)
-            @Html.HiddenFor(model => model.PosX)
-            @Html.HiddenFor(model => model.PosY)
-            @Html.HiddenFor(model => model.TypeOfBlock)
+        <div>
+            @Html.ActionLink("Back to Map", "Details", "Map", new { id = Model.MapID }, null) |
+            @Html.ActionLink("Back to Block Detail", "Details", new { id = Model.ID })
         </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
     </div>
-}
 
-@if (TempData.ContainsKey("SaveResult"))
-{
-    <div class="alert alert-danger fade in" role="alert" style="background-color: #ac3d3d; border-color: #983535; color: #491919; width: 50%;">
-        <button type="button" class="close" data-dismiss="alert">
-            <span>&times;</span>
-        </button>
-        @TempData["SaveResult"]
+    <div class="col-md-6">
+        <h3 style="text-align:center;">Preview</h3>
+        <pre id="mapPreview">@ViewBag.MapPreview</pre>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to Block Edit", "Edit", new { id = Model.ID })
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

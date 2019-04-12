@@ -285,7 +285,7 @@ else
                 @if (User.Identity.Name == Model.MapDetail.OwnerName)
                 {
                     @Html.ActionLink("Details", "Details", "Block", new { id = item.ID }, null) @:|
-                    @Html.ActionLink("Edit", "Edit", "Block", new { id = item.ID }, null) @:|
+                    @Html.ActionLink("Edit", "ExitEdit", "Block", new { id = item.ID }, null) @:|
                     @Html.ActionLink("Delete", "Delete", "Block", new { id = item.ID }, null)
                 }
                 @if (User.Identity.Name != Model.MapDetail.OwnerName)

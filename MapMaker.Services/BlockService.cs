@@ -155,14 +155,6 @@ namespace MapMaker.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                if (model.TypeOfBlock == "Exit")
-                {
-                    return UpdateBlockExit(model);
-                }
-
-                if (ctx.ExitBlocks.Any(e => e.MapID == model.MapID && e.OwnerID == _userID && e.ID == model.ID) && model.TypeOfBlock != "Exit")
-                    return UpdateBlockFromExit(model);              
-
                 var entity = ctx.Blocks.Single(e => e.MapID == model.MapID && e.OwnerID == _userID && e.ID == model.ID);
 
                 entity.TypeOfBlock = GetBlockTypeFromString(model.TypeOfBlock);
@@ -172,64 +164,6 @@ namespace MapMaker.Services
                 entity.PosY = model.PosY;
 
                 return ctx.SaveChanges() == 1;
-            }
-        }
-
-        private bool UpdateBlockFromExit(BlockEdit model)
-        {
-            using (var ctx = new ApplicationDbContext())
-            {
-                var exitEntity = ctx.ExitBlocks.Single(e => e.MapID == model.MapID && e.OwnerID == _userID && e.ID == model.ID);
-
-                var entity = ctx.Blocks.Single(e => e.MapID == model.MapID && e.OwnerID == _userID && e.ID == model.ID);
-
-                entity.TypeOfBlock = GetBlockTypeFromString(model.TypeOfBlock);
-                entity.Name = model.Name;
-                entity.Description = model.Description;
-                entity.PosX = model.PosX;
-                entity.PosY = model.PosY;
-                exitEntity.ExitDirection = 0;
-                exitEntity.ExitToID = 0;
-
-                return ctx.SaveChanges() == 1;
-            }
-        }
-
-        public bool UpdateBlockExit(BlockEdit model)
-        {
-            using (var ctx = new ApplicationDbContext())
-            {
-                if (ctx.ExitBlocks.Any(e => e.MapID == model.MapID && e.OwnerID == _userID && e.ID == model.ID))
-                {
-                    var entity = ctx.ExitBlocks.Single(e => e.MapID == model.MapID && e.OwnerID == _userID && e.ID == model.ID);
-                    entity.TypeOfBlock = GetBlockTypeFromString(model.TypeOfBlock);
-                    entity.Name = model.Name;
-                    entity.Description = model.Description;
-                    entity.PosX = model.PosX;
-                    entity.PosY = model.PosY;
-                    entity.ExitDirection = GetExitDirectionFromString(model.ExitDirection);
-                    entity.ExitToID = model.ExitToID;
-
-                    return ctx.SaveChanges() == 1;
-                }
-
-                ctx.Blocks.Remove(ctx.Blocks.Single(b => b.ID == model.ID));
-                var newEntity = new ExitBlock
-                {
-                    ID = model.ID,
-                    MapID = model.MapID,
-                    OwnerID = _userID,
-                    Name = model.Name,
-                    Description = model.Description,
-                    TypeOfBlock = GetBlockTypeFromString(model.TypeOfBlock),
-                    PosX = model.PosX,
-                    PosY = model.PosY,
-                    ExitDirection = GetExitDirectionFromString(model.ExitDirection),
-                    ExitToID = model.ExitToID
-                };
-                ctx.ExitBlocks.Add(newEntity);
-
-                return ctx.SaveChanges() == 2;
             }
         }
 

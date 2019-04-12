@@ -87,48 +87,92 @@ namespace MapMaker.Services
         {
             StringBuilder output = new StringBuilder();
 
-            string topWall = PrintTopWalls(room);
+            string topWall = "00 " + PrintTopWalls(room);
+            string topNumbers = PrintTopNumbersFirstLine(room);
+            string topNumbersTwo = PrintTopNumbersSecondLine(room);
+            output.AppendLine(topNumbers);
+            output.AppendLine(topNumbersTwo);
             output.AppendLine(topWall);
 
             string sideWalls = PrintSideWalls(room);
-
-            string player = PrintPlayerPosition(room);
 
             Dictionary<int, string> blockLayers = PrintBlockPositions(room);
 
             for (int i = 1; i <= room.SizeY; i++)
             {
-                if (i == room.PosY)
-                {
-                    output.AppendLine(player);
-                }
-                else if (room.ExitList.Exists(b => b.PosY == i))
+                if (room.ExitList.Exists(b => b.PosY == i))
                 {
                     blockLayers.TryGetValue(i, out string currentLayer);
-                    output.AppendLine(currentLayer);
+                    if (i >= 10) output.AppendLine($"{i} " + currentLayer);
+                    else output.AppendLine($"0{i} " + currentLayer);
                 }
                 else if (room.BlockList.Exists(b => b.PosY == i))
                 {
                     blockLayers.TryGetValue(i, out string currentLayer);
-                    output.AppendLine(currentLayer);
+                    if (i >= 10) output.AppendLine($"{i} " + currentLayer);
+                    else output.AppendLine($"0{i} " + currentLayer);
                 }
                 else if (room.WallList.Exists(b => b.PosY == i))
                 {
                     blockLayers.TryGetValue(i, out string currentLayer);
-                    output.AppendLine(currentLayer);
+                    if (i >= 10) output.AppendLine($"{i} " + currentLayer);
+                    else output.AppendLine($"0{i} " + currentLayer);
                 }
                 else
                 {
-                    output.AppendLine(sideWalls);
+                    if (i >= 10) output.AppendLine($"{i} " + sideWalls);
+                    else output.AppendLine($"0{i} " + sideWalls);
                 }
             }
 
             string bottomWall = PrintBottomWalls(room);
-            output.AppendLine(bottomWall);
+            output.AppendLine("   " + bottomWall);
 
             return output.ToString();
         }
 
+        private string PrintTopNumbersFirstLine(Room room)
+        {
+            string[] numbers = new string[(room.SizeX + 2)];
+            for (int i = 0; i <= room.SizeX; i++)
+            {
+                if (i <= 9 )
+                {
+                    numbers[i + 1] = "0";
+                    continue;
+                }
+                numbers[i + 1] = GetDigits(i).First().ToString();
+            }
+            numbers[0] = "  X";
+            string topWallFull = String.Join("", numbers);
+            return topWallFull;
+        }
+        private string PrintTopNumbersSecondLine(Room room)
+        {
+            string[] numbers = new string[(room.SizeX + 2)];
+            for (int i = 0; i <= room.SizeX; i++)
+            {
+                if (i >= 10)
+                {
+                    numbers[i + 1] = GetDigits(i)[1].ToString();
+                    continue;
+                }
+                numbers[i + 1] = $"{i}";
+            }
+            numbers[0] = "Y  ";
+            string topWallFull = String.Join("", numbers);
+            return topWallFull;
+        }
+        public int[] GetDigits(int number)
+        {
+            string temp = number.ToString();
+            int[] rtn = new int[temp.Length];
+            for (int i = 0; i < rtn.Length; i++)
+            {
+                rtn[i] = int.Parse(temp[i].ToString());
+            }
+            return rtn;
+        }
         public string PrintTopWalls(Room room)
         {
             string[] topWall = new string[(room.SizeX + 2)];
@@ -172,43 +216,6 @@ namespace MapMaker.Services
             sideWalls[(room.SizeX + 1)] = "\u2588";
             string sideWallsFull = String.Join("", sideWalls);
             return sideWallsFull;
-        }
-
-        public string PrintPlayerPosition(Room room)
-        {
-            string[] player = new string[(room.SizeX + 2)];
-            if (room.ExitList.Exists(e => e.PosY == room.PosY && e.PosX == 1 && e.West == true))
-            {
-                player[0] = "\u2551";
-            }
-            else
-            {
-                player[0] = "\u2588";
-            }
-            player[room.PosX] = "X";
-            for (int i = 1; i <= (room.SizeX + 1); i++)
-            {
-                if (room.BlockList.Exists(b => b.PosX == i && b.PosY == room.PosY))
-                {
-                    player[i] = room.BlockList.Find(b => b.PosX == i && b.PosY == room.PosY).Icon.ToString();
-                    continue;
-                }
-                else if (i == room.PosX)
-                {
-                    continue;
-                }
-                player[i] = " ";
-            }
-            if (room.ExitList.Exists(e => e.PosY == room.PosY && e.PosX == room.SizeX && e.East == true))
-            {
-                player[(room.SizeX + 1)] = "\u2551";
-            }
-            else
-            {
-                player[(room.SizeX + 1)] = "\u2588";
-            }
-            string playerfull = String.Join("", player);
-            return playerfull;
         }
 
         public Dictionary<int, string> PrintBlockPositions(Room room)

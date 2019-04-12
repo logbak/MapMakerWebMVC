@@ -50,6 +50,7 @@ namespace MapMaker.Controllers
         {
             var svc = CreateMapService();
             var model = svc.GetMapByID(id);
+            ViewBag.MapPreview = _mSvc.Value.GetMapByID(model.MapModel.MapID).MapModel.MapPreview;
             return View(model);
         }
 
@@ -78,6 +79,7 @@ namespace MapMaker.Controllers
             var model = _mSvc.Value.GetMapByID(id);
             model.CreateBlockModel.MapID = id;
             model.CreateBlockModel.Type = "Exit";
+            ViewBag.MapPreview = _mSvc.Value.GetMapByID(id).MapModel.MapPreview;
             return View(model);
         }
 
@@ -108,7 +110,7 @@ namespace MapMaker.Controllers
             bool locationValid = true;
             if (!_bvSvc.Value.CheckIfExitLocationIsValid(model))
             {
-                ModelState.AddModelError("", "Exit blocks must be positioned at the edge of the map and face a wall.");
+                ModelState.AddModelError("", "Exit blocks must be positioned at the edge of the map and face a wall that does not already contain an exit.");
                 idValid = false;
             }
             if (!_bvSvc.Value.CheckIfExitIdIsValid(model.ExitToID, model.MapID))
@@ -136,6 +138,8 @@ namespace MapMaker.Controllers
                 PosX = detail.PosX,
                 PosY = detail.PosY
             };
+            ViewBag.Title = detail.Name;
+            ViewBag.MapPreview = _mSvc.Value.GetMapByID(detail.MapID).MapModel.MapPreview;
             return View(model);
         }
 
@@ -200,20 +204,24 @@ namespace MapMaker.Controllers
         }
 
         [HttpGet]
-        public ActionResult ExitEdit (int id, BlockEdit currentModel)
+        public ActionResult ExitEdit (int id)
         {
-            currentModel = (BlockEdit)TempData["model"];
+            var detail = _bSvc.Value.GetBlockByID(id).BlockDetail;
             var model = new BlockEdit
             {
-                ID = currentModel.ID,
-                MapID = currentModel.MapID,
-                Creator = currentModel.Creator,
-                TypeOfBlock = currentModel.TypeOfBlock,
-                Name = currentModel.Name,
-                Description = currentModel.Description,
-                PosX = currentModel.PosX,
-                PosY = currentModel.PosY
+                ID = detail.ID,
+                MapID = detail.MapID,
+                Creator = detail.Creator,
+                TypeOfBlock = detail.TypeOfBlock,
+                Name = detail.Name,
+                Description = detail.Description,
+                PosX = detail.PosX,
+                PosY = detail.PosY,
+                ExitDirection = detail.ExitDirection,
+                ExitToID = detail.ExitToID
             };
+            ViewBag.Title = detail.Name;
+            ViewBag.MapPreview = _mSvc.Value.GetMapByID(detail.MapID).MapModel.MapPreview;
             return View(model);
         }
 
@@ -227,11 +235,10 @@ namespace MapMaker.Controllers
 
             if (_bSvc.Value.UpdateBlock(model))
             {
-                TempData["SaveResult"] = "The block was updated succesfully.";
+                ModelState.AddModelError("", "The block was updated succesfully.");
                 return RedirectToAction("Details", "Map", new { id = model.MapID });
             }
-
-            TempData["SaveResult"] = "Your block could not be updated.";
+            ModelState.AddModelError("", "Your block could not be updated.");
             return View(model);
         }
 
@@ -241,13 +248,13 @@ namespace MapMaker.Controllers
             bool locationValid = true;
             if (!_bvSvc.Value.CheckIfExitLocationIsValid(model))
             {
-                TempData["SaveResult"] = "Exit blocks must face a wall.";
+                ModelState.AddModelError("", "Exit blocks must face a wall that does not already contain an exit.");
                 idValid = false;
             }
             if (!_bvSvc.Value.CheckIfExitIdIsValid(model.ExitToID, model.MapID))
             {
-                TempData["SaveResult"] = "Please enter an ExitToID that matches an existing map other than the current one.\n"
-                    + $"Available Map IDs to exit to: | {_mSvc.Value.GetExitMapIDAvailabilityExcludingCurrentID(model.MapID)}";
+                ModelState.AddModelError("", "Please enter an ExitToID that matches an existing map other than the current one.\n"
+                    + $"Available Map IDs to exit to: | {_mSvc.Value.GetExitMapIDAvailabilityExcludingCurrentID(model.MapID)}");
                 locationValid = false;
             }
             return (idValid && locationValid);
