@@ -15,12 +15,14 @@ namespace MapMaker.Controllers
         private readonly Lazy<BlockService> _bSvc;
         private readonly Lazy<MapService> _mSvc;
         private readonly Lazy<BlockValidationService> _bvSvc;
+        private readonly Lazy<GameEventService> _gmSvc;
 
         public BlockController()
         {
             _bSvc = new Lazy<BlockService>(CreateBlockService);
             _mSvc = new Lazy<MapService>(CreateMapService);
             _bvSvc = new Lazy<BlockValidationService>();
+            _gmSvc = new Lazy<GameEventService>(CreateGameEventService);
         }
 
         private BlockService CreateBlockService()
@@ -34,6 +36,13 @@ namespace MapMaker.Controllers
         {
             var userID = Guid.Parse(User.Identity.GetUserId());
             var service = new MapService(userID);
+            return service;
+        }
+
+        private GameEventService CreateGameEventService()
+        {
+            var userID = Guid.Parse(User.Identity.GetUserId());
+            var service = new GameEventService(userID);
             return service;
         }
 
@@ -270,9 +279,14 @@ namespace MapMaker.Controllers
         // POST: Block/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, BlockDetail detail)
         {
             var model = _bSvc.Value.GetBlockByID(id);
+            if (!_gmSvc.Value.DetachOrDeleteGameEvent(detail.ID, detail.DeleteAttachedEvent))
+            {
+                ModelState.AddModelError("", "Something went wrong.");
+                return View(model);
+            }
             _bSvc.Value.DeleteBlock(id);
             TempData["SaveResult"] = "Block was succesfully deleted.";
             return RedirectToAction("Details", "Map", new { id = model.BlockDetail.MapID } );

@@ -121,7 +121,7 @@ namespace MapMaker.Controllers
         public ActionResult Delete(int id)
         {
             var model = _mSvc.Value.GetMapByID(id);
-            return View(model);
+            return View(model.MapModel);
         }
 
         // POST: Map/Delete/5

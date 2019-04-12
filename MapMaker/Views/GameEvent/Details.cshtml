@@ -64,11 +64,15 @@
         <p>
             @if (Model.Creator == User.Identity.Name)
             {
-                @Html.ActionLink("Edit", "Edit", new { id = Model.BlockID }) @:|
-                @Html.ActionLink("Delete", "Delete", new { id = Model.BlockID }) @:|
+                @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) @:|
+                @Html.ActionLink("Delete", "Delete", new { id = Model.ID }) @:|
             }
-            @Html.ActionLink("Back to Event List", "Index") |
-            @Html.ActionLink("Back to Block Detail", "Details", "Block", new { id = Model.BlockID }, null)
+            @Html.ActionLink("Back to Event List", "Index")
+            @if (Model.BlockID != 0)
+            {
+                @: |
+                @Html.ActionLink("Back to Block Detail", "Details", "Block", new { id = Model.BlockID }, null)
+            }
         </p>
     </div>
 </div>

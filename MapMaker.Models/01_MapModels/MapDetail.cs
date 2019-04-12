@@ -23,5 +23,7 @@ namespace MapMaker.Models
         public string BlockIDs { get; set; }
 
         public string MapPreview { get; set; }
+
+        public bool DeleteBlocks { get; set; }
     }
 }

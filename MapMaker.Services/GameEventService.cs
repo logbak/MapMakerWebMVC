@@ -79,17 +79,19 @@ namespace MapMaker.Services
             }
         }
 
-        public GameEventDetail GetGameEventByID(int blockID)
+        public GameEventDetail GetGameEventByID(int id)
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity = ctx.GameEvents.Single(e => e.BlockID == blockID);
+                var entity = ctx.GameEvents.Single(e => e.ID == id);
                 var userEntity = ctx.Users.FirstOrDefault(e => e.Id == entity.OwnerID.ToString());
+                int mapID = 0;
+                if (ctx.Blocks.Any(b => b.ID == entity.BlockID)) mapID = ctx.Blocks.Single(b => b.ID == entity.BlockID).MapID;
                 var gameEventModel = new GameEventDetail
                 {
                     ID = entity.ID,
                     BlockID = entity.BlockID,
-                    MapID = ctx.Blocks.Single(b => b.ID == entity.BlockID).MapID,
+                    MapID = mapID,
                     Creator = userEntity.Email,
                     TypeOfEvent = entity.TypeOfEvent.ToString(),
                     Name = entity.Name,
@@ -120,6 +122,20 @@ namespace MapMaker.Services
             {
                 var entity = ctx.GameEvents.Single(e => e.ID == id && e.OwnerID == _userID);
                 ctx.GameEvents.Remove(entity);
+
+                return ctx.SaveChanges() == 1;
+            }
+        }
+
+        public bool DetachOrDeleteGameEvent(int blockID, bool delete)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity = ctx.GameEvents.Single(e => e.BlockID == blockID && e.OwnerID == _userID);
+
+                if (!delete) entity.BlockID = 0;
+
+                else ctx.GameEvents.Remove(entity);
 
                 return ctx.SaveChanges() == 1;
             }

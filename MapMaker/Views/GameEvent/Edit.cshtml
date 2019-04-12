@@ -74,7 +74,11 @@
 
 <div>
     @Html.ActionLink("Back to Event List", "Index") |
-    @Html.ActionLink("Back to Block Detail", "Details", "Block", new { id = Model.BlockID }, null)
+    @if (Model.BlockID != 0)
+    {
+        @: |
+        @Html.ActionLink("Back to Block Detail", "Details", "Block", new { id = Model.BlockID }, null)
+    }
 </div>
 
 @section Scripts {

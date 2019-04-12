@@ -38,12 +38,12 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.ActionLink("Details", "Details", new { id = item.BlockID })
+            @Html.ActionLink("Details", "Details", new { id = item.ID })
             @if (item.Creator == User.Identity.Name)
             {
                 @:|
-                @Html.ActionLink("Edit", "Edit", new { id = item.BlockID }) @:|
-                @Html.ActionLink("Delete", "Delete", new { id = item.BlockID })
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) @:|
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
             }
         </td>
     </tr>

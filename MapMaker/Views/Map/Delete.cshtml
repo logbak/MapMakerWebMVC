@@ -4,75 +4,95 @@
     ViewBag.Title = "Delete";
 }
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>MapDetail</h4>
+<br />
+<div class="row">
+    <h3>Are you sure you want to delete this?</h3>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.MapID)
-        </dt>
+    <div class="col-md-6">
+        <h4>MapDetail</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.MapID)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.MapID)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.MapID)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.OwnerName)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.OwnerName)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.OwnerName)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.OwnerName)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.SizeX)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.SizeX)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.SizeX)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.SizeX)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.SizeY)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.SizeY)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.SizeY)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.SizeY)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.BlockIDs)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.BlockIDs)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.BlockIDs)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.BlockIDs)
+            </dd>
 
-    </dl>
+        </dl>
 
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
+        <hr />
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
     <div class="form-actions no-color">
-        <input type="submit" value="Delete" class="btn btn-default" /> |
-        @Html.ActionLink("Back to Archive", "Index") | @Html.ActionLink("Back to My Maps", "MyMaps")
+        <h4 style="text-align:center;">Check here to delete attached blocks: @Html.EditorFor(model => model.DeleteBlocks)</h4>
+        <p>*Note: Blocks that are not deleted will be open for anyone to attach to any map.</p>
+        <br />
+        <div class="form-actions no-color" style="text-align:center;">
+            <input type="submit" value="Delete" class="btn btn-default" />
+        </div>
+        <br />
+        <p>@Html.ActionLink("Back to Archive", "Index") | @Html.ActionLink("Back to My Maps", "MyMaps")</p>
     </div>
-    }
+        }
+    </div>
+
+    <div class="col-md-6">
+        <h3 style="text-align:center;">Preview</h3>
+        <pre id="mapPreview">
+@Html.DisplayFor(model => model.MapPreview)
+            </pre>
+    </div>
+
 </div>

@@ -29,5 +29,7 @@ namespace MapMaker.Models._02_BlockModels
         public string ExitDirection { get; set; }
 
         public int ExitToID { get; set; }
+
+        public bool DeleteAttachedEvent { get; set; }
     }
 }

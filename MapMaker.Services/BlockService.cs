@@ -177,5 +177,28 @@ namespace MapMaker.Services
                 return ctx.SaveChanges() == 1;
             }
         }
+
+        public bool DetachOrDeleteBlocksByMap(int mapID, bool delete)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query = ctx.Blocks.Where(e => e.MapID == mapID && e.OwnerID == _userID).Select(e => new BlockListItem { ID = e.ID });
+                var exitQuery = ctx.ExitBlocks.Where(e => e.MapID == mapID && e.OwnerID == _userID).Select(e => new BlockListItem { ID = e.ID });
+
+                if (!delete)
+                {
+                    //logic for zeroing out block MapIDs
+                    //logic for exits
+                }
+
+                else
+                {
+                    //logic for deleting blocks and exits
+                }
+
+                //return may not need to change?
+                return ctx.SaveChanges() == 1;
+            }
+        }
     }
 }

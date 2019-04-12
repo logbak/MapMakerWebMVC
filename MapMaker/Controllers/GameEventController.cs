@@ -20,13 +20,6 @@ namespace MapMaker.Controllers
             return service;
         }
 
-        private MapService CreateMapService()
-        {
-            var userID = Guid.Parse(User.Identity.GetUserId());
-            var service = new MapService(userID);
-            return service;
-        }
-
         private BlockService CreateBlockService()
         {
             var userID = Guid.Parse(User.Identity.GetUserId());

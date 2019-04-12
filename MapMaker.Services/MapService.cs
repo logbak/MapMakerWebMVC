@@ -112,7 +112,7 @@ namespace MapMaker.Services
                     Description = entity.Description,
                     SizeX = entity.SizeX,
                     SizeY = entity.SizeY,
-                    BlockIDs = entity.BlockIDs,
+                    BlockIDs = BlockIDsByMapID(mapID),
                     MapPreview = preview
                 };
 
@@ -120,6 +120,24 @@ namespace MapMaker.Services
                 {
                     MapModel = mapModel
                 };
+            }
+        }
+
+        private string BlockIDsByMapID(int id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query = ctx.Blocks.Where(e => e.MapID == id && e.TypeOfBlock != BlockType.Exit).Select(e => new BlockListItem
+                { ID = e.ID } );
+
+                List<string> output = new List<string>();
+
+                foreach (BlockListItem block in query)
+                {
+                    output.Add(block.ID.ToString());
+                }
+
+                return String.Join(",", output);
             }
         }
 

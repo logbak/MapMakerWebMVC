@@ -3,89 +3,98 @@
 @{
     ViewBag.Title = "Delete Block";
 }
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.MapID)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.MapID)
-        </dd>
+<hr />
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <h3>Are you sure you want to delete this?</h3>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.MapID)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Creator)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.MapID)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Creator)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Creator)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TypeOfBlock)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Creator)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.TypeOfBlock)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.TypeOfBlock)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.TypeOfBlock)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PosX)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.PosX)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.PosX)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PosY)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PosX)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.PosY)
-        </dd>
-        @if (Model.TypeOfBlock == "Exit")
+            <dt>
+                @Html.DisplayNameFor(model => model.PosY)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PosY)
+            </dd>
+            @if (Model.TypeOfBlock == "Exit")
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.ExitDirection)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ExitDirection)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ExitToID)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ExitToID)
+                </dd>
+            }
+        </dl>
+        <hr />
+        @using (Html.BeginForm())
         {
-            <dt>
-                @Html.DisplayNameFor(model => model.ExitDirection)
-            </dt>
+            @Html.AntiForgeryToken()
 
-            <dd>
-                @Html.DisplayFor(model => model.ExitDirection)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.ExitToID)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.ExitToID)
-            </dd>
+            <h4 style="text-align:center;">Check here to delete attached event: @Html.EditorFor(model => model.DeleteAttachedEvent)</h4>
+            <p>*Note: Events that are not deleted will be open for anyone to attach to any block if their original block is deleted.</p>
+            <div class="form-actions no-color" style="text-align:center;">
+                <input type="submit" value="Delete" class="btn btn-default" /> |
+                @Html.ActionLink("Back to Map", "Details", "Map", new { id = Model.MapID }, null)
+            </div>
         }
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to Map", "Details", "Map", new { id = Model.MapID }, null)
-        </div>
-    }
+    </div>
 </div>
