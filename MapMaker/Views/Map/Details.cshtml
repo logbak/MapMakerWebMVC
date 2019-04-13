@@ -4,84 +4,84 @@
     ViewBag.Title = "Details";
 }
 
-    <br />
-    <hr />
-    <div class="row">
-        <div class="col-md-6">
-            <h2>Map Details</h2>
-            <hr />
-            <br />
-            <dl class="dl-horizontal">
-                <dt>
-                    @Html.DisplayNameFor(model => model.MapDetail.MapID)
-                </dt>
+<br />
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <h2>Map Details</h2>
+        <hr />
+        <br />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.MapDetail.MapID)
+            </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.MapDetail.MapID)
-                </dd>
+            <dd>
+                @Html.DisplayFor(model => model.MapDetail.MapID)
+            </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.MapDetail.OwnerName)
-                </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.MapDetail.OwnerName)
+            </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.MapDetail.OwnerName)
-                </dd>
+            <dd>
+                @Html.DisplayFor(model => model.MapDetail.OwnerName)
+            </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.MapDetail.Name)
-                </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.MapDetail.Name)
+            </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.MapDetail.Name)
-                </dd>
+            <dd>
+                @Html.DisplayFor(model => model.MapDetail.Name)
+            </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.MapDetail.Description)
-                </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.MapDetail.Description)
+            </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.MapDetail.Description)
-                </dd>
+            <dd>
+                @Html.DisplayFor(model => model.MapDetail.Description)
+            </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.MapDetail.SizeX)
-                </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.MapDetail.SizeX)
+            </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.MapDetail.SizeX)
-                </dd>
+            <dd>
+                @Html.DisplayFor(model => model.MapDetail.SizeX)
+            </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.MapDetail.SizeY)
-                </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.MapDetail.SizeY)
+            </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.MapDetail.SizeY)
-                </dd>
+            <dd>
+                @Html.DisplayFor(model => model.MapDetail.SizeY)
+            </dd>
 
-            </dl>
+        </dl>
 
-            <br />
-            <br />
-            <p>
-                @if (User.Identity.Name == Model.MapDetail.OwnerName)
-                {
-                    @Html.ActionLink("Edit", "Edit", new { id = Model.MapDetail.MapID }) @:|
-                }
-                @Html.ActionLink("Back to Archive", "Index") | @Html.ActionLink("Back to My Maps", "MyMaps")
-            </p>
-        </div>
+        <br />
+        <br />
+        <p>
+            @if (User.Identity.Name == Model.MapDetail.OwnerName)
+            {
+                @Html.ActionLink("Edit", "Edit", new { id = Model.MapDetail.MapID }) @:|
+            }
+            @Html.ActionLink("Back to Archive", "Index") | @Html.ActionLink("Back to My Maps", "MyMaps")
+        </p>
+    </div>
 
 
 
-        <div class="col-md-6">
-            <h3 style="text-align:center;">Preview</h3>
-                <pre id="mapPreview">
+    <div class="col-md-6">
+        <h3 style="text-align:center;">Preview</h3>
+        <pre id="mapPreview">
 @Html.DisplayFor(model => model.MapDetail.MapPreview)
             </pre>
-        </div>
     </div>
+</div>
 
 <hr />
 <br />
@@ -103,96 +103,98 @@ else
 {
     <h3>Blocks</h3>
 }
-    
+
 @if (Model.BlockLists.Any(b => b.MapID == Model.MapDetail.MapID))
 {
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.BlockLists.First().ID)
-            </th>
-
-            <th>
-                Type
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model.BlockLists.First().Name)
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model.BlockLists.First().Description)
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model.BlockLists.First().PosX)
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model.BlockLists.First().PosY)
-            </th>
-
-            <th>
-                Has Event?
-            </th>
-
-            <th></th>
-        </tr>
-        @foreach (var item in Model.BlockLists)
-        {
-            if (item.Type == "Exit")
-            {
-                continue;
-            }
+    <div class="table-responsive">
+        <table class="table">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ID)
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.BlockLists.First().ID)
+                </th>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
+                <th>
+                    Type
+                </th>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.BlockLists.First().Name)
+                </th>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.BlockLists.First().Description)
+                </th>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.PosX)
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.BlockLists.First().PosX)
+                </th>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.PosY)
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.BlockLists.First().PosY)
+                </th>
 
-                <td>
-                    @(item.HasEvent ? "Yes" : "No")
-                </td>
-                <td>
-                    @if (User.Identity.Name == Model.MapDetail.OwnerName)
-                    {
-                        if (!item.HasEvent && item.Type != "Wall")
-                        {
-                            @Html.ActionLink("Add Event", "Create", "GameEvent", new { id = item.ID }, null) @:|
-                        }
-                        @Html.ActionLink("Details", "Details", "Block", new { id = item.ID }, null) @:|
-                        @Html.ActionLink("Edit", "Edit", "Block", new { id = item.ID }, null) @:|
-                        @Html.ActionLink("Delete", "Delete", "Block", new { id = item.ID }, null)
-                    }
-                    @if (User.Identity.Name != Model.MapDetail.OwnerName)
-                    {
-                        @Html.ActionLink("Details", "Details", "Block", new { id = item.ID }, null)
-                    }
+                <th>
+                    Has Event?
+                </th>
 
-                </td>
+                <th></th>
             </tr>
-        }
+            @foreach (var item in Model.BlockLists)
+            {
+                if (item.Type == "Exit")
+                {
+                    continue;
+                }
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
 
-    </table>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PosX)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PosY)
+                    </td>
+
+                    <td>
+                        @(item.HasEvent ? "Yes" : "No")
+                    </td>
+                    <td>
+                        @if (User.Identity.Name == Model.MapDetail.OwnerName)
+                        {
+                            if (!item.HasEvent && item.Type != "Wall")
+                            {
+                                @Html.ActionLink("Add Event", "Create", "GameEvent", new { id = item.ID }, null) @:|
+                            }
+                            @Html.ActionLink("Details", "Details", "Block", new { id = item.ID }, null) @:|
+                            @Html.ActionLink("Edit", "Edit", "Block", new { id = item.ID }, null) @:|
+                            @Html.ActionLink("Delete", "Delete", "Block", new { id = item.ID }, null)
+                        }
+                        @if (User.Identity.Name != Model.MapDetail.OwnerName)
+                        {
+                            @Html.ActionLink("Details", "Details", "Block", new { id = item.ID }, null)
+                        }
+
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
 }
 
 @if (User.Identity.Name == Model.MapDetail.OwnerName)
@@ -206,97 +208,99 @@ else
 
 @if (Model.BlockLists.Any(b => b.MapID == Model.MapDetail.MapID))
 {
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.BlockLists.First().ID)
-            </th>
+    <div class="table-responsive">
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.BlockLists.First().ID)
+                </th>
 
-            <th>
-                Type
-            </th>
+                <th>
+                    Type
+                </th>
 
-            <th>
-                @Html.DisplayNameFor(model => model.BlockLists.First().Name)
-            </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BlockLists.First().Name)
+                </th>
 
-            <th>
-                @Html.DisplayNameFor(model => model.BlockLists.First().Description)
-            </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BlockLists.First().Description)
+                </th>
 
-            <th>
-                @Html.DisplayNameFor(model => model.BlockLists.First().PosX)
-            </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BlockLists.First().PosX)
+                </th>
 
-            <th>
-                @Html.DisplayNameFor(model => model.BlockLists.First().PosY)
-            </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BlockLists.First().PosY)
+                </th>
 
-            <th>
-                @Html.DisplayNameFor(model => model.BlockLists.First().ExitDirection)
-            </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BlockLists.First().ExitDirection)
+                </th>
 
-            <th>
-                @Html.DisplayNameFor(model => model.BlockLists.First().ExitToID)
-            </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BlockLists.First().ExitToID)
+                </th>
 
-            <th></th>
-        </tr>
-        @foreach (var item in Model.BlockLists)
-        {
-            if (item.Type != "Exit")
+                <th></th>
+            </tr>
+            @foreach (var item in Model.BlockLists)
             {
-                continue;
+                if (item.Type != "Exit")
+                {
+                    continue;
+                }
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PosX)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PosY)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExitDirection)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExitToID)
+                    </td>
+
+                    <td>
+                        @if (User.Identity.Name == Model.MapDetail.OwnerName)
+                        {
+                            @Html.ActionLink("Details", "Details", "Block", new { id = item.ID }, null) @:|
+                            @Html.ActionLink("Edit", "ExitEdit", "Block", new { id = item.ID }, null) @:|
+                            @Html.ActionLink("Delete", "Delete", "Block", new { id = item.ID }, null)
+                        }
+                        @if (User.Identity.Name != Model.MapDetail.OwnerName)
+                        {
+                            @Html.ActionLink("Details", "Details", "Block", new { id = item.ID }, null)
+                        }
+
+                    </td>
+                </tr>
             }
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ID)
-            </td>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.PosX)
-            </td>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.PosY)
-            </td>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.ExitDirection)
-            </td>
-
-            <td>
-                @Html.DisplayFor(modelItem => item.ExitToID)
-            </td>
-
-            <td>
-                @if (User.Identity.Name == Model.MapDetail.OwnerName)
-                {
-                    @Html.ActionLink("Details", "Details", "Block", new { id = item.ID }, null) @:|
-                    @Html.ActionLink("Edit", "ExitEdit", "Block", new { id = item.ID }, null) @:|
-                    @Html.ActionLink("Delete", "Delete", "Block", new { id = item.ID }, null)
-                }
-                @if (User.Identity.Name != Model.MapDetail.OwnerName)
-                {
-                    @Html.ActionLink("Details", "Details", "Block", new { id = item.ID }, null)
-                }
-
-            </td>
-        </tr>
+        </table>
+        </div>
         }
-
-    </table>
-}
 
