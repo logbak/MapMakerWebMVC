@@ -6,6 +6,9 @@
     text-shadow: 0 0 20px, 0 0 40px, 0 0 80px, 0 0 100px;
     text-align: center;
 }
+    #logo pre {
+        overflow: visible;
+    }
 
 #asciiLarge {
     line-height: 1.1em;
