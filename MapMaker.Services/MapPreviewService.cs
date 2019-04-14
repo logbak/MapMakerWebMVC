@@ -87,11 +87,13 @@ namespace MapMaker.Services
         {
             StringBuilder output = new StringBuilder();
 
-            string topWall = "00 " + PrintTopWalls(room);
+            string topWall = "000 " + PrintTopWalls(room);
             string topNumbers = PrintTopNumbersFirstLine(room);
             string topNumbersTwo = PrintTopNumbersSecondLine(room);
+            string topNumbersThree = PrintTopNumbersThirdLine(room);
             output.AppendLine(topNumbers);
             output.AppendLine(topNumbersTwo);
+            output.AppendLine(topNumbersThree);
             output.AppendLine(topWall);
 
             string sideWalls = PrintSideWalls(room);
@@ -100,33 +102,23 @@ namespace MapMaker.Services
 
             for (int i = 1; i <= room.SizeY; i++)
             {
-                if (room.ExitList.Exists(b => b.PosY == i))
+                if (room.ExitList.Exists(b => b.PosY == i) || room.BlockList.Exists(b => b.PosY == i) || room.WallList.Exists(b => b.PosY == i))
                 {
                     blockLayers.TryGetValue(i, out string currentLayer);
-                    if (i >= 10) output.AppendLine($"{i} " + currentLayer);
-                    else output.AppendLine($"0{i} " + currentLayer);
-                }
-                else if (room.BlockList.Exists(b => b.PosY == i))
-                {
-                    blockLayers.TryGetValue(i, out string currentLayer);
-                    if (i >= 10) output.AppendLine($"{i} " + currentLayer);
-                    else output.AppendLine($"0{i} " + currentLayer);
-                }
-                else if (room.WallList.Exists(b => b.PosY == i))
-                {
-                    blockLayers.TryGetValue(i, out string currentLayer);
-                    if (i >= 10) output.AppendLine($"{i} " + currentLayer);
-                    else output.AppendLine($"0{i} " + currentLayer);
+                    if (i >= 10 && i <= 99) output.AppendLine($"0{i} " + currentLayer);
+                    else if (i >= 100 && i <= 999) output.AppendLine($"{i} " + currentLayer);
+                    else output.AppendLine($"00{i} " + currentLayer);
                 }
                 else
                 {
-                    if (i >= 10) output.AppendLine($"{i} " + sideWalls);
-                    else output.AppendLine($"0{i} " + sideWalls);
+                    if (i >= 10 && i <= 99) output.AppendLine($"0{i} " + sideWalls);
+                    else if (i >= 100 && i <= 999) output.AppendLine($"{i} " + sideWalls);
+                    else output.AppendLine($"00{i} " + sideWalls);
                 }
             }
 
             string bottomWall = PrintBottomWalls(room);
-            output.AppendLine("   " + bottomWall);
+            output.AppendLine("    " + bottomWall);
 
             return output.ToString();
         }
@@ -136,34 +128,61 @@ namespace MapMaker.Services
             string[] numbers = new string[(room.SizeX + 2)];
             for (int i = 0; i <= room.SizeX; i++)
             {
-                if (i <= 9 )
+                if (i <= 99)
                 {
                     numbers[i + 1] = "0";
                     continue;
                 }
                 numbers[i + 1] = GetDigits(i).First().ToString();
             }
-            numbers[0] = "  X";
+            numbers[0] = "   X";
             string topWallFull = String.Join("", numbers);
             return topWallFull;
         }
+
         private string PrintTopNumbersSecondLine(Room room)
         {
             string[] numbers = new string[(room.SizeX + 2)];
             for (int i = 0; i <= room.SizeX; i++)
             {
-                if (i >= 10)
+                if (i <= 9)
+                {
+                    numbers[i + 1] = "0";
+                    continue;
+                }
+                else if (i >= 10 && i <= 99)
+                {
+                    numbers[i + 1] = GetDigits(i).First().ToString();
+                    continue;
+                }
+                numbers[i + 1] = GetDigits(i)[1].ToString();
+            }
+            numbers[0] = "    ";
+            string topWallFull = String.Join("", numbers);
+            return topWallFull;
+        }
+        private string PrintTopNumbersThirdLine(Room room)
+        {
+            string[] numbers = new string[(room.SizeX + 2)];
+            for (int i = 0; i <= room.SizeX; i++)
+            {
+                if (i >= 10 && i <= 99)
                 {
                     numbers[i + 1] = GetDigits(i)[1].ToString();
                     continue;
                 }
+                else if (i >= 100)
+                {
+                    numbers[i + 1] = GetDigits(i)[2].ToString();
+                    continue;
+                }
                 numbers[i + 1] = $"{i}";
             }
-            numbers[0] = "Y  ";
+            numbers[0] = "Y   ";
             string topWallFull = String.Join("", numbers);
             return topWallFull;
         }
-        public int[] GetDigits(int number)
+        private int[] GetDigits(int number)
         {
             string temp = number.ToString();
             int[] rtn = new int[temp.Length];
@@ -173,7 +192,7 @@ namespace MapMaker.Services
             }
             return rtn;
         }
-        public string PrintTopWalls(Room room)
+        private string PrintTopWalls(Room room)
         {
             string[] topWall = new string[(room.SizeX + 2)];
             for (int i = 0; i <= (room.SizeX + 1); i++)
@@ -189,7 +208,7 @@ namespace MapMaker.Services
             return topWallFull;
         }
 
-        public string PrintBottomWalls(Room room)
+        private string PrintBottomWalls(Room room)
         {
             string[] bottomWall = new string[(room.SizeX + 2)];
             for (int i = 0; i <= (room.SizeX + 1); i++)
@@ -205,7 +224,7 @@ namespace MapMaker.Services
             return bottomWallFull;
         }
 
-        public string PrintSideWalls(Room room)
+        private string PrintSideWalls(Room room)
         {
             string[] sideWalls = new string[(room.SizeX + 2)];
             sideWalls[0] = "\u2588";
@@ -218,7 +237,7 @@ namespace MapMaker.Services
             return sideWallsFull;
         }
 
-        public Dictionary<int, string> PrintBlockPositions(Room room)
+        private Dictionary<int, string> PrintBlockPositions(Room room)
         {
             Dictionary<int, string> blockLayer = new Dictionary<int, string>();
             string currentBlockLayer = "";
@@ -243,7 +262,7 @@ namespace MapMaker.Services
             return blockLayer;
         }
 
-        public string PrintSingleBlockRow(Room room, int currentY)
+        private string PrintSingleBlockRow(Room room, int currentY)
         {
             string[] block = new string[(room.SizeX + 2)];
             if (room.ExitList.Exists(e => e.PosY == currentY && e.PosX == 1 && e.West == true))
