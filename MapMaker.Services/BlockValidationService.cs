@@ -14,7 +14,7 @@ namespace MapMaker.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                if (ctx.Blocks.Any(b => b.PosX == model.PosX && b.PosY == model.PosY))
+                if (ctx.Blocks.Any(b => b.PosX == model.PosX && b.PosY == model.PosY && b.TypeOfBlock != BlockType.Exit))
                 {
                     return false;
                 }
@@ -26,7 +26,7 @@ namespace MapMaker.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                if (ctx.Blocks.Any(b => b.PosX == model.PosX && b.PosY == model.PosY && b.ID != model.ID))
+                if (ctx.Blocks.Any(b => b.PosX == model.PosX && b.PosY == model.PosY && b.ID != model.ID && b.TypeOfBlock != BlockType.Exit))
                 {
                     return false;
                 }

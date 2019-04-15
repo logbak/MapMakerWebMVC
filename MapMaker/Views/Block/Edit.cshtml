@@ -38,7 +38,7 @@
                                 Value = "Wall"
                             });
                         }
-                        @Html.DropDownListFor(model => model.TypeOfBlock, listItems, "-- Select Status --", new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.DropDownListFor(model => model.TypeOfBlock, listItems, "-- Select Status --", htmlAttributes : new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.TypeOfBlock, "", new { @class = "text-danger" })
 
                     </div>

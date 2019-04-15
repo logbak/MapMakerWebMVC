@@ -83,7 +83,7 @@
                                 Value = "West"
                             });
                         }
-                        @Html.DropDownListFor(model => model.CreateBlockModel.ExitDirection, directionList, "-- Select Status --", new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                        @Html.DropDownListFor(model => model.CreateBlockModel.ExitDirection, directionList, "-- Select Status --", htmlAttributes : new { @class = "form-control", required = "required" })
                         @Html.ValidationMessageFor(model => model.CreateBlockModel.ExitDirection, "", new { @class = "text-danger" })
 
                     </div>

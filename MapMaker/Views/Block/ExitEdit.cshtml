@@ -81,7 +81,7 @@
                                     Value = "West"
                                 });
                             }
-                            @Html.DropDownListFor(model => model.ExitDirection, listItems, "-- Select Status --", new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.DropDownListFor(model => model.ExitDirection, listItems, "-- Select Status --", htmlAttributes : new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.ExitDirection, "", new { @class = "text-danger" })
                         </div>
                     </div>

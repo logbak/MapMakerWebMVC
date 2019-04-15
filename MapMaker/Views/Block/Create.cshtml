@@ -42,7 +42,7 @@
                                 Value = "Wall"
                             });
                         }
-                        @Html.DropDownListFor(model => model.CreateBlockModel.Type, listItems, "-- Select Status --", new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.DropDownListFor(model => model.CreateBlockModel.Type, listItems, "-- Select Status --", htmlAttributes : new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.CreateBlockModel.Type, "", new { @class = "text-danger" })
 
                     </div>
@@ -67,7 +67,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.CreateBlockModel.PosX, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.CreateBlockModel.PosX, new { htmlAttributes = new { @class = "form-control", @min = 1, @max = Model.MapModel.SizeX } })
+                        @Html.EditorFor(model => model.CreateBlockModel.PosX, new { htmlAttributes = new { @class = "form-control", @min = 2, @max = Model.MapModel.SizeX } })
                         @Html.ValidationMessageFor(model => model.CreateBlockModel.PosX, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -75,7 +75,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.CreateBlockModel.PosY, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.CreateBlockModel.PosY, new { htmlAttributes = new { @class = "form-control", @min = 1, @max = Model.MapModel.SizeY } })
+                        @Html.EditorFor(model => model.CreateBlockModel.PosY, new { htmlAttributes = new { @class = "form-control", @min = 2, @max = Model.MapModel.SizeY } })
                         @Html.ValidationMessageFor(model => model.CreateBlockModel.PosY, "", new { @class = "text-danger" })
                     </div>
                 </div>

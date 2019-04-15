@@ -74,7 +74,7 @@ namespace MapMaker.Controllers
             if (_mSvc.Value.CreateMap(model))
             {
                 TempData["SaveResult"] = "Map succesfully created!";
-                return RedirectToAction("Index");
+                return RedirectToAction("MyMaps");
             }
 
             return View(model);
