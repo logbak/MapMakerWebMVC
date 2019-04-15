@@ -15,79 +15,81 @@
         {
             @Html.AntiForgeryToken()
 
-            <div class="form-horizontal">
-                <h3>BlockCreate</h3>
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
+        <div class="form-horizontal">
+            <h3>BlockCreate</h3>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
 
-                    @Html.LabelFor(model => model.CreateBlockModel.Type, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @{
-                            List<SelectListItem> listItems = new List<SelectListItem>();
-                            listItems.Add(new SelectListItem
-                            {
-                                Text = "Object",
-                                Value = "Object",
-                                Selected = true
-                            });
-                            listItems.Add(new SelectListItem
-                            {
-                                Text = "NPC",
-                                Value = "NPC",
-                            });
-                            listItems.Add(new SelectListItem
-                            {
-                                Text = "Wall",
-                                Value = "Wall"
-                            });
-                        }
-                        @Html.DropDownListFor(model => model.CreateBlockModel.Type, listItems, "-- Select Status --", htmlAttributes : new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.CreateBlockModel.Type, "", new { @class = "text-danger" })
+                @Html.LabelFor(model => model.CreateBlockModel.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @{
+                        List<SelectListItem> listItems = new List<SelectListItem>();
+                        listItems.Add(new SelectListItem
+                        {
+                            Text = "Object",
+                            Value = "Object",
+                            Selected = true
+                        });
+                        listItems.Add(new SelectListItem
+                        {
+                            Text = "NPC",
+                            Value = "NPC",
+                        });
+                        listItems.Add(new SelectListItem
+                        {
+                            Text = "Wall",
+                            Value = "Wall"
+                        });
+                    }
+                    @Html.DropDownListFor(model => model.CreateBlockModel.Type, listItems, "-- Select Status --", htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CreateBlockModel.Type, "", new { @class = "text-danger" })
 
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.CreateBlockModel.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.CreateBlockModel.Name, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.CreateBlockModel.Name, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.CreateBlockModel.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.CreateBlockModel.Description, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.CreateBlockModel.Description, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.CreateBlockModel.PosX, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.CreateBlockModel.PosX, new { htmlAttributes = new { @class = "form-control", @min = 2, @max = Model.MapModel.SizeX } })
-                        @Html.ValidationMessageFor(model => model.CreateBlockModel.PosX, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.CreateBlockModel.PosY, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.CreateBlockModel.PosY, new { htmlAttributes = new { @class = "form-control", @min = 2, @max = Model.MapModel.SizeY } })
-                        @Html.ValidationMessageFor(model => model.CreateBlockModel.PosY, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                @Html.HiddenFor(model => model.MapModel.MapID)
-
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Create" class="btn btn-default" />
-                    </div>
                 </div>
             </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CreateBlockModel.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CreateBlockModel.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CreateBlockModel.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CreateBlockModel.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CreateBlockModel.Description, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CreateBlockModel.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CreateBlockModel.PosX, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CreateBlockModel.PosX, new { htmlAttributes = new { @class = "form-control", @min = 1, @max = Model.MapModel.SizeX } })
+                    @Html.ValidationMessageFor(model => model.CreateBlockModel.PosX, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CreateBlockModel.PosY, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CreateBlockModel.PosY, new { htmlAttributes = new { @class = "form-control", @min = 1, @max = Model.MapModel.SizeY } })
+                    @Html.ValidationMessageFor(model => model.CreateBlockModel.PosY, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @Html.HiddenFor(model => model.MapModel.MapID)
+            @Html.HiddenFor(model => model.MapModel.SizeX)
+            @Html.HiddenFor(model => model.MapModel.SizeY)
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
         }
 
         <div>
@@ -99,7 +101,71 @@
         <hr />
         <pre id="mapPreview">@ViewBag.MapPreview</pre>
     </div>
+</div>
 
+<hr />
+<div class="row">
+    <h3>Free Blocks</h3>
+    <div class="table-responsive">
+        <table class="table">
+
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.BlockLists.First().ID)
+                </th>
+
+                <th>
+                    Type
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.BlockLists.First().Name)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.BlockLists.First().Description)
+                </th>
+
+                <th>
+                    Has Event?
+                </th>
+
+                <th></th>
+            </tr>
+            @foreach (var item in Model.BlockLists)
+            {
+                if (item.Type == "Exit")
+                {
+                    continue;
+                }
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+
+                    <td>
+                        @(item.HasEvent ? "Yes" : "No")
+                    </td>
+                    <td>
+                        @Html.ActionLink("Add this block", "Add", "Block", new { blockID = item.ID, mapID = Model.MapModel.MapID }, null)
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

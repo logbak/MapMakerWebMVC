@@ -1,4 +1,5 @@
 ﻿using MapMaker.Models;
+using MapMaker.Models._02_BlockModels;
 using MapMaker.Services;
 using Microsoft.AspNet.Identity;
 using System;
@@ -128,8 +129,9 @@ namespace MapMaker.Controllers
         [HttpPost]
         [ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, MapDetail model)
         {
+            _bSvc.Value.DetachOrDeleteBlocksByMap(id, model.DeleteBlocks);
             _mSvc.Value.DeleteMap(id);
             TempData["SaveResult"] = "Map was succesfully deleted.";
             return RedirectToAction("MyMaps");

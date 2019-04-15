@@ -79,11 +79,13 @@ namespace MapMaker.Services
             }
         }
 
-        public GameEventDetail GetGameEventByID(int id)
+        public GameEventDetail GetGameEventByID(int id, bool isBlockID)
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity = ctx.GameEvents.Single(e => e.ID == id);
+                var entity = new GameEvent();
+                if (isBlockID) entity = ctx.GameEvents.Single(e => e.BlockID == id);
+                else entity = ctx.GameEvents.Single(e => e.ID == id);
                 var userEntity = ctx.Users.FirstOrDefault(e => e.Id == entity.OwnerID.ToString());
                 int mapID = 0;
                 if (ctx.Blocks.Any(b => b.ID == entity.BlockID)) mapID = ctx.Blocks.Single(b => b.ID == entity.BlockID).MapID;
@@ -99,6 +101,22 @@ namespace MapMaker.Services
                 };
 
                 return gameEventModel;
+            }
+        }
+
+        public bool AddGameEventToBlock(BlockEventViewModel model)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity = ctx.GameEvents.Single(e => e.ID == model.CreateEvent.ID);
+
+                entity.BlockID = model.DetailOfBlock.ID;
+                entity.OwnerID = _userID;
+                entity.TypeOfEvent = GetEventTypeFromString(model.CreateEvent.Type);
+                entity.Name = model.CreateEvent.Name;
+                entity.Description = model.CreateEvent.Description;
+
+                return ctx.SaveChanges() == 1;
             }
         }
 

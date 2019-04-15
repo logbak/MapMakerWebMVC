@@ -14,7 +14,19 @@ namespace MapMaker.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                if (ctx.Blocks.Any(b => b.PosX == model.PosX && b.PosY == model.PosY && b.TypeOfBlock != BlockType.Exit))
+                if (ctx.Blocks.Any(b => b.PosX == model.PosX && b.PosY == model.PosY && b.MapID == model.MapID))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public bool CheckIfBlockPlacementIsValidAdd(CreateBlockViewModel model)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                if (ctx.Blocks.Any(b => b.PosX == model.CreateBlockModel.PosX && b.PosY == model.CreateBlockModel.PosY && model.CreateBlockModel.MapID == model.MapModel.MapID))
                 {
                     return false;
                 }
@@ -26,7 +38,7 @@ namespace MapMaker.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                if (ctx.Blocks.Any(b => b.PosX == model.PosX && b.PosY == model.PosY && b.ID != model.ID && b.TypeOfBlock != BlockType.Exit))
+                if (ctx.Blocks.Any(b => b.PosX == model.PosX && b.PosY == model.PosY && b.ID != model.ID))
                 {
                     return false;
                 }

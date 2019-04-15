@@ -9,6 +9,7 @@ namespace MapMaker.Models._03_GameEventModels
 {
     public class GameEventCreate
     {
+        public int ID { get; set; }
         public int BlockID { get; set; }
 
         [Required]

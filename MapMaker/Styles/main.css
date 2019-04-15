@@ -68,7 +68,6 @@ a {
     color: #72bb53 !important;
     text-decoration: underline !important;
 }
-
     a:hover {
         color: #94f36d;
     }
@@ -140,6 +139,10 @@ input[type=button], input[type=submit], input[type=reset] {
         border-color: #72bb53 !important;
     }
 
+#addLabel p {
+    font-weight: 700;
+}
+}
 /*select {
     margin: 0;
     -webkit-box-sizing: border-box;

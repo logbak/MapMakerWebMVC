@@ -39,7 +39,7 @@ namespace MapMaker.Controllers
         public ActionResult Details(int id)
         {
             var svc = CreateGameEventService();
-            var model = svc.GetGameEventByID(id);
+            var model = svc.GetGameEventByID(id, false);
             return View(model);
         }
 
@@ -47,8 +47,10 @@ namespace MapMaker.Controllers
         public ActionResult Create(int id)
         {
             var svc = CreateBlockService();
+            var gesvc = CreateGameEventService();
             var blockDetail = svc.GetBlockByID(id).BlockDetail;
             var model = new BlockEventViewModel { DetailOfBlock = blockDetail };
+            model.GameEvents = gesvc.GetGameEvents();
             return View(model);
         }
 
@@ -68,11 +70,45 @@ namespace MapMaker.Controllers
             return View(model);
         }
 
+        public ActionResult Add(int eventID, int blockID)
+        {
+            var svc = CreateBlockService();
+            var gesvc = CreateGameEventService();
+            var blockDetail = svc.GetBlockByID(blockID).BlockDetail;
+            var eventDetail = gesvc.GetGameEventByID(eventID, false);
+            var model = new BlockEventViewModel { DetailOfBlock = blockDetail };
+            model.CreateEvent = new GameEventCreate
+            {
+                ID = eventDetail.ID,
+                Type = eventDetail.TypeOfEvent,
+                Name = eventDetail.Name,
+                Description = eventDetail.Description
+            }; 
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Add(BlockEventViewModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            var service = CreateGameEventService();
+
+            if (service.AddGameEventToBlock(model))
+            {
+                TempData["SaveResult"] = "The event was added succesfully.";
+                return RedirectToAction("Details", "Block", new { id = model.DetailOfBlock.ID });
+            }
+
+            ModelState.AddModelError("", "Your event could not be updated.");
+            return View(model);
+        }
         // GET: GameEvent/Edit/5
         public ActionResult Edit(int id)
         {
             var service = CreateGameEventService();
-            var detail = service.GetGameEventByID(id);
+            var detail = service.GetGameEventByID(id, false);
             var model = new GameEventEdit
             {
                 ID = detail.ID,
@@ -85,6 +121,7 @@ namespace MapMaker.Controllers
             };
             return View(model);
         }
+
 
         // POST: GameEvent/Edit/5
         [HttpPost]
@@ -115,7 +152,7 @@ namespace MapMaker.Controllers
         public ActionResult Delete(int id)
         {
             var service = CreateGameEventService();
-            var model = service.GetGameEventByID(id);
+            var model = service.GetGameEventByID(id, false);
             return View(model);
         }
 
@@ -125,7 +162,7 @@ namespace MapMaker.Controllers
         public ActionResult Delete(int id, FormCollection collection)
         {
             var service = CreateGameEventService();
-            var model = service.GetGameEventByID(id);
+            var model = service.GetGameEventByID(id, false);
             service.DeleteGameEvent(id);
             TempData["SaveResult"] = "Event was succesfully deleted.";
             return RedirectToAction("Details", "Block", new { id = model.BlockID });

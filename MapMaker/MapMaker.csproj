@@ -270,6 +270,8 @@
     <Content Include="Views\GameEvent\Create.cshtml" />
     <Content Include="Views\GameEvent\Edit.cshtml" />
     <Content Include="Views\GameEvent\Delete.cshtml" />
+    <Content Include="Views\Block\Add.cshtml" />
+    <Content Include="Views\GameEvent\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

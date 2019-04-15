@@ -9,6 +9,7 @@ namespace MapMaker.Models._02_BlockModels
 {
     public class BlockCreate
     {
+        public int ID { get; set; }
         public int MapID { get; set; }
 
         [Required]

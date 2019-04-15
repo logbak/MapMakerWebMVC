@@ -60,6 +60,7 @@ namespace MapMaker.Controllers
             var svc = CreateMapService();
             var model = svc.GetMapByID(id);
             ViewBag.MapPreview = _mSvc.Value.GetMapByID(model.MapModel.MapID).MapModel.MapPreview;
+            model.BlockLists = _bSvc.Value.GetFreeBlocks();
             return View(model);
         }
 
@@ -72,6 +73,7 @@ namespace MapMaker.Controllers
             if (!_bvSvc.Value.CheckIfBlockPlacementIsValidCreate(model.CreateBlockModel))
             {
                 ModelState.AddModelError("", "There is already a block in that position.");
+                ViewBag.MapPreview = _mSvc.Value.GetMapByID(model.MapModel.MapID).MapModel.MapPreview;
                 return View(model);
             }
             if (_bSvc.Value.CreateBlock(model))
@@ -130,6 +132,51 @@ namespace MapMaker.Controllers
                 locationValid = false;
             }
             return (idValid && locationValid);
+        }
+
+        public ActionResult Add(int blockID, int mapID)
+        {
+            var model = _mSvc.Value.GetMapByID(mapID);
+            var detail = _bSvc.Value.GetBlockByID(blockID);
+            model.CreateBlockModel = new BlockCreate
+            {
+                ID = detail.BlockDetail.ID,
+                Type = detail.BlockDetail.TypeOfBlock,
+                Name = detail.BlockDetail.Name,
+                Description = detail.BlockDetail.Description,
+                PosX = detail.BlockDetail.PosX,
+                PosY = detail.BlockDetail.PosY
+            };
+            //var mapIdList = _bSvc.Value.GetMapIdList(mapID);
+            //ViewBag.MapIdList = mapIdList;
+            ViewBag.MapPreview = _mSvc.Value.GetMapByID(mapID).MapModel.MapPreview;
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Add(CreateBlockViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Something went wrong | Error: ModelState is not valid.");
+                ViewBag.MapPreview = _mSvc.Value.GetMapByID(model.MapModel.MapID).MapModel.MapPreview;
+                return View(model);
+            }
+            else if (!_bvSvc.Value.CheckIfBlockPlacementIsValidAdd(model))
+            {
+                ModelState.AddModelError("", "There is already a block in that position.");
+                ViewBag.MapPreview = _mSvc.Value.GetMapByID(model.MapModel.MapID).MapModel.MapPreview;
+                return View(model);
+            }
+
+            if (_bSvc.Value.AddBlockToMap(model))
+            {
+                TempData["SaveResult"] = "Block succesfully added!";
+                return RedirectToAction("Details", "Map", new { id = model.MapModel.MapID });
+            }
+
+            return View(model);
         }
 
         // GET: Block/Edit/5

@@ -112,7 +112,7 @@ namespace MapMaker.Services
         private GameEventDetail GetGameEvent(int id)
         {
             var svc = new GameEventService(_userID);
-            var detail = svc.GetGameEventByID(id);
+            var detail = svc.GetGameEventByID(id, true);
             return detail;
         }
 
@@ -151,6 +151,57 @@ namespace MapMaker.Services
             }
         }
 
+        public IEnumerable<BlockListItem> GetFreeBlocks()
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query = ctx.Blocks.Where(e => e.MapID == 0 && e.TypeOfBlock != BlockType.Exit).Select(e => new BlockListItem
+                {
+                    ID = e.ID,
+                    MapID = e.MapID,
+                    Type = e.TypeOfBlock.ToString(),
+                    Name = e.Name,
+                    Description = e.Description,
+                    PosX = e.PosX,
+                    PosY = e.PosY,
+                    HasEvent = ctx.GameEvents.Where(g => g.BlockID == e.ID).Any()
+                }
+                );
+                return query.ToArray();
+            }
+        }
+        public List<int> GetMapIdList(int id)
+        {
+            List<int> mapIdList = new List<int>();
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query = ctx.Maps.Where(m => m.ID != id).ToArray();
+                foreach (Map map in query)
+                {
+                    mapIdList.Add(map.ID);
+                }
+                return mapIdList;
+            }
+        }
+
+        public bool AddBlockToMap(CreateBlockViewModel model)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity = ctx.Blocks.Single(e => e.ID == model.CreateBlockModel.ID);
+
+                entity.MapID = model.MapModel.MapID;
+                entity.OwnerID = _userID;
+                entity.TypeOfBlock = GetBlockTypeFromString(model.CreateBlockModel.Type);
+                entity.Name = model.CreateBlockModel.Name;
+                entity.Description = model.CreateBlockModel.Description;
+                entity.PosX = model.CreateBlockModel.PosX;
+                entity.PosY = model.CreateBlockModel.PosY;
+
+                return ctx.SaveChanges() == 1;
+            }
+        }
+
         public bool UpdateBlock(BlockEdit model)
         {
             using (var ctx = new ApplicationDbContext())
@@ -178,26 +229,38 @@ namespace MapMaker.Services
             }
         }
 
-        public bool DetachOrDeleteBlocksByMap(int mapID, bool delete)
+        public void DetachOrDeleteBlocksByMap(int mapID, bool delete)
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var query = ctx.Blocks.Where(e => e.MapID == mapID && e.OwnerID == _userID).Select(e => new BlockListItem { ID = e.ID });
-                var exitQuery = ctx.ExitBlocks.Where(e => e.MapID == mapID && e.OwnerID == _userID).Select(e => new BlockListItem { ID = e.ID });
+                var query = ctx.Blocks.Where(e => e.MapID == mapID && e.OwnerID == _userID).Select(e => new BlockListItem { ID = e.ID }).ToList();
+                var exitQuery = ctx.ExitBlocks.Where(e => e.MapID == mapID && e.OwnerID == _userID).Select(e => new BlockListItem { ID = e.ID }).ToList();
 
                 if (!delete)
                 {
-                    //logic for zeroing out block MapIDs
-                    //logic for exits
+                    foreach (BlockListItem block in query)
+                    {
+                        ctx.Blocks.Single(b => b.ID == block.ID).MapID = 0;
+                    }
+                    foreach (BlockListItem exit in exitQuery)
+                    {
+                        ctx.ExitBlocks.Remove(ctx.ExitBlocks.Single(e => e.ID == exit.ID));
+                    }
                 }
 
                 else
                 {
-                    //logic for deleting blocks and exits
+                    foreach (BlockListItem block in query)
+                    {
+                        ctx.Blocks.Remove(ctx.Blocks.Single(e => e.ID == block.ID));
+                    }
+                    foreach (BlockListItem exit in exitQuery)
+                    {
+                        ctx.ExitBlocks.Remove(ctx.ExitBlocks.Single(e => e.ID == exit.ID));
+                    }
                 }
 
-                //return may not need to change?
-                return ctx.SaveChanges() == 1;
+                ctx.SaveChanges();
             }
         }
     }

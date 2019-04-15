@@ -12,6 +12,7 @@ namespace MapMaker.Models
     {
         public GameEventCreate CreateEvent { get; set; }
         public BlockDetail DetailOfBlock { get; set; }
+        public IEnumerable<GameEventListItem> GameEvents { get; set; }
 
         public BlockEventViewModel()
         {

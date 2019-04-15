@@ -43,7 +43,7 @@
                         Value = "Other"
                     });
                 }
-                @Html.DropDownListFor(model => model.TypeOfEvent, listItems, "-- Select Status --", new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.TypeOfEvent, listItems, "-- Select Status --", htmlAttributes : new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.TypeOfEvent, "", new { @class = "text-danger" })
             </div>
         </div>
