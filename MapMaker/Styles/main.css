@@ -1,4 +1,9 @@
-﻿#logo {
+﻿@font-face {
+    font-family: '712 serif' format('truetype');
+    src: url('/fonts/712_serif.ttf');
+}
+
+#logo {
     background-color: #232323;
     border-color: #72bb53 !important;
     border: 1px solid #ccc;
@@ -12,7 +17,7 @@
 
 #asciiLarge {
     line-height: 1.1em;
-    font-family: 'Courier New', monospace;
+    font-family: '712 serif', monospace;
     font-size: 21px;
     background-color: #232323;
     color: #72bb53;
@@ -21,7 +26,7 @@
 
 #asciiMedium {
     line-height: 1.1em;
-    font-family: 'Courier New', monospace;
+    font-family: '712 serif', monospace;
     font-size: 12px;
     background-color: #232323;
     color: #72bb53;
@@ -54,7 +59,7 @@
 
 #mapPreview {
     line-height: 1.1em;
-    font-family: Courier New, Courier, monospace;
+    font-family: monospace;
     background-color: #232323;
     color: #72bb53;
     max-height: 400px !important;
@@ -68,6 +73,7 @@ a {
     color: #72bb53 !important;
     text-decoration: underline !important;
 }
+
     a:hover {
         color: #94f36d;
     }
