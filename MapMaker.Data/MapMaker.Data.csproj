@@ -54,7 +54,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationDbContextInitializer.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="ExitBlock.cs" />
     <Compile Include="GameEvent.cs" />
@@ -64,6 +63,10 @@
     <Compile Include="Migrations\201904031425096_InitialCreate.cs" />
     <Compile Include="Migrations\201904031425096_InitialCreate.Designer.cs">
       <DependentUpon>201904031425096_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904171445534_userUpdate.cs" />
+    <Compile Include="Migrations\201904171445534_userUpdate.Designer.cs">
+      <DependentUpon>201904171445534_userUpdate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -96,6 +99,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201904031425096_InitialCreate.resx">
       <DependentUpon>201904031425096_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904171445534_userUpdate.resx">
+      <DependentUpon>201904171445534_userUpdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

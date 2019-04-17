@@ -43,7 +43,7 @@ namespace MapMaker.Services
                 var query = ctx.Maps.Select(e => new MapListItem
                 {
                     ID = e.ID,
-                    Creator = ctx.Users.FirstOrDefault(u => u.Id == e.OwnerID.ToString()).Email,
+                    Creator = ctx.Users.FirstOrDefault(u => u.Id == e.OwnerID.ToString()).UserName,
                     Name = e.Name,
                     Description = e.Description,
                     SizeX = e.SizeX,
@@ -78,7 +78,7 @@ namespace MapMaker.Services
                 var query = ctx.Maps.Where(e => e.OwnerID == _userID).Select( e => new MapListItem
                     {
                         ID = e.ID,
-                        Creator = ctx.Users.FirstOrDefault(u => u.Id == e.OwnerID.ToString()).Email,
+                        Creator = ctx.Users.FirstOrDefault(u => u.Id == e.OwnerID.ToString()).UserName,
                         Name = e.Name,
                         Description = e.Description,
                         SizeX = e.SizeX,
@@ -99,7 +99,7 @@ namespace MapMaker.Services
                 var userEntity = ctx.Users.FirstOrDefault(e => e.Id == entity.OwnerID.ToString());
 
                 string preview =
-                    previewService.PrintCurrentRoom
+                    previewService.PrintCurrentRoomForCanvas
                     (
                         previewService.GenerateInputRoomFromMap(entity)
                     );
@@ -107,7 +107,7 @@ namespace MapMaker.Services
                 var mapModel = new MapDetail
                 {
                     MapID = entity.ID,
-                    OwnerName = userEntity.Email,
+                    OwnerName = userEntity.UserName,
                     Name = entity.Name,
                     Description = entity.Description,
                     SizeX = entity.SizeX,

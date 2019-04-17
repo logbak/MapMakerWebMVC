@@ -67,8 +67,8 @@
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
             @Html.ActionLink("Back to Event List", "Index") |
-            @Html.ActionLink("Back to Event Detail", "Detail", new { id = Model.ID }) |
-            @Html.ActionLink("Back to Block Detail", "Detail", "Block", new { id = Model.BlockID}, null)
+            @Html.ActionLink("Back to Event Detail", "Details", new { id = Model.ID }) |
+            @Html.ActionLink("Back to Block Detail", "Details", "Block", new { id = Model.BlockID}, null)
         </div>
     }
 </div>

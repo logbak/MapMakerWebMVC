@@ -17,7 +17,7 @@
 
 #asciiLarge {
     line-height: 1.1em;
-    font-family: '712 serif', monospace;
+    font-family: monospace;
     font-size: 21px;
     background-color: #232323;
     color: #72bb53;
@@ -26,7 +26,7 @@
 
 #asciiMedium {
     line-height: 1.1em;
-    font-family: '712 serif', monospace;
+    font-family: monospace;
     font-size: 12px;
     background-color: #232323;
     color: #72bb53;
@@ -57,12 +57,28 @@
     line-height: 1.2em;
 }
 
+#preview {
+    /*position: relative;
+    height: 300px;*/
+    overflow: auto;
+    max-height: 400px !important;
+}
+
 #mapPreview {
     line-height: 1.1em;
     font-family: monospace;
     background-color: #232323;
     color: #72bb53;
     max-height: 400px !important;
+    font-family: monospace;
+}
+
+#explore {
+    /*width: 100%;*/
+    /*overflow: auto;*/
+}
+canvas.mapPreview {
+    background-color: #000
 }
 
 hr {
@@ -148,7 +164,7 @@ input[type=button], input[type=submit], input[type=reset] {
 #addLabel p {
     font-weight: 700;
 }
-}
+
 /*select {
     margin: 0;
     -webkit-box-sizing: border-box;

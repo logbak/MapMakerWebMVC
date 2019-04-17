@@ -83,7 +83,7 @@ namespace MapMaker.Services
                 {
                     ID = entity.ID,
                     MapID = entity.MapID,
-                    Creator = userEntity.Email,
+                    Creator = userEntity.UserName,
                     TypeOfBlock = entity.TypeOfBlock.ToString(),
                     Name = entity.Name,
                     Description = entity.Description,

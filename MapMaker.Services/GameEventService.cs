@@ -51,7 +51,7 @@ namespace MapMaker.Services
                 {
                     ID = e.ID,
                     BlockID = e.BlockID,
-                    Creator = ctx.Users.FirstOrDefault(u => u.Id == e.OwnerID.ToString()).Email,
+                    Creator = ctx.Users.FirstOrDefault(u => u.Id == e.OwnerID.ToString()).UserName,
                     TypeOfEvent = e.TypeOfEvent.ToString(),
                     Name = e.Name,
                     Description = e.Description
@@ -69,7 +69,7 @@ namespace MapMaker.Services
                 {
                     ID = e.ID,
                     BlockID = e.BlockID,
-                    Creator = ctx.Users.FirstOrDefault(u => u.Id == e.OwnerID.ToString()).Email,
+                    Creator = ctx.Users.FirstOrDefault(u => u.Id == e.OwnerID.ToString()).UserName,
                     TypeOfEvent = e.TypeOfEvent.ToString(),
                     Name = e.Name,
                     Description = e.Description
@@ -94,7 +94,7 @@ namespace MapMaker.Services
                     ID = entity.ID,
                     BlockID = entity.BlockID,
                     MapID = mapID,
-                    Creator = userEntity.Email,
+                    Creator = userEntity.UserName,
                     TypeOfEvent = entity.TypeOfEvent.ToString(),
                     Name = entity.Name,
                     Description = entity.Description

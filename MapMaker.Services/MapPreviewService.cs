@@ -82,6 +82,45 @@ namespace MapMaker.Services
             if (blck.TypeOfBlock == BlockType.Wall) output.Icon = '\u2588';
             return output;
         }
+        public string PrintCurrentRoomForCanvas(Room room)
+        {
+            StringBuilder output = new StringBuilder();
+
+            string topWall = "000 " + PrintTopWalls(room);
+            string topNumbers = PrintTopNumbersFirstLine(room);
+            string topNumbersTwo = PrintTopNumbersSecondLine(room);
+            string topNumbersThree = PrintTopNumbersThirdLine(room);
+            output.Append(topNumbers + "\n");
+            output.Append(topNumbersTwo + "\n");
+            output.Append(topNumbersThree + "\n");
+            output.Append(topWall + "\n");
+
+            string sideWalls = PrintSideWalls(room);
+
+            Dictionary<int, string> blockLayers = PrintBlockPositions(room);
+
+            for (int i = 1; i <= room.SizeY; i++)
+            {
+                if (room.ExitList.Exists(b => b.PosY == i) || room.BlockList.Exists(b => b.PosY == i) || room.WallList.Exists(b => b.PosY == i))
+                {
+                    blockLayers.TryGetValue(i, out string currentLayer);
+                    if (i >= 10 && i <= 99) output.AppendLine($"0{i} " + currentLayer);
+                    else if (i >= 100 && i <= 999) output.AppendLine($"{i} " + currentLayer);
+                    else output.Append($"00{i} " + currentLayer + "\n");
+                }
+                else
+                {
+                    if (i >= 10 && i <= 99) output.AppendLine($"0{i} " + sideWalls);
+                    else if (i >= 100 && i <= 999) output.AppendLine($"{i} " + sideWalls);
+                    else output.Append($"00{i} " + sideWalls + "\n");
+                }
+            }
+
+            string bottomWall = PrintBottomWalls(room);
+            output.Append("    " + bottomWall + "\n");
+
+            return output.ToString();
+        }
 
         public string PrintCurrentRoom(Room room)
         {
