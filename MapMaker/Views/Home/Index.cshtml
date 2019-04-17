@@ -31,11 +31,25 @@
 ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
         
         </p></pre>
+            <img id="androidLogo" style="display:none;" src="~/Content/codegoblinslogo-android.png" />
         </div>
     </div>
-</div>      
+</div>
 
-    @if (!User.Identity.IsAuthenticated)
-    {
-        <p style="text-align:center;">@Html.ActionLink("Click here to continue.", "Register", "Account")</p>
-    }
+@if (!User.Identity.IsAuthenticated)
+{
+    <p style="text-align:center;">@Html.ActionLink("Click here to continue.", "Register", "Account")</p>
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        var ascii = document.querySelector('#asciiLarge');
+        var logo = document.querySelector('#logo');
+        var img = document.querySelector('#androidLogo');
+        if (/Android|BlackBerry/i.test(navigator.userAgent)) {
+            ascii.style.display = 'none';
+            logo.style.border = 'none';
+            img.style.display = 'unset';
+        }
+    </script>
+}

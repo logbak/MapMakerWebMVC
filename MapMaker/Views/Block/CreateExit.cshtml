@@ -84,7 +84,7 @@
                                 Value = "West"
                             });
                         }
-                        @Html.DropDownListFor(model => model.CreateBlockModel.ExitDirection, directionList, "-- Select Status --", htmlAttributes : new { @class = "form-control", required = "required" })
+                        @Html.DropDownListFor(model => model.CreateBlockModel.ExitDirection, directionList, "-- Select Status --", htmlAttributes: new { @class = "form-control", required = "required" })
                         @Html.ValidationMessageFor(model => model.CreateBlockModel.ExitDirection, "", new { @class = "text-danger" })
 
                     </div>
@@ -113,9 +113,17 @@
     <div class="col-md-6">
         <h3>Preview</h3>
         <hr />
-        <pre id="mapPreview">@ViewBag.MapPreview</pre>
+        <div id="preview">
+            <canvas class="mapPreview" id="canvasMap" height="1500" width="1500"></canvas>
+        </div>
     </div>
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var preview = @Html.Raw(Json.Encode(ViewBag.MapPreview));
+            mapPreview(preview);
+        });
+    </script>
 }

@@ -79,36 +79,10 @@
         <h3 style="text-align:center;">Preview</h3>
         <hr />
         <div id="preview">
-            <canvas class="mapPreview" id="explore" height="1500" width="1500"></canvas>
+            <canvas class="mapPreview" id="canvasMap" height="1500" width="1500"></canvas>
         </div>
-        @*<pre id="mapPreview">
-@Html.DisplayFor(model => model.MapDetail.MapPreview)
-            </pre>*@
     </div>
 </div>
-
-<script type="text/javascript">
-    var canvas = document.getElementById("explore");
-//fitToContainer(canvas);
-
-//function fitToContainer(canvas){
-//  // Make it visually fill the positioned parent
-//  canvas.style.width ='100%';
-//  canvas.style.height='100%';
-//  // ...then set the internal size to match
-//  canvas.width  = canvas.offsetWidth;
-//  canvas.height = canvas.offsetHeight;
-//}
-var ctx = canvas.getContext("2d");
-var model = @Html.Raw(Json.Encode(Model));
-    var preview = @Html.Raw(Json.Encode(Model.MapDetail.MapPreview));
-    var lineheight = 18;
-    var lines = preview.split('\n');
-ctx.font = "18px monospace";
-ctx.fillStyle = "#72bb53";
-    for (var i = 0; i<lines.length; i++)
-    ctx.fillText(lines[i], 10, 15 + (i*lineheight) );
-</script>
 
 <hr />
 <br />
@@ -331,3 +305,12 @@ else
     </div>
 }
 
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+        var model = @Html.Raw(Json.Encode(Model));
+        var preview = @Html.Raw(Json.Encode(Model.MapDetail.MapPreview));
+            mapPreview(preview);
+        });
+    </script>
+}

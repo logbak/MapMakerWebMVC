@@ -15,6 +15,9 @@
         overflow: visible;
     }
 
+#androidLogo {
+    max-width: 100%;
+}
 #asciiLarge {
     line-height: 1.1em;
     font-family: monospace;
@@ -58,8 +61,6 @@
 }
 
 #preview {
-    /*position: relative;
-    height: 300px;*/
     overflow: auto;
     max-height: 400px !important;
 }
@@ -73,10 +74,6 @@
     font-family: monospace;
 }
 
-#explore {
-    /*width: 100%;*/
-    /*overflow: auto;*/
-}
 canvas.mapPreview {
     background-color: #000
 }

@@ -15,81 +15,81 @@
         {
             @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
-            <h3>BlockCreate</h3>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
+            <div class="form-horizontal">
+                <h3>BlockCreate</h3>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
 
-                @Html.LabelFor(model => model.CreateBlockModel.Type, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @{
-                        List<SelectListItem> listItems = new List<SelectListItem>();
-                        listItems.Add(new SelectListItem
-                        {
-                            Text = "Object",
-                            Value = "Object",
-                            Selected = true
-                        });
-                        listItems.Add(new SelectListItem
-                        {
-                            Text = "NPC",
-                            Value = "NPC",
-                        });
-                        listItems.Add(new SelectListItem
-                        {
-                            Text = "Wall",
-                            Value = "Wall"
-                        });
-                    }
-                    @Html.DropDownListFor(model => model.CreateBlockModel.Type, listItems, "-- Select Status --", htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.CreateBlockModel.Type, "", new { @class = "text-danger" })
+                    @Html.LabelFor(model => model.CreateBlockModel.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @{
+                            List<SelectListItem> listItems = new List<SelectListItem>();
+                            listItems.Add(new SelectListItem
+                            {
+                                Text = "Object",
+                                Value = "Object",
+                                Selected = true
+                            });
+                            listItems.Add(new SelectListItem
+                            {
+                                Text = "NPC",
+                                Value = "NPC",
+                            });
+                            listItems.Add(new SelectListItem
+                            {
+                                Text = "Wall",
+                                Value = "Wall"
+                            });
+                        }
+                        @Html.DropDownListFor(model => model.CreateBlockModel.Type, listItems, "-- Select Status --", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.CreateBlockModel.Type, "", new { @class = "text-danger" })
 
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CreateBlockModel.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CreateBlockModel.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CreateBlockModel.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CreateBlockModel.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CreateBlockModel.Description, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CreateBlockModel.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CreateBlockModel.PosX, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CreateBlockModel.PosX, new { htmlAttributes = new { @class = "form-control", @min = 1, @max = Model.MapModel.SizeX } })
+                        @Html.ValidationMessageFor(model => model.CreateBlockModel.PosX, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CreateBlockModel.PosY, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CreateBlockModel.PosY, new { htmlAttributes = new { @class = "form-control", @min = 1, @max = Model.MapModel.SizeY } })
+                        @Html.ValidationMessageFor(model => model.CreateBlockModel.PosY, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @Html.HiddenFor(model => model.MapModel.MapID)
+                @Html.HiddenFor(model => model.MapModel.SizeX)
+                @Html.HiddenFor(model => model.MapModel.SizeY)
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
                 </div>
             </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.CreateBlockModel.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.CreateBlockModel.Name, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.CreateBlockModel.Name, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.CreateBlockModel.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.CreateBlockModel.Description, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.CreateBlockModel.Description, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.CreateBlockModel.PosX, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.CreateBlockModel.PosX, new { htmlAttributes = new { @class = "form-control", @min = 1, @max = Model.MapModel.SizeX } })
-                    @Html.ValidationMessageFor(model => model.CreateBlockModel.PosX, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.CreateBlockModel.PosY, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.CreateBlockModel.PosY, new { htmlAttributes = new { @class = "form-control", @min = 1, @max = Model.MapModel.SizeY } })
-                    @Html.ValidationMessageFor(model => model.CreateBlockModel.PosY, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            @Html.HiddenFor(model => model.MapModel.MapID)
-            @Html.HiddenFor(model => model.MapModel.SizeX)
-            @Html.HiddenFor(model => model.MapModel.SizeY)
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
-                </div>
-            </div>
-        </div>
         }
 
         <div>
@@ -99,7 +99,9 @@
     <div class="col-md-6">
         <h3>Preview</h3>
         <hr />
-        <pre id="mapPreview">@ViewBag.MapPreview</pre>
+        <div id="preview">
+            <canvas class="mapPreview" id="canvasMap" height="1500" width="1500"></canvas>
+        </div>
     </div>
 </div>
 
@@ -169,4 +171,10 @@
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var preview = @Html.Raw(Json.Encode(ViewBag.MapPreview));
+            mapPreview(preview);
+        });
+    </script>
 }

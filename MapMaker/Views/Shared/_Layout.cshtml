@@ -38,7 +38,7 @@
     </div>
     <div class="container body-content">
         @RenderBody()
-        <hr style="border-color:#72bb53;"/>
+        <hr style="border-color:#72bb53;" />
         <footer style="font-family: 'Inconsolata', Courier, monospace; background-color: #232323; color: #72bb53;">
             <p>&copy; @DateTime.Now.Year - Code Goblins - Logan Baker</p>
         </footer>
@@ -47,5 +47,6 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script src="~/Scripts/map.preview.js"></script>
 </body>
 </html>
