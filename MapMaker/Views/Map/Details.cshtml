@@ -308,8 +308,8 @@ else
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-        var model = @Html.Raw(Json.Encode(Model));
-        var preview = @Html.Raw(Json.Encode(Model.MapDetail.MapPreview));
+            var model = @Html.Raw(Json.Encode(Model));
+            var preview = @Html.Raw(Json.Encode(Model.MapDetail.MapPreview));
             mapPreview(preview);
         });
     </script>

@@ -1,0 +1,82 @@
+﻿@model MapMaker.Models._05_ExploreModels.Exploration
+
+@{
+    ViewBag.Title = "Exploration";
+}
+<br />
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1" id="logo">
+            <pre id="asciiLarge">
+
+███████╗██╗  ██╗██████╗ ██╗      ██████╗ ██████╗ ███████╗
+██╔════╝╚██╗██╔╝██╔══██╗██║     ██╔═══██╗██╔══██╗██╔════╝
+█████╗   ╚███╔╝ ██████╔╝██║     ██║   ██║██████╔╝█████╗  
+██╔══╝   ██╔██╗ ██╔═══╝ ██║     ██║   ██║██╔══██╗██╔══╝  
+███████╗██╔╝ ██╗██║     ███████╗╚██████╔╝██║  ██║███████╗
+╚══════╝╚═╝  ╚═╝╚═╝     ╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝</pre>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-10-offset-1">
+        <hr />
+        <div id="preview">
+            <canvas class="mapExplore" id="canvasMap" width="1500" height="1500"></canvas>
+        </div>
+        <hr />
+    </div>
+</div>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form">
+        <div class="row">
+            <div class="col-md-3">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <p>Select a map:</p>
+                    @Html.DropDownListFor(model => model.MapID, new SelectList(Model.AvailableMaps), "Select Map ID", htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MapID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <p>Choose a character icon:</p>
+                    @Html.DropDownListFor(model => model.PlayerIcon, new SelectList(Model.IconOptions), "Player Icon", htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PlayerIcon, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="col-md-4">
+                <p>
+                    <br />
+                    Use W/A/S/D to move around.<br />Press v on to view your surroundings.
+                </p>
+            </div>
+            <div class="col-md-2">
+                <br />
+                <input type="submit" value="Load Map" class="btn btn-default" />
+            </div>
+        </div>
+        <br />
+    </div>
+}
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            @*var model = @Html.Raw(Json.Encode(Model));*@
+            var preview = @Html.Raw(Json.Encode(Model.MapPreview));
+            var icon = @Html.Raw(Json.Encode(Model.PlayerIcon));
+            var posX = @Html.Raw(Json.Encode(Model.PosX));
+            var posY = @Html.Raw(Json.Encode(Model.PosY));
+            var sizeX = @Html.Raw(Json.Encode(Model.SizeX));
+            var sizeY = @Html.Raw(Json.Encode(Model.SizeY));
+            var blocks = @Html.Raw(Json.Encode(Model.OccupiedAreas));
+            getModelDetails(preview, icon, posX, posY, sizeX, sizeY, blocks);
+            mapExploreView();
+            document.addEventListener("keydown", movement);
+        });
+    </script>
+}

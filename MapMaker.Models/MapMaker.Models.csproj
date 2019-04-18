@@ -72,6 +72,7 @@
     <Compile Include="04_MapPreviewModels\Exit.cs" />
     <Compile Include="04_MapPreviewModels\Room.cs" />
     <Compile Include="04_MapPreviewModels\WallBlock.cs" />
+    <Compile Include="05_ExploreModels\Exploration.cs" />
     <Compile Include="BlockEventViewModel.cs" />
     <Compile Include="MapBlockViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

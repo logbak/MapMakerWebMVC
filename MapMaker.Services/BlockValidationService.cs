@@ -10,23 +10,11 @@ namespace MapMaker.Services
 {
     public class BlockValidationService
     {
-        public bool CheckIfBlockPlacementIsValidCreate(BlockCreate model)
+        public bool CheckIfBlockPlacementIsValid(int mapID, int posX, int posY)
         {
             using (var ctx = new ApplicationDbContext())
             {
-                if (ctx.Blocks.Any(b => b.PosX == model.PosX && b.PosY == model.PosY && b.MapID == model.MapID))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        public bool CheckIfBlockPlacementIsValidAdd(CreateBlockViewModel model)
-        {
-            using (var ctx = new ApplicationDbContext())
-            {
-                if (ctx.Blocks.Any(b => b.PosX == model.CreateBlockModel.PosX && b.PosY == model.CreateBlockModel.PosY && model.CreateBlockModel.MapID == model.MapModel.MapID))
+                if (ctx.Blocks.Any(b => b.PosX == posX && b.PosY == posY && b.MapID == mapID))
                 {
                     return false;
                 }

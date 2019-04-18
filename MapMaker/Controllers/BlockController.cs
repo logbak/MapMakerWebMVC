@@ -70,7 +70,7 @@ namespace MapMaker.Controllers
         public ActionResult Create(CreateBlockViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
-            if (!_bvSvc.Value.CheckIfBlockPlacementIsValidCreate(model.CreateBlockModel))
+            if (!_bvSvc.Value.CheckIfBlockPlacementIsValid(model.CreateBlockModel.MapID, model.CreateBlockModel.PosX, model.CreateBlockModel.PosY))
             {
                 ModelState.AddModelError("", "There is already a block in that position.");
                 ViewBag.MapPreview = _mSvc.Value.GetMapByID(model.MapModel.MapID).MapModel.MapPreview;
@@ -163,7 +163,7 @@ namespace MapMaker.Controllers
                 ViewBag.MapPreview = _mSvc.Value.GetMapByID(model.MapModel.MapID).MapModel.MapPreview;
                 return View(model);
             }
-            else if (!_bvSvc.Value.CheckIfBlockPlacementIsValidAdd(model))
+            else if (!_bvSvc.Value.CheckIfBlockPlacementIsValid(model.CreateBlockModel.MapID, model.CreateBlockModel.PosX, model.CreateBlockModel.PosY))
             {
                 ModelState.AddModelError("", "There is already a block in that position.");
                 ViewBag.MapPreview = _mSvc.Value.GetMapByID(model.MapModel.MapID).MapModel.MapPreview;

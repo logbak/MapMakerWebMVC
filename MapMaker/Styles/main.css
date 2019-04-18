@@ -78,6 +78,10 @@ canvas.mapPreview {
     background-color: #000
 }
 
+canvas.mapExplore {
+    background-color: #000
+}
+
 hr {
     border-top-color: #72bb53 !important;
 }
