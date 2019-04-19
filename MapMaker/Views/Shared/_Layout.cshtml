@@ -13,15 +13,15 @@
 </head>
 <body style="font-family: 'Inconsolata', Courier, monospace; background-color: #232323; color: #72bb53;">
     <div class="navbar navbar-inverse navbar-fixed-top" style="background-color: #424242; color: #aaaaaa;">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("MapMaker", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("MapMaker", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        </div>
+        <div class="container" id="nav-container">
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @if (User.Identity.IsAuthenticated)
@@ -30,6 +30,7 @@
                         <li>@Html.ActionLink("View Maps", "Index", "Map")</li>
                         <li>@Html.ActionLink("My Maps", "MyMaps", "Map")</li>
                         <li>@Html.ActionLink("Events", "Index", "GameEvent")</li>
+                        <li>@Html.ActionLink("Explore", "Index", "Explore")</li>
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")

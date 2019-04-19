@@ -36,6 +36,18 @@ namespace MapMaker.Services
                 
         }
 
+        public int[] GetMapSize(int id)
+        {
+            var svc = new MapPreviewService();
+            using (var ctx = new ApplicationDbContext())
+            {
+                var map = ctx.Maps.Single(e => e.ID == id);
+                int[] output = { map.SizeX, map.SizeY };
+                return output;
+            }
+
+        }
+
         public List<int> GetPlayerInitialPosition(int mapID)
         {
             using (var ctx = new ApplicationDbContext())
@@ -43,7 +55,7 @@ namespace MapMaker.Services
                 var x = 1;
                 var y = 1;
                 var mapModel = ctx.Maps.Single(m => m.ID == mapID);
-                while (ctx.Blocks.Any(b => b.PosX == x && b.PosY == y && b.MapID == mapID))
+                while (ctx.Blocks.Any(b => b.PosX == x && b.PosY == y && b.MapID == mapID && b.TypeOfBlock != BlockType.Exit))
                 {
                     if (x < mapModel.SizeX)
                     {

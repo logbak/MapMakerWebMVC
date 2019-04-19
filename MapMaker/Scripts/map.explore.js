@@ -3,19 +3,21 @@ var ctx = canvas.getContext("2d");
 var preview = "";
 var posX = 1;
 var posY = 1;
-var sizeX = 99;
-var sixeY =99;
+var sizeX = 1;
+var sizeY = 1;
 var icon = "";
 var lineheight = 18;
 var blocks;
+
+var test = document.getElementById("test-zone");
 
 function getModelDetails(previewString, playerIcon, initialPosX, initialPosY, mSizeX, mSizeY, occupiedBlocks) {
     preview = previewString;
     icon = playerIcon;
     posX = initialPosX;
     posY = initialPosY;
-    sixeX = mSizeX;
-    sixeY = mSizeY;
+    sizeX = mSizeX;
+    sizeY = mSizeY;
     blocks = occupiedBlocks;
 }
 
@@ -27,59 +29,57 @@ function movement(event) {
     const D_KEY = 68;
     if (keyPressed === W_KEY) {
         posY--;
-        if (checkForBlocks()) {
+        if (checkForWalls()) {
             posY++;
         }       
         clearCanvas();
         mapExploreView(preview);
+        test.textContent = (posX + "," + posY);
     }
     if (keyPressed === A_KEY) {
         posX--;
-        if (checkForBlocks()) {
+        if (checkForWalls()) {
             posX++;
         }     
         clearCanvas();
         mapExploreView(preview);
+        test.textContent = (posX + "," + posY);
     }
     if (keyPressed === D_KEY) {
         posX++;
-        if (checkForBlocks()) {
+        if (checkForWalls()) {
             posX--;
         }     
         clearCanvas();
         mapExploreView(preview);
+        test.textContent = (posX + "," + posY);
     }
     if (keyPressed === S_KEY) {
         posY++;
-        if (checkForBlocks()) {
+        if (checkForWalls()) {
             posY--;
         }     
         clearCanvas();
         mapExploreView(preview);
+        test.textContent = (posX + "," + posY);
     }
+}
+
+function checkForWalls() {
+    if (posX < 1 || posX > sizeX || posY < 1 || posY > sizeY) return true;
+    else return checkForBlocks();
 }
 
 function checkForBlocks() {
 
-    if (posX < 1) {
-        return true;
-    }
-    //else if (posX > sizeX) {
-    //    return true;
-    //}
-    else if (posY < 1) {
-        return true;
-    }
-    //if (posY > sixeY) {
-    //    return true;
-    //}
-    blocks.forEach(function (element) {
-        var block = element.split(",");
-        if (block[0] === posX && block[1] === posY) {
-            return true;
-        }
-        return false;
-    });
+    // converts positions x and y to an array
+    var posArray = [posX.toString(), posY.toString()];
+    // turns that array into a string "x,y"
+    var currentPos = posArray.join(",");
+    // checks if an element is equaly to position "x,y"
+    var blockAtPos = function (element) { return element == currentPos; };
+    // checks each string in the blocks array against the position "x,y" and returns true if any of them match
+    return blocks.some(blockAtPos);
 }
 
 function clearCanvas() {

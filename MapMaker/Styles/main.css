@@ -36,6 +36,26 @@
     border: none;
 }
 
+.navbar-brand {
+    background: url(../Content/mapmaker-logo-sm.png) no-repeat left;
+    background-size: contain;
+    display: block;
+    width: 250px;
+    height: 40px;
+    margin-left: auto !important;
+    margin-right: auto;
+    text-indent: -9999px; /* hides the link text */
+}
+
+.navbar-right {
+    margin-right: unset !important;
+}
+
+#nav-container{
+    margin-left: auto !important;
+    margin-right: 1px !important;
+}
+
 @media screen and (max-width: 1024px) {
     #asciiLarge {
         font-size: 14px;

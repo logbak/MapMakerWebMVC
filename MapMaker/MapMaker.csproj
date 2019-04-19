@@ -194,6 +194,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\codegoblinslogo-android.png" />
+    <Content Include="Content\mapmaker-logo-sm.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -281,7 +282,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Exploration\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
