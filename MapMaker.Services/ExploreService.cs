@@ -91,5 +91,28 @@ namespace MapMaker.Services
             }
         }
 
+        public List<string> GetExitsInfo(int mapID)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query = ctx.ExitBlocks.Where(e => e.MapID == mapID && e.TypeOfBlock == BlockType.Exit).Select(e => new BlockListItem
+                {
+                    PosX = e.PosX,
+                    PosY = e.PosY,
+                    ExitDirection = e.ExitDirection.ToString(),
+                    ExitToID = e.ExitToID
+                });
+
+                var output = new List<string>();
+                char direction = ' ';
+                foreach (BlockListItem b in query)
+                {
+                    direction = b.ExitDirection.First();
+                    output.Add(b.PosX + "," + b.PosY + "," + direction + "," + b.ExitToID);
+                }
+                return output;
+            }
+        }
+
     }
 }

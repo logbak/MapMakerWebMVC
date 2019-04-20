@@ -26,10 +26,11 @@
         <div id="preview">
             <canvas class="mapExplore" id="canvasMap" width="1500" height="1500"></canvas>
         </div>
+        <p style="text-align:left;" id="map-info"></p><p style="text-align:left;" id="other-info"></p>
         <hr />
     </div>
 </div>
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { name = "frm", id = "exit" }))
 {
     @Html.AntiForgeryToken()
     <div class="form">
@@ -62,8 +63,6 @@
         </div>
         <br />
     </div>
-    <h3>Test Zone:</h3>
-    <p id="test-zone"></p><p id="test2"></p>
     <pre id="asciiMedium" style="background-color: #424242; text-align:center;">
 ███╗   ███╗ █████╗ ██████╗ ███╗   ███╗ █████╗ ██╗  ██╗███████╗██████╗ 
 ████╗ ████║██╔══██╗██╔══██╗████╗ ████║██╔══██╗██║ ██╔╝██╔════╝██╔══██╗
@@ -83,7 +82,8 @@
             var sizeX = @Html.Raw(Json.Encode(Model.SizeX));
             var sizeY = @Html.Raw(Json.Encode(Model.SizeY));
             var blocks = @Html.Raw(Json.Encode(Model.OccupiedAreas));
-            getModelDetails(preview, icon, posX, posY, sizeX, sizeY, blocks);
+            var exits = @Html.Raw(Json.Encode(Model.ExitsInfo));
+            getModelDetails(preview, icon, posX, posY, sizeX, sizeY, blocks, exits);
             mapExploreView();
             document.addEventListener("keydown", movement);
         });

@@ -28,6 +28,8 @@ namespace MapMaker.Models._05_ExploreModels
 
         public List<string> OccupiedAreas { get; set; }
 
+        public List<string> ExitsInfo { get; set; }
+
         public Exploration()
         {
             IconOptions = new List<string>();

@@ -65,7 +65,7 @@ namespace MapMaker.Services
                 var entity = ctx.Maps.Single(m => m.ID == model.MapID);
 
                 bool locationValid = CheckIfExitIsAtEdgeOfMap(model.PosX, model.PosY, entity.SizeX, entity.SizeY);
-                bool spotNotOccupied = CheckForExistingExits(model.PosX, model.PosY, model.ExitDirection, entity);
+                bool spotNotOccupied = CheckForExistingExits(model.ID, model.PosX, model.PosY, model.ExitDirection, entity);
 
                 return (locationValid && spotNotOccupied);
             }
@@ -79,7 +79,7 @@ namespace MapMaker.Services
 
                 bool locationValid = CheckIfExitIsAtEdgeOfMap(model.PosX, model.PosY, entity.SizeX, entity.SizeY);
                 bool directionValid = CheckIfDirectionIsValid(model.PosX, model.PosY, model.ExitDirection, entity.SizeX, entity.SizeY);
-                bool spotNotOccupied = CheckForExistingExits(model.PosX, model.PosY, model.ExitDirection, entity);
+                bool spotNotOccupied = CheckForExistingExits(model.ID, model.PosX, model.PosY, model.ExitDirection, entity);
 
                 return (locationValid && directionValid && spotNotOccupied);
             }
@@ -114,12 +114,12 @@ namespace MapMaker.Services
             return directionValid;
         }
 
-        public bool CheckForExistingExits(int x, int y, string direction, Map map)
+        public bool CheckForExistingExits(int blockID, int x, int y, string direction, Map map)
         {
             using (var ctx = new ApplicationDbContext())
             {
                 //check if any exits already exist in a location on a given map
-                if (ctx.ExitBlocks.Any(e => e.PosX == x && e.PosY == y && e.MapID == map.ID))
+                if (ctx.ExitBlocks.Any(e => e.PosX == x && e.PosY == y && e.MapID == map.ID && e.ID != blockID))
                 {
                     //checks if given position is in a corner
                     if ((x == 1 && y == 1) || (x == map.SizeX && y == 1) || (x == map.SizeX && y == map.SizeY) || (x == 1 && y == map.SizeY))

@@ -217,6 +217,23 @@ namespace MapMaker.Services
                 return ctx.SaveChanges() == 1;
             }
         }
+        public bool UpdateExitBlock(BlockEdit model)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity = ctx.ExitBlocks.Single(e => e.MapID == model.MapID && e.OwnerID == _userID && e.ID == model.ID);
+
+                entity.TypeOfBlock = GetBlockTypeFromString(model.TypeOfBlock);
+                entity.Name = model.Name;
+                entity.Description = model.Description;
+                entity.PosX = model.PosX;
+                entity.PosY = model.PosY;
+                entity.ExitDirection = GetExitDirectionFromString(model.ExitDirection);
+                entity.ExitToID = model.ExitToID;
+
+                return ctx.SaveChanges() == 1;
+            }
+        }
 
         public bool DeleteBlock(int id)
         {

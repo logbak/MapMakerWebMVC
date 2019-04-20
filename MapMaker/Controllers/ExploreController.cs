@@ -47,6 +47,7 @@ namespace MapMaker.Controllers
             newModel.SizeX = mapSize[0];
             newModel.SizeY = mapSize[1];
             newModel.OccupiedAreas = _eSvc.Value.GetOccupiedBlocks(model.MapID);
+            newModel.ExitsInfo = _eSvc.Value.GetExitsInfo(model.MapID);
             return View(newModel);
         }
     }

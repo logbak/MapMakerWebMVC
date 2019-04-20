@@ -8,10 +8,12 @@ var sizeY = 1;
 var icon = "";
 var lineheight = 18;
 var blocks;
+var exits;
 
-var test = document.getElementById("test-zone");
+var mapText = document.getElementById("map-info");
+var otherText = document.getElementById("other-info");
 
-function getModelDetails(previewString, playerIcon, initialPosX, initialPosY, mSizeX, mSizeY, occupiedBlocks) {
+function getModelDetails(previewString, playerIcon, initialPosX, initialPosY, mSizeX, mSizeY, occupiedBlocks, exitsInfo) {
     preview = previewString;
     icon = playerIcon;
     posX = initialPosX;
@@ -19,6 +21,7 @@ function getModelDetails(previewString, playerIcon, initialPosX, initialPosY, mS
     sizeX = mSizeX;
     sizeY = mSizeY;
     blocks = occupiedBlocks;
+    exits = exitsInfo;
 }
 
 function movement(event) {
@@ -27,41 +30,81 @@ function movement(event) {
     const A_KEY = 65;
     const S_KEY = 83;
     const D_KEY = 68;
+    const E_KEY = 69;
     if (keyPressed === W_KEY) {
         posY--;
-        if (checkForWalls()) {
+        if (checkExits("N")) {
             posY++;
         }       
         clearCanvas();
         mapExploreView(preview);
-        test.textContent = (posX + "," + posY);
     }
     if (keyPressed === A_KEY) {
         posX--;
-        if (checkForWalls()) {
+        if (checkExits("W")) {
             posX++;
         }     
         clearCanvas();
         mapExploreView(preview);
-        test.textContent = (posX + "," + posY);
     }
     if (keyPressed === D_KEY) {
         posX++;
-        if (checkForWalls()) {
+        if (checkExits("E")) {
             posX--;
         }     
         clearCanvas();
         mapExploreView(preview);
-        test.textContent = (posX + "," + posY);
     }
     if (keyPressed === S_KEY) {
         posY++;
-        if (checkForWalls()) {
+        if (checkExits("S")) {
             posY--;
         }     
         clearCanvas();
         mapExploreView(preview);
-        test.textContent = (posX + "," + posY);
+    }
+    mapText.textContent = ("Player position: " + posX + "," + posY);
+    //if (keyPressed === E_KEY) {
+    //    document.getElementById("MapID").selectedIndex = 2;
+    //    document.getElementById('exit').submit();
+    //}
+}
+
+function checkExits(direction) {
+    //get original position before movement attempt
+    var oPosX = posX;
+    var oPosY = posY;
+    if (direction == "N") oPosY = (posY + 1);
+    else if (direction == "S") oPosY = (posY - 1);
+    else if (direction == "E") oPosX = (posX - 1);
+    else if (direction == "W") oPosX = (posX + 1);
+
+    var exitToID = 0;
+    exits.forEach(function (element) {
+        //splits an individual exit element into an array of [posX, posY, exitDirection(as single character), exitToID]
+        var exitInfo = element.split(",");
+        //checks if the original location matches that of an exit and an attempt was made to move in that direction
+        if (exitInfo[0] == oPosX && exitInfo[1] == oPosY && exitInfo[2] == direction) exitToID = exitInfo[3];
+    });
+
+    //calls the exitChecker function for each item in the exits array
+    if (exitToID > 0) {
+        //sets the MapID dropdown menu to the value of the exitToID
+        setSelectedValue("MapID", exitToID);
+        //submits the form on the page with the new mapID selected
+        otherText.textContent = ("Exit to:" + exitToID);
+        document.getElementById('exit').submit();
+    }
+    else return checkForWalls();
+}
+
+function setSelectedValue(selectObj, valueToSet) {
+    var selector = document.getElementById(selectObj);
+    for (var i = 0; i < selector.options.length; i++) {
+        if (selector.options[i].text == valueToSet) {
+            selector.options[i].selected = true;
+            return;
+        }
     }
 }
 
@@ -103,11 +146,12 @@ function mapExploreView() {
         ctx.fillText(" Please load on another device to see a more accurate map preview.", 10, 30)
     for (var i = 0; i < lines.length; i++)
         ctx.fillText(lines[i], 10, 60 + (i * lineheight));
+        ctx.fillText(icon, 53 + (posX * 10.8), 115 + (posY * lineheight));
     }
     else {
         for (var i = 0; i < lines.length; i++)
             ctx.fillText(lines[i], 10, 15 + (i * lineheight));
+        ctx.fillText(icon, 53 + (posX * 10.8), 70 + (posY * lineheight));
     }
-    ctx.fillText(icon, 53 + (posX * 10.8), 70 + (posY * lineheight));
 
 }

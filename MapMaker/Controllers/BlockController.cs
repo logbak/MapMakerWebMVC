@@ -285,15 +285,24 @@ namespace MapMaker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ExitEdit(BlockEdit model)
         {
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid)
+            {
+                ViewBag.MapPreview = _mSvc.Value.GetMapByID(model.MapID).MapModel.MapPreview;
+                return View(model);
+            };
 
-            if (!ExitEditValidation(model)) return View(model);
+            if (!ExitEditValidation(model))
+            {
+                ViewBag.MapPreview = _mSvc.Value.GetMapByID(model.MapID).MapModel.MapPreview;
+                return View(model);
+            };
 
-            if (_bSvc.Value.UpdateBlock(model))
+            if (_bSvc.Value.UpdateExitBlock(model))
             {
                 ModelState.AddModelError("", "The block was updated succesfully.");
                 return RedirectToAction("Details", "Map", new { id = model.MapID });
             }
+            ViewBag.MapPreview = _mSvc.Value.GetMapByID(model.MapID).MapModel.MapPreview;
             ModelState.AddModelError("", "Your block could not be updated.");
             return View(model);
         }

@@ -149,13 +149,17 @@ namespace MapMaker.Services
         {
             using (var ctx = new ApplicationDbContext())
             {
-                var entity = ctx.GameEvents.Single(e => e.BlockID == blockID && e.OwnerID == _userID);
+                if (ctx.GameEvents.Any(e => e.BlockID == blockID && e.OwnerID == _userID))
+                {
+                    var entity = ctx.GameEvents.Single(e => e.BlockID == blockID && e.OwnerID == _userID);
 
-                if (!delete) entity.BlockID = 0;
+                    if (!delete) entity.BlockID = 0;
 
-                else ctx.GameEvents.Remove(entity);
+                    else ctx.GameEvents.Remove(entity);
 
-                return ctx.SaveChanges() == 1;
+                    return ctx.SaveChanges() == 1;
+                }
+                else return true;               
             }
         }
     }
