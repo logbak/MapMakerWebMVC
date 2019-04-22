@@ -43,35 +43,29 @@ function movement(event) {
         posY--;
         if (checkExits("N")) {
             posY++;
-        }       
-        clearCanvas();
-        mapExploreView(preview);
+        }
     }
     if (keyPressed === A_KEY) {
         posX--;
         if (checkExits("W")) {
             posX++;
-        }     
-        clearCanvas();
-        mapExploreView(preview);
+        }
     }
     if (keyPressed === D_KEY) {
         posX++;
         if (checkExits("E")) {
             posX--;
-        }     
-        clearCanvas();
-        mapExploreView(preview);
+        }
     }
     if (keyPressed === S_KEY) {
         posY++;
         if (checkExits("S")) {
             posY--;
         }     
-        clearCanvas();
-        mapExploreView(preview);      
     }
 
+    clearCanvas();
+    mapExploreView(preview);
     mapText.textContent = ("Map: " + mapName[0] + "| Player position: " + posX + "," + posY);
     otherText.textContent = "";
 
@@ -107,7 +101,6 @@ function checkExits(direction) {
         if (exitInfo[0] == oPosX && exitInfo[1] == oPosY && exitInfo[2] == direction) exitToID = exitInfo[3];
     });
 
-    //calls the exitChecker function for each item in the exits array
     if (exitToID > 0) {
         //sets the MapID dropdown menu to the value of the exitToID
         setSelectedValue("MapID", exitToID);
@@ -152,14 +145,11 @@ function checkForEvents() {
         else return false;
     }
 
-    var numberOfEvents = 0;
-
     for (i = 0; i <= events.length; i++) {
         var event = events[i].split(",");
         if (plusOrMinus(event[0], posX) && plusOrMinus(event[1], posY)) {
             if (numberOfEvents > 0) otherText.textContent += ("\r\n");
             otherText.textContent += ("You interact with " + event[2] + " and " + event[3] + ". " + event[4]);
-            numberOfEvents++;
         }
     };
 }
@@ -173,23 +163,23 @@ function mapExploreView() {
 
     mapText.textContent = ("Map: " + mapName[0]);
 
+    var lines = preview.split('\n');
+    ctx.font = "18px monospace";
+    ctx.fillStyle = "#72bb53";
+
     if (/Android|BlackBerry/i.test(navigator.userAgent)) {
         preview = preview.replace(/(\u2588)/g, "X");
         preview = preview.replace(/(\u2580)/g, "X");
         preview = preview.replace(/(\u2584)/g, "X");
         preview = preview.replace(/(\u2551)/g, "|");
         preview = preview.replace(/(\u2550)/g, "-");
-    }
-    var lines = preview.split('\n');
-    ctx.font = "18px monospace";
-    ctx.fillStyle = "#72bb53";
-    if (/Android|BlackBerry/i.test(navigator.userAgent)) {
         ctx.fillText("*Android devices do not support monospaced unicode characters.", 10, 15)
         ctx.fillText(" Please load on another device to see a more accurate map preview.", 10, 30)
     for (var i = 0; i < lines.length; i++)
         ctx.fillText(lines[i], 10, 60 + (i * lineheight));
         ctx.fillText(icon, 53 + (posX * 10.8), 115 + (posY * lineheight));
     }
+
     else {
         for (var i = 0; i < lines.length; i++)
             ctx.fillText(lines[i], 10, 15 + (i * lineheight));
