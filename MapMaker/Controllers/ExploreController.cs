@@ -36,18 +36,8 @@ namespace MapMaker.Controllers
         {
             if (model.MapID == 0) return RedirectToAction("Index");
 
-            var newModel = new Exploration();
-            var mapSize = _eSvc.Value.GetMapSize(model.MapID);
-            newModel.AvailableMaps = _eSvc.Value.GetMapIdList();
+            var newModel = _eSvc.Value.GetExplorationModel(model.MapID);
             newModel.PlayerIcon = model.PlayerIcon;
-            newModel.MapPreview = _eSvc.Value.GetMapPreview(model.MapID);
-            var position = _eSvc.Value.GetPlayerInitialPosition(model.MapID);
-            newModel.PosX = position[0];
-            newModel.PosY = position[1];
-            newModel.SizeX = mapSize[0];
-            newModel.SizeY = mapSize[1];
-            newModel.OccupiedAreas = _eSvc.Value.GetOccupiedBlocks(model.MapID);
-            newModel.ExitsInfo = _eSvc.Value.GetExitsInfo(model.MapID);
             return View(newModel);
         }
     }

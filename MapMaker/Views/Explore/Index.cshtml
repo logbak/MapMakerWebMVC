@@ -26,7 +26,7 @@
         <div id="preview">
             <canvas class="mapExplore" id="canvasMap" width="1500" height="1500"></canvas>
         </div>
-        <p style="text-align:left;" id="map-info"></p><p style="text-align:left;" id="other-info"></p>
+        <p style="text-align:left;" id="map-info"></p><p style="text-align:left; white-space: pre;" id="other-info"></p>
         <hr />
     </div>
 </div>
@@ -52,8 +52,7 @@
             </div>
             <div class="col-md-4">
                 <p>
-                    <br />
-                    Use W/A/S/D to move around.<br />Press v on to view your surroundings.
+                    Use W/A/S/D to move around.<br />Press V on to view your surroundings.<br />Press E to interact with nearby objects.<br />*Only objects with events are interactable.
                 </p>
             </div>
             <div class="col-md-2">
@@ -74,7 +73,6 @@
 @section Scripts {
     <script type="text/javascript">
         $(document).ready(function () {
-            @*var model = @Html.Raw(Json.Encode(Model));*@
             var preview = @Html.Raw(Json.Encode(Model.MapPreview));
             var icon = @Html.Raw(Json.Encode(Model.PlayerIcon));
             var posX = @Html.Raw(Json.Encode(Model.PosX));
@@ -82,8 +80,10 @@
             var sizeX = @Html.Raw(Json.Encode(Model.SizeX));
             var sizeY = @Html.Raw(Json.Encode(Model.SizeY));
             var blocks = @Html.Raw(Json.Encode(Model.OccupiedAreas));
+            var descriptions = @Html.Raw(Json.Encode(Model.Descriptions));
+            var events = @Html.Raw(Json.Encode(Model.Events));
             var exits = @Html.Raw(Json.Encode(Model.ExitsInfo));
-            getModelDetails(preview, icon, posX, posY, sizeX, sizeY, blocks, exits);
+            getModelDetails(preview, icon, posX, posY, sizeX, sizeY, blocks, descriptions, events, exits);
             mapExploreView();
             document.addEventListener("keydown", movement);
         });

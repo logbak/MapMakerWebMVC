@@ -151,7 +151,7 @@ namespace MapMaker.Services
             }
         }
 
-        public IEnumerable<BlockListItem> GetFreeBlocks()
+        public List<BlockListItem> GetFreeBlocks()
         {
             using (var ctx = new ApplicationDbContext())
             {
@@ -167,7 +167,7 @@ namespace MapMaker.Services
                     HasEvent = ctx.GameEvents.Where(g => g.BlockID == e.ID).Any()
                 }
                 );
-                return query.ToArray();
+                return query.ToList();
             }
         }
         public List<int> GetMapIdList(int id)

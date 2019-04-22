@@ -8,12 +8,16 @@ var sizeY = 1;
 var icon = "";
 var lineheight = 18;
 var blocks;
+var mapName;
+var descriptions;
+var events;
 var exits;
 
 var mapText = document.getElementById("map-info");
 var otherText = document.getElementById("other-info");
 
-function getModelDetails(previewString, playerIcon, initialPosX, initialPosY, mSizeX, mSizeY, occupiedBlocks, exitsInfo) {
+//sets all the details from the exploration model
+function getModelDetails(previewString, playerIcon, initialPosX, initialPosY, mSizeX, mSizeY, occupiedBlocks, allDescriptions, allEvents, exitsInfo) {
     preview = previewString;
     icon = playerIcon;
     posX = initialPosX;
@@ -21,7 +25,10 @@ function getModelDetails(previewString, playerIcon, initialPosX, initialPosY, mS
     sizeX = mSizeX;
     sizeY = mSizeY;
     blocks = occupiedBlocks;
+    descriptions = allDescriptions;
+    events = allEvents;
     exits = exitsInfo;
+    mapName = descriptions[0].split(",");
 }
 
 function movement(event) {
@@ -31,6 +38,7 @@ function movement(event) {
     const S_KEY = 83;
     const D_KEY = 68;
     const E_KEY = 69;
+    const V_KEY = 86;
     if (keyPressed === W_KEY) {
         posY--;
         if (checkExits("N")) {
@@ -61,13 +69,25 @@ function movement(event) {
             posY--;
         }     
         clearCanvas();
-        mapExploreView(preview);
+        mapExploreView(preview);      
     }
-    mapText.textContent = ("Player position: " + posX + "," + posY);
-    //if (keyPressed === E_KEY) {
-    //    document.getElementById("MapID").selectedIndex = 2;
-    //    document.getElementById('exit').submit();
-    //}
+
+    mapText.textContent = ("Map: " + mapName[0] + "| Player position: " + posX + "," + posY);
+    otherText.textContent = "";
+
+    if (keyPressed === V_KEY) {
+
+        otherText.textContent = ("Map Description: " + mapName[1]);
+        for (i = 1; i <= descriptions.length; i++) {
+            var description = descriptions[i].split(",");
+            otherText.textContent += ("\r\n" + "At X:" + description[0] + " Y:" + description[1] + " | " + description[2] + " - " + description[3]);
+        };
+
+    }
+
+    if (keyPressed === E_KEY) {
+        checkForEvents();
+    }
 }
 
 function checkExits(direction) {
@@ -119,10 +139,29 @@ function checkForBlocks() {
     var posArray = [posX.toString(), posY.toString()];
     // turns that array into a string "x,y"
     var currentPos = posArray.join(",");
-    // checks if an element is equaly to position "x,y"
+    // checks if an element is equal to position "x,y"
     var blockAtPos = function (element) { return element == currentPos; };
     // checks each string in the blocks array against the position "x,y" and returns true if any of them match
     return blocks.some(blockAtPos);
+}
+
+function checkForEvents() {
+
+    var plusOrMinus = function (value1, value2) {
+        if (value1 == (value2 + 1) || value1 == (value2 - 1) || value1 == value2) return true;
+        else return false;
+    }
+
+    var numberOfEvents = 0;
+
+    for (i = 0; i <= events.length; i++) {
+        var event = events[i].split(",");
+        if (plusOrMinus(event[0], posX) && plusOrMinus(event[1], posY)) {
+            if (numberOfEvents > 0) otherText.textContent += ("\r\n");
+            otherText.textContent += ("You interact with " + event[2] + " and " + event[3] + ". " + event[4]);
+            numberOfEvents++;
+        }
+    };
 }
 
 function clearCanvas() {
@@ -131,6 +170,9 @@ function clearCanvas() {
 }
 
 function mapExploreView() {
+
+    mapText.textContent = ("Map: " + mapName[0]);
+
     if (/Android|BlackBerry/i.test(navigator.userAgent)) {
         preview = preview.replace(/(\u2588)/g, "X");
         preview = preview.replace(/(\u2580)/g, "X");

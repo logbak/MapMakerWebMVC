@@ -69,7 +69,7 @@ namespace MapMaker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(CreateBlockViewModel model)
         {
-            if (!ModelState.IsValid) return View(model);
+            //if (!ModelState.IsValid) return View(model);
             if (!_bvSvc.Value.CheckIfBlockPlacementIsValid(model.CreateBlockModel.MapID, model.CreateBlockModel.PosX, model.CreateBlockModel.PosY))
             {
                 ModelState.AddModelError("", "There is already a block in that position.");

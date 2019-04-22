@@ -131,6 +131,10 @@ namespace MapMaker.Services
                             case 1:
                                 return (ctx.ExitBlocks.Single(e => e.PosX == x && e.PosY == y && e.MapID == map.ID).ExitDirection.ToString() != direction);
                             case 2:
+                                if (ctx.ExitBlocks.Single(e => e.PosX == x && e.PosY == y && e.MapID == map.ID && e.ID == blockID).ExitDirection.ToString() == direction)
+                                {
+                                    return true;
+                                }
                                 return false;
                         }
                     }
