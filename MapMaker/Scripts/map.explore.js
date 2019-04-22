@@ -94,16 +94,22 @@ function checkExits(direction) {
     else if (direction == "W") oPosX = (posX + 1);
 
     var exitToID = 0;
+    var exitPos = "0,0";
     exits.forEach(function (element) {
         //splits an individual exit element into an array of [posX, posY, exitDirection(as single character), exitToID]
         var exitInfo = element.split(",");
         //checks if the original location matches that of an exit and an attempt was made to move in that direction
-        if (exitInfo[0] == oPosX && exitInfo[1] == oPosY && exitInfo[2] == direction) exitToID = exitInfo[3];
+        if (exitInfo[0] == oPosX && exitInfo[1] == oPosY && exitInfo[2] == direction) {
+            exitToID = exitInfo[3];
+            exitPos = exitInfo[4];
+        };
     });
 
     if (exitToID > 0) {
         //sets the MapID dropdown menu to the value of the exitToID
         setSelectedValue("MapID", exitToID);
+        document.getElementById("HasExitPos").value = true;
+        document.getElementById("ExitPos").value = exitPos;
         //submits the form on the page with the new mapID selected
         otherText.textContent = ("Exit to:" + exitToID);
         document.getElementById('exit').submit();
@@ -186,7 +192,7 @@ function mapExploreView() {
     else {
         for (var i = 0; i < lines.length; i++)
             ctx.fillText(lines[i], 10, 15 + (i * lineheight));
-        ctx.fillText(icon, 53 + (posX * 10.8), 70 + (posY * lineheight));
+            ctx.fillText(icon, 53 + (posX * 10.8), 70 + (posY * lineheight));
     }
 
 }

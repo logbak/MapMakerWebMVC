@@ -12,21 +12,21 @@ namespace MapMaker.Services
 {
     public class ExploreService
     {
-        public Exploration GetExplorationModel(int mapID)
+        public Exploration GetExplorationModel(Exploration inputModel)
         {
             var model = new Exploration();
-            var mapSize = GetMapSize(mapID);
+            var mapSize = GetMapSize(inputModel.MapID);
             model.AvailableMaps = GetMapIdList();
-            model.MapPreview = GetMapPreview(mapID);
-            var position = GetPlayerInitialPosition(mapID);
+            model.MapPreview = GetMapPreview(inputModel.MapID);
+            var position = GetPlayerInitialPosition(inputModel.MapID, inputModel.HasExitPos, inputModel.ExitPos);
             model.PosX = position[0];
             model.PosY = position[1];
             model.SizeX = mapSize[0];
             model.SizeY = mapSize[1];
-            model.OccupiedAreas = GetOccupiedBlocks(mapID);
-            model.Descriptions = GetDescriptions(mapID);
-            model.Events = GetEvents(mapID);
-            model.ExitsInfo = GetExitsInfo(mapID);
+            model.OccupiedAreas = GetOccupiedBlocks(inputModel.MapID);
+            model.Descriptions = GetDescriptions(inputModel.MapID);
+            model.Events = GetEvents(inputModel.MapID);
+            model.ExitsInfo = GetExitsInfo(inputModel.MapID);
             return model;
         }
 
@@ -67,22 +67,30 @@ namespace MapMaker.Services
 
         }
 
-        private List<int> GetPlayerInitialPosition(int mapID)
+        private List<int> GetPlayerInitialPosition(int mapID, bool hasExitPos, string exitPos)
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var x = 1;
                 var y = 1;
-                var mapModel = ctx.Maps.Single(m => m.ID == mapID);
-                while (ctx.Blocks.Any(b => b.PosX == x && b.PosY == y && b.MapID == mapID && b.TypeOfBlock != BlockType.Exit))
+                if (hasExitPos && exitPos != "0/0")
                 {
-                    if (x < mapModel.SizeX)
+                    string[] output = exitPos.Split('/');
+                    x = int.Parse(output[0]);
+                    y = int.Parse(output[1]);
+                }
+                else { 
+                    var mapModel = ctx.Maps.Single(m => m.ID == mapID);
+                    while (ctx.Blocks.Any(b => b.PosX == x && b.PosY == y && b.MapID == mapID && b.TypeOfBlock != BlockType.Exit))
                     {
-                        x++;
-                        continue;
+                        if (x < mapModel.SizeX)
+                        {
+                            x++;
+                            continue;
+                        }
+                        x = 1;
+                        y++;
                     }
-                    x = 1;
-                    y++;
                 }
                 List<int> position = new List<int>();
                 position.Add(x);
@@ -179,7 +187,8 @@ namespace MapMaker.Services
                     PosX = e.PosX,
                     PosY = e.PosY,
                     ExitDirection = e.ExitDirection.ToString(),
-                    ExitToID = e.ExitToID
+                    ExitToID = e.ExitToID,
+                    ID = e.ID
                 });
 
                 var output = new List<string>();
@@ -187,11 +196,27 @@ namespace MapMaker.Services
                 foreach (BlockListItem b in query)
                 {
                     direction = b.ExitDirection.First();
-                    output.Add(b.PosX + "," + b.PosY + "," + direction + "," + b.ExitToID);
+                    output.Add(b.PosX + "," + b.PosY + "," + direction + "," + b.ExitToID + "," + GetExitPosition(b.ID));
                 }
                 return output;
             }
         }
 
+        private string GetExitPosition(int exitBlockID)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var exit = ctx.ExitBlocks.Single(e => e.ID == exitBlockID);
+                string output = "0/0";
+
+                if (ctx.ExitBlocks.Any(e => e.MapID == exit.ExitToID && e.ExitToID == exit.MapID)){
+
+                    var entrance = ctx.ExitBlocks.Single(e => e.MapID == exit.ExitToID && e.ExitToID == exit.MapID);
+                    output = (entrance.PosX + "/" + entrance.PosY);
+                    return output;
+                }
+                return output;
+            }
+        }
     }
 }

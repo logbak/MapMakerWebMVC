@@ -34,6 +34,10 @@ namespace MapMaker.Models._05_ExploreModels
 
         public List<string> ExitsInfo { get; set; }
 
+        public bool HasExitPos { get; set; }
+
+        public string ExitPos { get; set; }
+
         public Exploration()
         {
             IconOptions = new List<string>();

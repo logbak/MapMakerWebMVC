@@ -36,7 +36,7 @@ namespace MapMaker.Controllers
         {
             if (model.MapID == 0) return RedirectToAction("Index");
 
-            var newModel = _eSvc.Value.GetExplorationModel(model.MapID);
+            var newModel = _eSvc.Value.GetExplorationModel(model);
             newModel.PlayerIcon = model.PlayerIcon;
             return View(newModel);
         }
