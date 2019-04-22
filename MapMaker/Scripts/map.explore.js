@@ -145,11 +145,14 @@ function checkForEvents() {
         else return false;
     }
 
+    var numberOfEvents = 0;
+
     for (i = 0; i <= events.length; i++) {
         var event = events[i].split(",");
         if (plusOrMinus(event[0], posX) && plusOrMinus(event[1], posY)) {
             if (numberOfEvents > 0) otherText.textContent += ("\r\n");
             otherText.textContent += ("You interact with " + event[2] + " and " + event[3] + ". " + event[4]);
+            numberOfEvents++;
         }
     };
 }
