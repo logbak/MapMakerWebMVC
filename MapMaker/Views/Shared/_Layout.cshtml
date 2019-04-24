@@ -32,6 +32,12 @@
                         <li>@Html.ActionLink("Events", "Index", "GameEvent")</li>
                         <li>@Html.ActionLink("Explore", "Index", "Explore")</li>
                     }
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("View Maps", "Maps", "Map")</li>
+                        @*<li>@Html.ActionLink("Events", "Index", "GameEvent")</li>*@
+                        <li>@Html.ActionLink("Explore", "Index", "Explore")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

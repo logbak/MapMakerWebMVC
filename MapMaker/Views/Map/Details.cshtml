@@ -69,7 +69,15 @@
             {
                 @Html.ActionLink("Edit", "Edit", new { id = Model.MapDetail.MapID }) @:|
             }
-            @Html.ActionLink("Back to Archive", "Index") | @Html.ActionLink("Back to My Maps", "MyMaps")
+            @if (User.Identity.IsAuthenticated)
+            {
+                @Html.ActionLink("Back to Archive", "Index") @:|
+                @Html.ActionLink("Back to My Maps", "MyMaps")
+            }
+            @if (!User.Identity.IsAuthenticated)
+            {
+                @Html.ActionLink("Back to Archive", "Maps")
+            }
         </p>
     </div>
 
@@ -185,7 +193,7 @@ else
                             @Html.ActionLink("Edit", "Edit", "Block", new { id = item.ID }, null) @:|
                             @Html.ActionLink("Delete", "Delete", "Block", new { id = item.ID }, null)
                         }
-                        @if (User.Identity.Name != Model.MapDetail.OwnerName)
+                        @if (User.Identity.Name != Model.MapDetail.OwnerName && User.Identity.IsAuthenticated)
                         {
                             @Html.ActionLink("Details", "Details", "Block", new { id = item.ID }, null)
                         }
@@ -292,7 +300,7 @@ else
                             @Html.ActionLink("Edit", "ExitEdit", "Block", new { id = item.ID }, null) @:|
                             @Html.ActionLink("Delete", "Delete", "Block", new { id = item.ID }, null)
                         }
-                        @if (User.Identity.Name != Model.MapDetail.OwnerName)
+                        @if (User.Identity.Name != Model.MapDetail.OwnerName && User.Identity.IsAuthenticated)
                         {
                             @Html.ActionLink("Details", "Details", "Block", new { id = item.ID }, null)
                         }

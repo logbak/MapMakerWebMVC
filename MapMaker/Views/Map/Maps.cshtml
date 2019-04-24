@@ -1,0 +1,65 @@
+﻿@model IEnumerable<MapMaker.Models.MapListItem>
+
+@{
+    ViewBag.Title = "Maps";
+}
+
+<h2>All Maps</h2>
+
+
+@if (TempData.ContainsKey("SaveResult"))
+{
+<div class="alert alert-success fade in" role="alert" style="background-color: #72bb53; border-color: #6aaf4d; color: #305e30; width: 25%;">
+    <button type="button" class="close" data-dismiss="alert">
+        <span>&times;</span>
+    </button>
+    @TempData["SaveResult"]
+</div>
+}
+<div class="table-responsive">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Creator)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SizeX)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SizeY)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Creator)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SizeX)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SizeY)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.ID })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

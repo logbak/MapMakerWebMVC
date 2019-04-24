@@ -13,6 +13,8 @@ namespace MapMaker.Services
     {
         private readonly Guid _userID;
 
+        public MapService(){}
+
         public MapService(Guid userID)
         {
             _userID = userID;

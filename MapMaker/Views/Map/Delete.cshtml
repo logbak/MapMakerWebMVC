@@ -84,7 +84,11 @@
                     <input type="submit" value="Delete" class="btn btn-default" />
                 </div>
                 <br />
-                <p>@Html.ActionLink("Back to Archive", "Index") | @Html.ActionLink("Back to My Maps", "MyMaps")</p>
+                <p>@Html.ActionLink("Back to Archive", "Index") | 
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @Html.ActionLink("Back to My Maps", "MyMaps")
+                }</p>
             </div>
         }
     </div>

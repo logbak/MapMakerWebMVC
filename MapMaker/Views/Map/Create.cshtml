@@ -80,7 +80,11 @@ In-Game View Example:
     </div>
 <hr />
 <p>
-    @Html.ActionLink("Back to Archive", "Index") | @Html.ActionLink("Back to My Maps", "MyMaps")
+    @Html.ActionLink("Back to Archive", "Index") |
+    @if (User.Identity.IsAuthenticated)
+    {
+        @Html.ActionLink("Back to My Maps", "MyMaps")
+    }
 </p>
 
     @section Scripts {

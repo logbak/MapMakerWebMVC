@@ -15,12 +15,16 @@ namespace MapMaker.Controllers
     public class MapController : Controller
     {
         private readonly Lazy<BlockService> _bSvc;
+        private readonly Lazy<BlockService> _nABSvc;
         private readonly Lazy<MapService> _mSvc;
+        private readonly Lazy<MapService> _nAMSvc;
 
         public MapController()
         {
             _bSvc = new Lazy<BlockService>(CreateBlockService);
+            _nABSvc = new Lazy<BlockService>(CreateBlockServiceNoAuth);
             _mSvc = new Lazy<MapService>(CreateMapService);
+            _nAMSvc = new Lazy<MapService>(CreateMapServiceNoAuth);
         }
 
         private MapService CreateMapService()
@@ -30,11 +34,29 @@ namespace MapMaker.Controllers
             return service;
         }
 
+        private MapService CreateMapServiceNoAuth()
+        {
+            var service = new MapService();
+            return service;
+        }
+
         private BlockService CreateBlockService()
         {
             var userID = Guid.Parse(User.Identity.GetUserId());
             var service = new BlockService(userID);
             return service;
+        }
+        private BlockService CreateBlockServiceNoAuth()
+        {
+            var service = new BlockService();
+            return service;
+        }
+
+        [AllowAnonymous]
+        public ActionResult Maps()
+        {
+            var model = _nAMSvc.Value.GetMaps();
+            return View(model);
         }
 
         // GET: Map
@@ -50,12 +72,12 @@ namespace MapMaker.Controllers
             return View(model);
         }
 
-        // GET: Map/Details/5
+        [AllowAnonymous]
         public ActionResult Details(int id)
         {
             MapBlockViewModel model = new MapBlockViewModel();
-            model.MapDetail = _mSvc.Value.GetMapByID(id).MapModel;
-            model.BlockLists = _bSvc.Value.GetBlocksByMapID(id);
+            model.MapDetail = _nAMSvc.Value.GetMapByID(id).MapModel;
+            model.BlockLists = _nABSvc.Value.GetBlocksByMapID(id);
             return View(model);
         }
 

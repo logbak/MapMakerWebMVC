@@ -14,6 +14,8 @@ namespace MapMaker.Services
     public class BlockService
     {
         private readonly Guid _userID;
+
+        public BlockService(){}
         public BlockService(Guid userID)
         {
             _userID = userID;

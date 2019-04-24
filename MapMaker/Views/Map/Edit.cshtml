@@ -38,9 +38,13 @@
     </div>
 }
 
-    <div>
-        @Html.ActionLink("Back to Archive", "Index") | @Html.ActionLink("Back to My Maps", "MyMaps")
-    </div>
+<div>
+    @Html.ActionLink("Back to Archive", "Index") |
+    @if (User.Identity.IsAuthenticated)
+    {
+        @Html.ActionLink("Back to My Maps", "MyMaps")
+    }
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

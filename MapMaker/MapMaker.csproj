@@ -279,6 +279,7 @@
     <Content Include="Views\Block\Add.cshtml" />
     <Content Include="Views\GameEvent\Add.cshtml" />
     <Content Include="Views\Explore\Index.cshtml" />
+    <Content Include="Views\Map\Maps.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
