@@ -105,7 +105,7 @@ namespace MapMaker.Controllers
             {
                 try
                 {
-                    var user = await _userManager.FindByEmailAsync(model.Email);
+                    var user = await UserManager.FindByEmailAsync(model.Email);
                     userName = user.UserName;
                 }
                 catch (NullReferenceException)
