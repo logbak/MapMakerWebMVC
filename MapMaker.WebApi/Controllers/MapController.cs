@@ -1,4 +1,5 @@
-﻿using MapMaker.Services;
+﻿using MapMaker.Models;
+using MapMaker.Services;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -50,17 +51,65 @@ namespace MapMaker.WebApi.Controllers
             return service;
         }
 
+        public IHttpActionResult Get()
+        {
+            var model = _mSvc.Value.GetMaps();
+            return Ok(model);
+        }
+
+        // -- Need to figure out how to utilize multiple no-parameter Get methods
         //[AllowAnonymous]
-        //public IHttpActionResult Get()
+        //public IHttpActionResult GetNoAuth()
         //{
         //    var model = _nAMSvc.Value.GetMaps();
         //    return Ok(model);
         //}
+        //public IHttpActionResult GetByUser()
+        //{
+        //    var model = _mSvc.Value.GetMapsByCurrentUser();
+        //    return Ok(model);
+        //}
 
-        public IHttpActionResult Get()
+        [AllowAnonymous]
+        public IHttpActionResult GetById(int id)
         {
-            var model = _mSvc.Value.GetMapsByCurrentUser();
+            MapBlockViewModel model = new MapBlockViewModel();
+            model.MapDetail = _nAMSvc.Value.GetMapByID(id).MapModel;
+            model.BlockLists = _nABSvc.Value.GetBlocksByMapID(id);
             return Ok(model);
         }
+
+        public IHttpActionResult Post(MapCreate model)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            if (!_mSvc.Value.CreateMap(model))
+                return InternalServerError();
+
+            return Ok();
+        }
+
+        public IHttpActionResult Put(MapEdit model)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            if (!_mSvc.Value.UpdateMap(model))
+                return InternalServerError();
+
+            return Ok();
+        }
+
+        public IHttpActionResult Delete(int id)
+        {
+            // -- original MVC had option to cascade delete or retain attached blocks (retaining them would set their MapId to 0)
+            // -- the line below requires changing method to: Delete(int id, bool deleteBlocks)
+            //_bSvc.Value.DetachOrDeleteBlocksByMap(id, deleteBlocks);
+
+            if (!_mSvc.Value.DeleteMap(id))
+                return InternalServerError();
+
+            return Ok();
+        }
+
     }
 }
