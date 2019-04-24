@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.539
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapMaker", "MapMaker\MapMaker.csproj", "{34A0A47C-CAD9-4059-AD24-6F299C400602}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapMaker.Contracts", "MapMaker.Contracts\MapMaker.Contracts.csproj", "{2DD49149-7363-48E6-8439-D0105C4C7FB4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapMaker.Services", "MapMaker.Services\MapMaker.Services.csproj", "{12C04D6D-03D7-450E-9587-B53F8220610F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapMaker.WebApi", "MapMaker.WebApi\MapMaker.WebApi.csproj", "{89CF40BC-918B-4272-8F20-DA71FB656E03}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{12C04D6D-03D7-450E-9587-B53F8220610F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12C04D6D-03D7-450E-9587-B53F8220610F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12C04D6D-03D7-450E-9587-B53F8220610F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89CF40BC-918B-4272-8F20-DA71FB656E03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89CF40BC-918B-4272-8F20-DA71FB656E03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89CF40BC-918B-4272-8F20-DA71FB656E03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89CF40BC-918B-4272-8F20-DA71FB656E03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
