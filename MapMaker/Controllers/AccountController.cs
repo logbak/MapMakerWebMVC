@@ -14,6 +14,10 @@ using System.Text.RegularExpressions;
 
 namespace MapMaker.Controllers
 {
+    #if !DEBUG
+        [RequireHttps]
+
+    #endif
     [Authorize]
     public class AccountController : Controller
     {
